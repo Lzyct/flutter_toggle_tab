@@ -85,7 +85,7 @@ class _MyHomePageState extends State<MyHomePage> {
             borderRadius: 30,
             height: 50,
             initialLabelIndex: 0,
-            selectedColor: Colors.blue,
+            selectedBackgroundColor: Colors.blue,
             selectedTextStyle: TextStyle(
                 color: Colors.white, fontSize: 18, fontWeight: FontWeight.w700),
             unSelectedTextStyle: TextStyle(
