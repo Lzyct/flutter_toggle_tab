@@ -47,7 +47,7 @@ FlutterToggleTab(
 ),
 ```
 
-GIF Basic
+![Farmers Market Finder Demo](https://github.com/ukieTux/flutter_toggle_tab/blob/master/gifs/basic.gif)
 
 ### Basic tab/toggle switch with Icon 
 
@@ -74,7 +74,7 @@ FlutterToggleTab(
 ),
 ```
 
-GIF With Icon
+![Farmers Market Finder Demo](https://github.com/ukieTux/flutter_toggle_tab/blob/master/gifs/with_icon.gif)
 
 
 ### Basic tab/toggle switch with Icon Only
@@ -101,5 +101,5 @@ FlutterToggleTab(
   },
 ```
 
-GIF Icon Only
+![Farmers Market Finder Demo](https://github.com/ukieTux/flutter_toggle_tab/blob/master/gifs/with_icon_only.gif)
 
