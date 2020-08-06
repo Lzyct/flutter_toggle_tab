@@ -103,3 +103,17 @@ FlutterToggleTab(
 
 ![Farmers Market Finder Demo](https://github.com/ukieTux/flutter_toggle_tab/blob/master/gifs/with_icon_only.gif)
 
+## Available Parameters
+| Param | isRequired |
+|--|--|
+| labels (List of String)| Yes |
+| initialLabelIndex (int) | Yes |
+| selectedLabelIndex (Return Selected Index) | Yes |
+| selectedTextStyle (TextStyle) | Yes |
+| unSelectedTextStyle (TextStyle)| No |
+| width (in Percent of width Screen) **#default 100** | No |
+| height (double) **#default 45** | No |
+| icons (List of IconData) | No |
+| borderRadius (double) **#default 30**| No |
+| selectedBackgroundColor **#default Theme.of(context).primaryColor**| No |
+| unSelectedBackgroundColor **#default Color(0xffe0e0e0)**| No |
