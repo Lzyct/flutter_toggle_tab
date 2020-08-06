@@ -23,22 +23,25 @@ class FlutterToggleTab extends StatefulWidget {
     @required this.initialLabelIndex,
     @required this.selectedLabelIndex,
     this.width,
-    this.selectedDecoration,
-    this.unSelectedDecoration,
     this.borderRadius,
-    this.selectedTextStyle,
-    this.unSelectedTextStyle,
+    @required this.selectedTextStyle,
+    @required this.unSelectedTextStyle,
     this.height,
     this.icons,
+    this.selectedColor,
+    this.unSelectedColor,
   }) : super(key: key);
 
   final List<String> labels;
-  final List<Icon> icons;
+  final List<IconData> icons;
   final int initialLabelIndex;
   final double width;
   final double height;
-  final BoxDecoration selectedDecoration;
-  final BoxDecoration unSelectedDecoration;
+
+//  final BoxDecoration selectedDecoration;
+//  final BoxDecoration unSelectedDecoration;
+  final Color selectedColor;
+  final Color unSelectedColor;
   final TextStyle selectedTextStyle;
   final TextStyle unSelectedTextStyle;
   final Function(int) selectedLabelIndex;
@@ -87,49 +90,40 @@ class _FlutterToggleTabState extends State<FlutterToggleTab> {
         : Container(
             width: width,
             height: widget.height ?? 45,
+            decoration: BoxDecoration(
+                color: widget.unSelectedColor ?? Color(0xffe0e0e0),
+                borderRadius: BorderRadius.circular(widget.borderRadius),
+                boxShadow: [bsInner]),
             child: ListView.builder(
               itemCount: _labels.length,
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) {
-                return Row(
-                  children: [
-                    ButtonsTab(
-                      width: width / widget.labels.length,
-                      title: _labels[index].title,
-                      icon: widget.icons != null ? widget.icons[index] : null,
-                      selectedDecoration: widget.selectedDecoration,
-                      unSelectedDecoration: widget.unSelectedDecoration,
-                      selectedTextStyle: widget.selectedTextStyle,
-                      isFirst: index == 0,
-                      isLast: index == _labels.length - 1,
-                      unSelectedTextStyle: widget.unSelectedTextStyle,
-                      isSelected: _labels[index].isSelected,
-                      radius: widget.borderRadius,
-                      onPressed: () {
-                        try {
-                          for (int x = 0; x < _labels.length; x++) {
-                            setState(() {
-                              if (_labels[index] == _labels[x]) {
-                                _labels[x].isSelected = true;
-                                widget.selectedLabelIndex(index);
-                              } else
-                                _labels[x].isSelected = false;
-                            });
-                          }
-                        } catch (e) {
-                          print("err : $e");
-                        }
-                      },
-                    ),
-                    Visibility(
-                      visible: index != _labels.length - 1,
-                      child: VerticalDivider(
-                        width: 1,
-                        indent: 1,
-                        endIndent: 1,
-                      ),
-                    )
-                  ],
+                return ButtonsTab(
+                  unSelectedColor: widget.unSelectedColor ?? Color(0xffe0e0e0),
+                  width: width / widget.labels.length,
+                  title: _labels[index].title,
+                  icons: widget.icons != null ? widget.icons[index] : null,
+                  selectedTextStyle: widget.selectedTextStyle,
+                  unSelectedTextStyle: widget.unSelectedTextStyle,
+                  isSelected: _labels[index].isSelected,
+                  radius: widget.borderRadius,
+                  selectedColor:
+                      widget.selectedColor ?? Theme.of(context).primaryColor,
+                  onPressed: () {
+                    try {
+                      for (int x = 0; x < _labels.length; x++) {
+                        setState(() {
+                          if (_labels[index] == _labels[x]) {
+                            _labels[x].isSelected = true;
+                            widget.selectedLabelIndex(index);
+                          } else
+                            _labels[x].isSelected = false;
+                        });
+                      }
+                    } catch (e) {
+                      print("err : $e");
+                    }
+                  },
                 );
               },
             ));
