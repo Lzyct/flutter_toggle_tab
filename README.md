@@ -1,4 +1,3 @@
-
 # Flutter Tab Toggle
 
 A Beautiful and Simple Tab/Toggle switch widget. It can be fully customized with desired icons, width, colors, text, corner radius etc. It also maintains selection state.
