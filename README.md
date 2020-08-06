@@ -9,7 +9,7 @@ In the `pubspec.yaml` of your flutter project, add the following dependency:
 ```yaml
 dependencies:
   ...
-  flutter_toggle_tab: "^0.0.1"
+  flutter_toggle_tab: "^0.0.1+2"
 ```
 
 Import it:
