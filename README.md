@@ -31,18 +31,18 @@ FlutterToggleTab(
   initialLabelIndex: 0,  
   selectedColor: Colors.blue,  
   selectedTextStyle: TextStyle(  
-	  color: Colors.white, 
-	  fontSize: 18, 
-	  fontWeight: FontWeight.w700),  
+    color: Colors.white,
+    fontSize: 18,
+    fontWeight: FontWeight.w700),
   unSelectedTextStyle: TextStyle(  
-	  color: Colors.black87,  
-      fontSize: 14,  
-      fontWeight: FontWeight.w500),  
+    color: Colors.black87,
+    fontSize: 14,
+    fontWeight: FontWeight.w500),
   labels: ["Tab A (10)", "Tab B (6)", "Tab C (9)"],  
   selectedLabelIndex: (index) {  
-	  setState(() {  
-		  print("Selected Index $index");
-	    });  
+	setState(() {
+	  print("Selected Index $index");
+	});
   },  
 ),
 ```
@@ -56,20 +56,20 @@ FlutterToggleTab(
   width: 50,  
   borderRadius: 15,  
   initialLabelIndex: 0,  
-  selectedTextStyle: TextStyle(  
-	  color: Colors.white,  
-      fontSize: 18,  
-      fontWeight: FontWeight.w600),  
-  unSelectedTextStyle: TextStyle(  
-	  color: Colors.blue,  
-      fontSize: 14,  
-      fontWeight: FontWeight.w400),  
+  selectedTextStyle: TextStyle(
+    color: Colors.white,
+    fontSize: 18,
+    fontWeight: FontWeight.w600),
+  unSelectedTextStyle: TextStyle(
+    color: Colors.blue,
+    fontSize: 14,
+    fontWeight: FontWeight.w400),
   labels: ["Male","Female"],  
   icons: [Icons.person,Icons.pregnant_woman],  
   selectedLabelIndex: (index) {  
-	  setState(() {  
-		  print("selected index $index");
-	  });  
+	setState(() {
+	  print("Selected Index $index");
+	});
   },  
 ),
 ```
@@ -84,20 +84,20 @@ FlutterToggleTab(
   width: 40,  
   borderRadius: 15,  
   initialLabelIndex: 0,  
-  selectedTextStyle: TextStyle(  
-	  color: Colors.white,  
-      fontSize: 18,  
-      fontWeight: FontWeight.w600),  
-  unSelectedTextStyle: TextStyle(  
-	  color: Colors.grey,  
-      fontSize: 14,  
-      fontWeight: FontWeight.w400),  
+  selectedTextStyle: TextStyle(
+    color: Colors.white,
+    fontSize: 18,
+    fontWeight: FontWeight.w600),
+  unSelectedTextStyle: TextStyle(
+    color: Colors.grey,
+    fontSize: 14,
+    fontWeight: FontWeight.w400),
   labels: ["",""],  
   icons: [Icons.person,Icons.pregnant_woman], 
   selectedLabelIndex: (index) {  
-	  setState(() {  
-	    print("selected index $index");
-	  });  
+	setState(() {
+	  print("Selected Index $index");
+	});
   },
 ```
 
