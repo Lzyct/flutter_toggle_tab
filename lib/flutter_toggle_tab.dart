@@ -22,14 +22,14 @@ class FlutterToggleTab extends StatefulWidget {
     @required this.labels,
     @required this.initialLabelIndex,
     @required this.selectedLabelIndex,
-    this.width,
-    this.borderRadius,
     @required this.selectedTextStyle,
     @required this.unSelectedTextStyle,
     this.height,
     this.icons,
-    this.selectedColor,
-    this.unSelectedColor,
+    this.selectedBackgroundColor,
+    this.unSelectedBackgroundColor,
+    this.width,
+    this.borderRadius,
   }) : super(key: key);
 
   final List<String> labels;
@@ -40,8 +40,8 @@ class FlutterToggleTab extends StatefulWidget {
 
 //  final BoxDecoration selectedDecoration;
 //  final BoxDecoration unSelectedDecoration;
-  final Color selectedColor;
-  final Color unSelectedColor;
+  final Color selectedBackgroundColor;
+  final Color unSelectedBackgroundColor;
   final TextStyle selectedTextStyle;
   final TextStyle unSelectedTextStyle;
   final Function(int) selectedLabelIndex;
@@ -91,24 +91,25 @@ class _FlutterToggleTabState extends State<FlutterToggleTab> {
             width: width,
             height: widget.height ?? 45,
             decoration: BoxDecoration(
-                color: widget.unSelectedColor ?? Color(0xffe0e0e0),
-                borderRadius: BorderRadius.circular(widget.borderRadius),
+                color: widget.unSelectedBackgroundColor ?? Color(0xffe0e0e0),
+                borderRadius: BorderRadius.circular(widget.borderRadius ?? 30),
                 boxShadow: [bsInner]),
             child: ListView.builder(
               itemCount: _labels.length,
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) {
                 return ButtonsTab(
-                  unSelectedColor: widget.unSelectedColor ?? Color(0xffe0e0e0),
+                  unSelectedColor:
+                      widget.unSelectedBackgroundColor ?? Color(0xffe0e0e0),
                   width: width / widget.labels.length,
                   title: _labels[index].title,
                   icons: widget.icons != null ? widget.icons[index] : null,
                   selectedTextStyle: widget.selectedTextStyle,
                   unSelectedTextStyle: widget.unSelectedTextStyle,
                   isSelected: _labels[index].isSelected,
-                  radius: widget.borderRadius,
-                  selectedColor:
-                      widget.selectedColor ?? Theme.of(context).primaryColor,
+                  radius: widget.borderRadius ?? 30,
+                  selectedColor: widget.selectedBackgroundColor ??
+                      Theme.of(context).primaryColor,
                   onPressed: () {
                     try {
                       for (int x = 0; x < _labels.length; x++) {
