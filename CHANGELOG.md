@@ -9,3 +9,7 @@
 # 0.0.2
 
 * Support Gradient for Selected and Unselected Background Color
+
+# 0.0.2+1
+
+* Fix build issue
