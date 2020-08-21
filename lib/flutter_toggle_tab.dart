@@ -26,10 +26,12 @@ class FlutterToggleTab extends StatefulWidget {
     @required this.unSelectedTextStyle,
     this.height,
     this.icons,
-    this.selectedBackgroundColor,
-    this.unSelectedBackgroundColor,
+    this.selectedBackgroundColors,
+    this.unSelectedBackgroundColors,
     this.width,
     this.borderRadius,
+    this.begin,
+    this.end,
   }) : super(key: key);
 
   final List<String> labels;
@@ -40,12 +42,14 @@ class FlutterToggleTab extends StatefulWidget {
 
 //  final BoxDecoration selectedDecoration;
 //  final BoxDecoration unSelectedDecoration;
-  final Color selectedBackgroundColor;
-  final Color unSelectedBackgroundColor;
+  final List<Color> selectedBackgroundColors;
+  final List<Color> unSelectedBackgroundColors;
   final TextStyle selectedTextStyle;
   final TextStyle unSelectedTextStyle;
   final Function(int) selectedLabelIndex;
   final double borderRadius;
+  final Alignment begin;
+  final Alignment end;
 
   @override
   _FlutterToggleTabState createState() => _FlutterToggleTabState();
@@ -91,7 +95,19 @@ class _FlutterToggleTabState extends State<FlutterToggleTab> {
             width: width,
             height: widget.height ?? 45,
             decoration: BoxDecoration(
-                color: widget.unSelectedBackgroundColor ?? Color(0xffe0e0e0),
+                gradient: LinearGradient(
+                  // Where the linear gradient begins and ends
+                  begin: widget.begin ?? Alignment.topCenter,
+                  end: widget.end ?? Alignment.bottomCenter,
+                  colors: widget.unSelectedBackgroundColors != null
+                      ? (widget.unSelectedBackgroundColors.length == 1
+                          ? [
+                              widget.unSelectedBackgroundColors[0],
+                              widget.unSelectedBackgroundColors[0]
+                            ]
+                          : widget.unSelectedBackgroundColors)
+                      : [Color(0xffe0e0e0), Color(0xffe0e0e0)],
+                ),
                 borderRadius: BorderRadius.circular(widget.borderRadius ?? 30),
                 boxShadow: [bsInner]),
             child: ListView.builder(
@@ -99,8 +115,14 @@ class _FlutterToggleTabState extends State<FlutterToggleTab> {
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) {
                 return ButtonsTab(
-                  unSelectedColor:
-                      widget.unSelectedBackgroundColor ?? Color(0xffe0e0e0),
+                  unSelectedColors: widget.unSelectedBackgroundColors != null
+                      ? (widget.unSelectedBackgroundColors.length == 1
+                          ? [
+                              widget.unSelectedBackgroundColors[0],
+                              widget.unSelectedBackgroundColors[0]
+                            ]
+                          : widget.unSelectedBackgroundColors)
+                      : [Color(0xffe0e0e0), Color(0xffe0e0e0)],
                   width: width / widget.labels.length,
                   title: _labels[index].title,
                   icons: widget.icons != null ? widget.icons[index] : null,
@@ -108,8 +130,17 @@ class _FlutterToggleTabState extends State<FlutterToggleTab> {
                   unSelectedTextStyle: widget.unSelectedTextStyle,
                   isSelected: _labels[index].isSelected,
                   radius: widget.borderRadius ?? 30,
-                  selectedColor: widget.selectedBackgroundColor ??
-                      Theme.of(context).primaryColor,
+                  selectedColors: widget.selectedBackgroundColors != null
+                      ? (widget.selectedBackgroundColors.length == 1
+                          ? [
+                              widget.selectedBackgroundColors[0],
+                              widget.selectedBackgroundColors[0]
+                            ]
+                          : widget.selectedBackgroundColors)
+                      : [
+                          Theme.of(context).primaryColor,
+                          Theme.of(context).primaryColor
+                        ],
                   onPressed: () {
                     try {
                       for (int x = 0; x < _labels.length; x++) {

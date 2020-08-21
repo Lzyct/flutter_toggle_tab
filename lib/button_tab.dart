@@ -13,17 +13,17 @@ class ButtonsTab extends StatefulWidget {
       this.radius,
       this.selectedTextStyle,
       this.unSelectedTextStyle,
-      @required this.selectedColor,
+      @required this.selectedColors,
       this.icons,
-      @required this.unSelectedColor})
+      @required this.unSelectedColors, this.begin, this.end})
       : super(key: key);
 
   final String title;
   final Function onPressed;
   final double width;
   final double height;
-  final Color selectedColor;
-  final Color unSelectedColor;
+  final List<Color> selectedColors;
+  final List<Color> unSelectedColors;
   final TextStyle selectedTextStyle;
   final TextStyle unSelectedTextStyle;
 
@@ -32,6 +32,9 @@ class ButtonsTab extends StatefulWidget {
   final bool isSelected;
   final double radius;
   final IconData icons;
+
+  final Alignment begin;
+  final Alignment end;
 
   @override
   _ButtonsTabState createState() => _ButtonsTabState();
@@ -46,7 +49,13 @@ class _ButtonsTabState extends State<ButtonsTab> {
       decoration: widget.isSelected
           ? bdHeader.copyWith(
               borderRadius: BorderRadius.circular(widget.radius),
-              color: widget.selectedColor)
+              gradient: LinearGradient(
+                // Where the linear gradient begins and ends
+                begin: widget.begin ?? Alignment.topCenter,
+                end: widget.end ?? Alignment.bottomCenter,
+                colors:
+                    widget.selectedColors ?? [Theme.of(context).primaryColor],
+              ))
           : null,
       child: FlatButton(
           onPressed: widget.onPressed,
