@@ -1,6 +1,6 @@
 name: flutter_toggle_tab
 description: Library to create Beautiful and Customized Tab/Toggle Widget on Flutter
-version: 0.0.1+2
+version: 0.0.2
 author: Mudassir<hey.mudassir@gmail.com>
 homepage: https://github.com/ukieTux/flutter_toggle_tab
 
@@ -32,8 +32,8 @@ flutter:
     # then add platforms following the instruction here:
     # https://flutter.dev/docs/development/packages-and-plugins/developing-packages#plugin-platforms
     # -------------------
-      some_platform:
-        pluginClass: somePluginClass
+#      some_platform:
+#        pluginClass: somePluginClass
     # -------------------
 
   # To add assets to your plugin package, add an assets section, like this:

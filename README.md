@@ -1,3 +1,4 @@
+
 # Flutter Tab Toggle 
 [![pub package](https://img.shields.io/pub/v/flutter_toggle_tab.svg)](https://pub.dev/packages/flutter_toggle_tab)
 
@@ -10,7 +11,7 @@ In the `pubspec.yaml` of your flutter project, add the following dependency:
 ```yaml
 dependencies:
   ...
-  flutter_toggle_tab: "^0.0.1+2"
+  flutter_toggle_tab: "^0.0.2"
 ```
 
 Import it:
@@ -30,7 +31,7 @@ FlutterToggleTab(
   borderRadius: 30,  
   height: 50,  
   initialLabelIndex: 0,  
-  selectedColor: Colors.blue,  
+  selectedColors: [Colors.blue],  
   selectedTextStyle: TextStyle(  
     color: Colors.white,
     fontSize: 18,
@@ -107,17 +108,19 @@ FlutterToggleTab(
 ## Available Parameters
 | Param | isRequired |
 |--|--|
-| labels (List of String)| Yes |
-| initialLabelIndex (int) | Yes |
-| selectedLabelIndex (Return Selected Index) | Yes |
-| selectedTextStyle (TextStyle) | Yes |
-| unSelectedTextStyle (TextStyle)| Yes |
-| width (in Percent of width Screen) **#default 100** | No |
-| height (double) **#default 45** | No |
-| icons (List of IconData) | No |
-| borderRadius (double) **#default 30**| No |
-| selectedBackgroundColor **#default Theme.of(context).primaryColor**| No |
-| unSelectedBackgroundColor **#default Color(0xffe0e0e0)**| No |
+| **List<String\>** labels | Yes |
+| **int** initialLabelIndex | Yes |
+| **Function(int)** selectedLabelIndex | Yes |
+| **TextStyle** selectedTextStyle | Yes |
+| **TextStyle** unSelectedTextStyle | Yes |
+| **double** width (in Percent of width Screen) ***default*: 100** | No |
+| **double** height (double) ***default*: 45** | No |
+| **List<IconData\>** icons (List of IconData) | No |
+| **double** borderRadius (double) ***default* 30**| No |
+| **List<Color\>** selectedBackgroundColors ***default* : [ Theme.of(context).primaryColor]**| No |
+| **List<Color\>** unSelectedBackgroundColors ***default* [ Color(0xffe0e0e0)]**| No |
+| **Alignment** begin ***default* : Alignment.topCenter** | No |
+| **Alignment** endn ***default* : Alignment.bottomCenter** | No |
 
 ---
 <h3 align="center">Buy me coffee if you love my works ☕️</h3>
