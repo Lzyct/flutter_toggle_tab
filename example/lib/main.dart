@@ -66,151 +66,155 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text("Flutter Tab Toggle"),
         elevation: 0,
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          SizedBox(
-            height: heightInPercent(3, context),
-          ),
-          Text(
-            "Basic Tab Toggle",
-            style: TextStyle(fontSize: 20, fontStyle: FontStyle.italic),
-          ),
-          SizedBox(
-            height: heightInPercent(3, context),
-          ),
-          FlutterToggleTab(
-            // width in percent
-            width: 90,
-            borderRadius: 30,
-            height: 50,
-            initialLabelIndex: 0,
-            selectedBackgroundColor: Colors.blue,
-            selectedTextStyle: TextStyle(
-                color: Colors.white, fontSize: 18, fontWeight: FontWeight.w700),
-            unSelectedTextStyle: TextStyle(
-                color: Colors.black87,
-                fontSize: 14,
-                fontWeight: FontWeight.w500),
-            labels: _listTextTabToggle,
-            selectedLabelIndex: (index) {
-              setState(() {
-                _tabTextIndexSelected = index;
-              });
-            },
-          ),
-          SizedBox(
-            height: heightInPercent(3, context),
-          ),
-          Text(
-            "Index selected : $_tabTextIndexSelected",
-            style: TextStyle(fontSize: 20),
-          ),
-          SizedBox(
-            height: heightInPercent(3, context),
-          ),
-          Divider(
-            thickness: 2,
-          ),
-          SizedBox(
-            height: heightInPercent(3, context),
-          ),
-          Text(
-            "With Icon",
-            style: TextStyle(fontSize: 20, fontStyle: FontStyle.italic),
-          ),
-          Padding(
-            padding: EdgeInsets.all(16),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "Select your sex : ",
-                  style: TextStyle(fontSize: 20),
-                ),
-                FlutterToggleTab(
-                  width: 50,
-                  borderRadius: 15,
-                  initialLabelIndex: 0,
-                  selectedTextStyle: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600),
-                  unSelectedTextStyle: TextStyle(
-                      color: Colors.blue,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400),
-                  labels: _listGenderText,
-                  icons: _listIconTabToggle,
-                  selectedLabelIndex: (index) {
-                    setState(() {
-                      _tabTextIconIndexSelected = index;
-                    });
-                  },
-                ),
-              ],
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            SizedBox(
+              height: heightInPercent(3, context),
             ),
-          ),
-          SizedBox(
-            height: heightInPercent(3, context),
-          ),
-          Text(
-            "Selected sex : ${_listGenderText[_tabTextIconIndexSelected]} ",
-            style: TextStyle(fontSize: 20),
-          ),
-          SizedBox(
-            height: heightInPercent(3, context),
-          ),
-          Divider(
-            thickness: 2,
-          ),
-          SizedBox(
-            height: heightInPercent(3, context),
-          ),
-          Text(
-            "With Icon Only ",
-            style: TextStyle(fontSize: 20, fontStyle: FontStyle.italic),
-          ),
-          Padding(
-            padding: EdgeInsets.all(16),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "Select your sex : ",
-                  style: TextStyle(fontSize: 20),
-                ),
-                FlutterToggleTab(
-                  width: 40,
-                  borderRadius: 15,
-                  initialLabelIndex: 0,
-                  selectedTextStyle: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600),
-                  unSelectedTextStyle: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400),
-                  labels: _listGenderEmpty,
-                  icons: _listIconTabToggle,
-                  selectedLabelIndex: (index) {
-                    setState(() {
-                      _tabIconIndexSelected = index;
-                    });
-                  },
-                ),
-              ],
+            Text(
+              "Basic Tab Toggle",
+              style: TextStyle(fontSize: 20, fontStyle: FontStyle.italic),
             ),
-          ),
-          SizedBox(
-            height: heightInPercent(3, context),
-          ),
-          Text(
-            "Selected sex index: $_tabIconIndexSelected ",
-            style: TextStyle(fontSize: 20),
-          ),
-        ],
+            SizedBox(
+              height: heightInPercent(3, context),
+            ),
+            FlutterToggleTab(
+              // width in percent
+              width: 90,
+              borderRadius: 30,
+              height: 50,
+              initialLabelIndex: 0,
+              selectedBackgroundColors: [Colors.blue, Colors.blueAccent],
+              selectedTextStyle: TextStyle(
+                  color: Colors.white,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700),
+              unSelectedTextStyle: TextStyle(
+                  color: Colors.black87,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500),
+              labels: _listTextTabToggle,
+              selectedLabelIndex: (index) {
+                setState(() {
+                  _tabTextIndexSelected = index;
+                });
+              },
+            ),
+            SizedBox(
+              height: heightInPercent(3, context),
+            ),
+            Text(
+              "Index selected : $_tabTextIndexSelected",
+              style: TextStyle(fontSize: 20),
+            ),
+            SizedBox(
+              height: heightInPercent(3, context),
+            ),
+            Divider(
+              thickness: 2,
+            ),
+            SizedBox(
+              height: heightInPercent(3, context),
+            ),
+            Text(
+              "With Icon",
+              style: TextStyle(fontSize: 20, fontStyle: FontStyle.italic),
+            ),
+            Padding(
+              padding: EdgeInsets.all(16),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Select your sex : ",
+                    style: TextStyle(fontSize: 20),
+                  ),
+                  FlutterToggleTab(
+                    width: 45,
+                    borderRadius: 15,
+                    initialLabelIndex: 0,
+                    selectedTextStyle: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600),
+                    unSelectedTextStyle: TextStyle(
+                        color: Colors.blue,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400),
+                    labels: _listGenderText,
+                    icons: _listIconTabToggle,
+                    selectedLabelIndex: (index) {
+                      setState(() {
+                        _tabTextIconIndexSelected = index;
+                      });
+                    },
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(
+              height: heightInPercent(3, context),
+            ),
+            Text(
+              "Selected sex : ${_listGenderText[_tabTextIconIndexSelected]} ",
+              style: TextStyle(fontSize: 20),
+            ),
+            SizedBox(
+              height: heightInPercent(3, context),
+            ),
+            Divider(
+              thickness: 2,
+            ),
+            SizedBox(
+              height: heightInPercent(3, context),
+            ),
+            Text(
+              "With Icon Only ",
+              style: TextStyle(fontSize: 20, fontStyle: FontStyle.italic),
+            ),
+            Padding(
+              padding: EdgeInsets.all(16),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Select your sex : ",
+                    style: TextStyle(fontSize: 20),
+                  ),
+                  FlutterToggleTab(
+                    width: 40,
+                    borderRadius: 15,
+                    initialLabelIndex: 0,
+                    selectedTextStyle: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600),
+                    unSelectedTextStyle: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400),
+                    labels: _listGenderEmpty,
+                    icons: _listIconTabToggle,
+                    selectedLabelIndex: (index) {
+                      setState(() {
+                        _tabIconIndexSelected = index;
+                      });
+                    },
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(
+              height: heightInPercent(3, context),
+            ),
+            Text(
+              "Selected sex index: $_tabIconIndexSelected ",
+              style: TextStyle(fontSize: 20),
+            ),
+          ],
+        ),
       ),
       // This trailing comma makes auto-formatting nicer for build methods.
     );
