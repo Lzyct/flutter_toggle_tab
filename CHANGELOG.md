@@ -18,3 +18,7 @@
 
 * Change initialLabelIndex to initialIndex
 * Support change selected index programmatically
+
+# 0.0.3+1
+
+* Fix formatting issue
