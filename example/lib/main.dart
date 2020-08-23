@@ -50,17 +50,23 @@ class _MyHomePageState extends State<MyHomePage> {
   var _tabTextIndexSelected = 0;
   var _tabTextIconIndexSelected = 0;
   var _tabIconIndexSelected = 0;
+  var _tabSelectedIndexSelected = 0;
+
+  var _listTextTabToggle = ["Tab A (10)", "Tab B (6)", "Tab C (9)"];
+  var _listTextSelectedToggle = [
+    "Select A (10)",
+    "Select B (6)",
+    "Select C (9)"
+  ];
+  var _listIconTabToggle = [
+    Icons.person,
+    Icons.pregnant_woman,
+  ];
+  var _listGenderText = ["Male", "Female"];
+  var _listGenderEmpty = ["", ""];
 
   @override
   Widget build(BuildContext context) {
-    var _listTextTabToggle = ["Tab A (10)", "Tab B (6)", "Tab C (9)"];
-    var _listIconTabToggle = [
-      Icons.person,
-      Icons.pregnant_woman,
-    ];
-    var _listGenderText = ["Male", "Female"];
-    var _listGenderEmpty = ["", ""];
-
     return Scaffold(
       appBar: AppBar(
         title: Text("Flutter Tab Toggle"),
@@ -85,7 +91,7 @@ class _MyHomePageState extends State<MyHomePage> {
               width: 90,
               borderRadius: 30,
               height: 50,
-              initialLabelIndex: 0,
+              selectedIndex: _tabTextIndexSelected,
               selectedBackgroundColors: [Colors.blue, Colors.blueAccent],
               selectedTextStyle: TextStyle(
                   color: Colors.white,
@@ -134,7 +140,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   FlutterToggleTab(
                     width: 45,
                     borderRadius: 15,
-                    initialLabelIndex: 0,
+                    selectedIndex: _tabTextIconIndexSelected,
                     selectedTextStyle: TextStyle(
                         color: Colors.white,
                         fontSize: 18,
@@ -186,7 +192,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   FlutterToggleTab(
                     width: 40,
                     borderRadius: 15,
-                    initialLabelIndex: 0,
+                    selectedIndex: _tabIconIndexSelected,
                     selectedTextStyle: TextStyle(
                         color: Colors.white,
                         fontSize: 18,
@@ -203,6 +209,62 @@ class _MyHomePageState extends State<MyHomePage> {
                       });
                     },
                   ),
+                ],
+              ),
+            ),
+            SizedBox(
+              height: heightInPercent(3, context),
+            ),
+            Text(
+              "Selected sex index: $_tabIconIndexSelected ",
+              style: TextStyle(fontSize: 20),
+            ),
+            Divider(
+              thickness: 2,
+            ),
+            SizedBox(
+              height: heightInPercent(3, context),
+            ),
+            Text(
+              "Selected  ",
+              style: TextStyle(fontSize: 20, fontStyle: FontStyle.italic),
+            ),
+            Padding(
+              padding: EdgeInsets.all(16),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Select your sex : ",
+                    style: TextStyle(fontSize: 20),
+                  ),
+                  FlutterToggleTab(
+                    width: 90,
+                    borderRadius: 15,
+                    selectedIndex: _tabSelectedIndexSelected,
+                    selectedTextStyle: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600),
+                    unSelectedTextStyle: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400),
+                    labels: _listTextSelectedToggle,
+                    selectedLabelIndex: (index) {
+                      setState(() {
+                        _tabSelectedIndexSelected = index;
+                      });
+                    },
+                  ),
+                  FlatButton(
+                    onPressed: () {
+                      setState(() {
+                        _tabSelectedIndexSelected = 2;
+                      });
+                    },
+                    child: Text("Select C"),
+                  )
                 ],
               ),
             ),

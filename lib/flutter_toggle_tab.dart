@@ -20,7 +20,7 @@ class FlutterToggleTab extends StatefulWidget {
   const FlutterToggleTab({
     Key key,
     @required this.labels,
-    @required this.initialLabelIndex,
+    @required this.selectedIndex,
     @required this.selectedLabelIndex,
     @required this.selectedTextStyle,
     @required this.unSelectedTextStyle,
@@ -36,7 +36,7 @@ class FlutterToggleTab extends StatefulWidget {
 
   final List<String> labels;
   final List<IconData> icons;
-  final int initialLabelIndex;
+  final int selectedIndex;
   final double width;
   final double height;
 
@@ -60,17 +60,12 @@ class _FlutterToggleTabState extends State<FlutterToggleTab> {
 
   _setDefaultSelected() {
     setState(() {
-      if (_labels.isNotEmpty) {
-        for (int x = 0; x < _labels.length; x++) {
-          _labels[x].title = widget.labels[x];
-        }
-      } else {
-        for (int x = 0; x < widget.labels.length; x++) {
-          if (x == widget.initialLabelIndex) {
-            _labels.add(DataTab(title: widget.labels[x], isSelected: true));
-          } else {
-            _labels.add(DataTab(title: widget.labels[x], isSelected: false));
-          }
+      _labels.clear();
+      for (int x = 0; x < widget.labels.length; x++) {
+        if (x == widget.selectedIndex) {
+          _labels.add(DataTab(title: widget.labels[x], isSelected: true));
+        } else {
+          _labels.add(DataTab(title: widget.labels[x], isSelected: false));
         }
       }
     });
@@ -79,6 +74,7 @@ class _FlutterToggleTabState extends State<FlutterToggleTab> {
   @override
   Widget build(BuildContext context) {
     _setDefaultSelected();
+    print("initial ${widget.selectedIndex}");
     var width = widget.width != null
         ? widthInPercent(widget.width, context)
         : widthInPercent(100, context);
