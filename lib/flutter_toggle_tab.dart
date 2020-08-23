@@ -126,11 +126,11 @@ class _FlutterToggleTabState extends State<FlutterToggleTab> {
                 return ButtonsTab(
                   unSelectedColors: widget.unSelectedBackgroundColors != null
                       ? (widget.unSelectedBackgroundColors.length == 1
-                      ? [
-                    widget.unSelectedBackgroundColors[0],
-                    widget.unSelectedBackgroundColors[0]
-                  ]
-                      : widget.unSelectedBackgroundColors)
+                          ? [
+                              widget.unSelectedBackgroundColors[0],
+                              widget.unSelectedBackgroundColors[0]
+                            ]
+                          : widget.unSelectedBackgroundColors)
                       : [Color(0xffe0e0e0), Color(0xffe0e0e0)],
                   width: width / widget.labels.length,
                   title: _labels[index].title,

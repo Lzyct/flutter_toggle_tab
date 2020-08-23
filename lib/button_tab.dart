@@ -15,7 +15,9 @@ class ButtonsTab extends StatefulWidget {
       this.unSelectedTextStyle,
       @required this.selectedColors,
       this.icons,
-      @required this.unSelectedColors, this.begin, this.end})
+      @required this.unSelectedColors,
+      this.begin,
+      this.end})
       : super(key: key);
 
   final String title;
