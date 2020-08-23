@@ -1,5 +1,8 @@
 
-# Flutter Tab Toggle [![pub package](https://img.shields.io/pub/v/flutter_toggle_tab.svg)](https://pub.dev/packages/flutter_toggle_tab)
+# Flutter Tab Toggle 
+[![Build Status](https://travis-ci.org/dart-lang/flutter_toggle_tab.svg?branch=master)](https://travis-ci.org/dart-lang/flutter_toggle_tab)
+[![pub package](https://img.shields.io/pub/v/flutter_toggle_tab.svg)](https://pub.dev/packages/flutter_toggle_tab)
+
 A Beautiful and Simple Tab/Toggle switch widget. It can be fully customized with desired icons, width, colors, text, corner radius etc. It also maintains selection state.
 
 ## Getting Started
