@@ -20,7 +20,7 @@ class FlutterToggleTab extends StatefulWidget {
   const FlutterToggleTab({
     Key key,
     @required this.labels,
-    @required this.selectedIndex,
+    @required this.initialIndex,
     @required this.selectedLabelIndex,
     @required this.selectedTextStyle,
     @required this.unSelectedTextStyle,
@@ -32,10 +32,12 @@ class FlutterToggleTab extends StatefulWidget {
     this.borderRadius,
     this.begin,
     this.end,
+    this.selectedIndex,
   }) : super(key: key);
 
   final List<String> labels;
   final List<IconData> icons;
+  final int initialIndex;
   final int selectedIndex;
   final double width;
   final double height;
@@ -60,12 +62,22 @@ class _FlutterToggleTabState extends State<FlutterToggleTab> {
 
   _setDefaultSelected() {
     setState(() {
-      _labels.clear();
-      for (int x = 0; x < widget.labels.length; x++) {
-        if (x == widget.selectedIndex) {
-          _labels.add(DataTab(title: widget.labels[x], isSelected: true));
-        } else {
-          _labels.add(DataTab(title: widget.labels[x], isSelected: false));
+      if (widget.selectedIndex != null) {
+        _labels.clear();
+        for (int x = 0; x < widget.labels.length; x++) {
+          if (x == widget.selectedIndex) {
+            _labels.add(DataTab(title: widget.labels[x], isSelected: true));
+          } else {
+            _labels.add(DataTab(title: widget.labels[x], isSelected: false));
+          }
+        }
+      } else {
+        for (int x = 0; x < widget.labels.length; x++) {
+          if (x == widget.initialIndex) {
+            _labels.add(DataTab(title: widget.labels[x], isSelected: true));
+          } else {
+            _labels.add(DataTab(title: widget.labels[x], isSelected: false));
+          }
         }
       }
     });
@@ -74,7 +86,7 @@ class _FlutterToggleTabState extends State<FlutterToggleTab> {
   @override
   Widget build(BuildContext context) {
     _setDefaultSelected();
-    print("initial ${widget.selectedIndex}");
+    print("initial ${widget.initialIndex}");
     var width = widget.width != null
         ? widthInPercent(widget.width, context)
         : widthInPercent(100, context);
@@ -110,14 +122,15 @@ class _FlutterToggleTabState extends State<FlutterToggleTab> {
               itemCount: _labels.length,
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) {
+                print("index $index , is null ? ${widget.icons == null}");
                 return ButtonsTab(
                   unSelectedColors: widget.unSelectedBackgroundColors != null
                       ? (widget.unSelectedBackgroundColors.length == 1
-                          ? [
-                              widget.unSelectedBackgroundColors[0],
-                              widget.unSelectedBackgroundColors[0]
-                            ]
-                          : widget.unSelectedBackgroundColors)
+                      ? [
+                    widget.unSelectedBackgroundColors[0],
+                    widget.unSelectedBackgroundColors[0]
+                  ]
+                      : widget.unSelectedBackgroundColors)
                       : [Color(0xffe0e0e0), Color(0xffe0e0e0)],
                   width: width / widget.labels.length,
                   title: _labels[index].title,
@@ -128,15 +141,19 @@ class _FlutterToggleTabState extends State<FlutterToggleTab> {
                   radius: widget.borderRadius ?? 30,
                   selectedColors: widget.selectedBackgroundColors != null
                       ? (widget.selectedBackgroundColors.length == 1
-                          ? [
-                              widget.selectedBackgroundColors[0],
-                              widget.selectedBackgroundColors[0]
-                            ]
-                          : widget.selectedBackgroundColors)
+                      ? [
+                    widget.selectedBackgroundColors[0],
+                    widget.selectedBackgroundColors[0]
+                  ]
+                      : widget.selectedBackgroundColors)
                       : [
-                          Theme.of(context).primaryColor,
-                          Theme.of(context).primaryColor
-                        ],
+                    Theme
+                        .of(context)
+                        .primaryColor,
+                    Theme
+                        .of(context)
+                        .primaryColor
+                  ],
                   onPressed: () {
                     try {
                       for (int x = 0; x < _labels.length; x++) {

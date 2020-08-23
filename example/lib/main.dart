@@ -91,7 +91,7 @@ class _MyHomePageState extends State<MyHomePage> {
               width: 90,
               borderRadius: 30,
               height: 50,
-              selectedIndex: _tabTextIndexSelected,
+              initialIndex: 0,
               selectedBackgroundColors: [Colors.blue, Colors.blueAccent],
               selectedTextStyle: TextStyle(
                   color: Colors.white,
@@ -140,7 +140,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   FlutterToggleTab(
                     width: 45,
                     borderRadius: 15,
-                    selectedIndex: _tabTextIconIndexSelected,
+                    initialIndex: 0,
                     selectedTextStyle: TextStyle(
                         color: Colors.white,
                         fontSize: 18,
@@ -192,7 +192,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   FlutterToggleTab(
                     width: 40,
                     borderRadius: 15,
-                    selectedIndex: _tabIconIndexSelected,
+                    initialIndex: _tabIconIndexSelected,
                     selectedTextStyle: TextStyle(
                         color: Colors.white,
                         fontSize: 18,
@@ -226,7 +226,7 @@ class _MyHomePageState extends State<MyHomePage> {
               height: heightInPercent(3, context),
             ),
             Text(
-              "Selected  ",
+              "Update selected programmatically  ",
               style: TextStyle(fontSize: 20, fontStyle: FontStyle.italic),
             ),
             Padding(
@@ -241,6 +241,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   FlutterToggleTab(
                     width: 90,
                     borderRadius: 15,
+                    initialIndex: 0,
                     selectedIndex: _tabSelectedIndexSelected,
                     selectedTextStyle: TextStyle(
                         color: Colors.white,
