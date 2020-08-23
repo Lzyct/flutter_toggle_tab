@@ -141,19 +141,15 @@ class _FlutterToggleTabState extends State<FlutterToggleTab> {
                   radius: widget.borderRadius ?? 30,
                   selectedColors: widget.selectedBackgroundColors != null
                       ? (widget.selectedBackgroundColors.length == 1
-                      ? [
-                    widget.selectedBackgroundColors[0],
-                    widget.selectedBackgroundColors[0]
-                  ]
-                      : widget.selectedBackgroundColors)
+                          ? [
+                              widget.selectedBackgroundColors[0],
+                              widget.selectedBackgroundColors[0]
+                            ]
+                          : widget.selectedBackgroundColors)
                       : [
-                    Theme
-                        .of(context)
-                        .primaryColor,
-                    Theme
-                        .of(context)
-                        .primaryColor
-                  ],
+                          Theme.of(context).primaryColor,
+                          Theme.of(context).primaryColor
+                        ],
                   onPressed: () {
                     try {
                       for (int x = 0; x < _labels.length; x++) {
