@@ -1,7 +1,5 @@
 
-# Flutter Tab Toggle 
-[![pub package](https://img.shields.io/pub/v/flutter_toggle_tab.svg)](https://pub.dev/packages/flutter_toggle_tab)
-
+# Flutter Tab Toggle [![pub package](https://img.shields.io/pub/v/flutter_toggle_tab.svg)](https://pub.dev/packages/flutter_toggle_tab)
 A Beautiful and Simple Tab/Toggle switch widget. It can be fully customized with desired icons, width, colors, text, corner radius etc. It also maintains selection state.
 
 ## Getting Started
@@ -11,7 +9,7 @@ In the `pubspec.yaml` of your flutter project, add the following dependency:
 ```yaml
 dependencies:
   ...
-  flutter_toggle_tab: "^0.0.2"
+  flutter_toggle_tab: "^0.0.3"
 ```
 
 Import it:
@@ -30,7 +28,7 @@ FlutterToggleTab(
   width: 90,  
   borderRadius: 30,  
   height: 50,  
-  initialLabelIndex: 0,  
+  initialIndex:0, 
   selectedColors: [Colors.blue],  
   selectedTextStyle: TextStyle(  
     color: Colors.white,
@@ -42,9 +40,7 @@ FlutterToggleTab(
     fontWeight: FontWeight.w500),
   labels: ["Tab A (10)", "Tab B (6)", "Tab C (9)"],  
   selectedLabelIndex: (index) {  
-	setState(() {
-	  print("Selected Index $index");
-	});
+	print("Selected Index $index");
   },  
 ),
 ```
@@ -57,7 +53,7 @@ FlutterToggleTab(
 FlutterToggleTab(  
   width: 50,  
   borderRadius: 15,  
-  initialLabelIndex: 0,  
+  initialIndex:0, 
   selectedTextStyle: TextStyle(
     color: Colors.white,
     fontSize: 18,
@@ -69,9 +65,7 @@ FlutterToggleTab(
   labels: ["Male","Female"],  
   icons: [Icons.person,Icons.pregnant_woman],  
   selectedLabelIndex: (index) {  
-	setState(() {
-	  print("Selected Index $index");
-	});
+	print("Selected Index $index");
   },  
 ),
 ```
@@ -85,7 +79,33 @@ FlutterToggleTab(
 FlutterToggleTab(  
   width: 40,  
   borderRadius: 15,  
-  initialLabelIndex: 0,  
+  initialIndex:0, 
+  selectedTextStyle: TextStyle(
+    color: Colors.white,
+    fontSize: 18,
+    fontWeight: FontWeight.w600),
+  unSelectedTextStyle: TextStyle(
+    color: Colors.grey,
+    fontSize: 14,
+    fontWeight: FontWeight.w400),
+  labels: ["",""],  
+  icons: [Icons.person,Icons.pregnant_woman], 
+  selectedLabelIndex: (index) { 
+	print("Selected Index $index");
+  },
+```
+
+![Farmers Market Finder Demo](https://github.com/ukieTux/flutter_toggle_tab/blob/master/gifs/with_icon_only.gif)
+
+### Update selected tab Programmatically
+
+```dart
+var _selectedIndex= 0 // you can change selected with update this 
+FlutterToggleTab(  
+  width: 40,  
+  borderRadius: 15,
+  initialIndex:0, 
+  selectedIndex: _selectedIndex,  
   selectedTextStyle: TextStyle(
     color: Colors.white,
     fontSize: 18,
@@ -98,21 +118,22 @@ FlutterToggleTab(
   icons: [Icons.person,Icons.pregnant_woman], 
   selectedLabelIndex: (index) {  
 	setState(() {
+	  _selectedIndex = index;
 	  print("Selected Index $index");
 	});
   },
 ```
 
-![Farmers Market Finder Demo](https://github.com/ukieTux/flutter_toggle_tab/blob/master/gifs/with_icon_only.gif)
 
 ## Available Parameters
 | Param | isRequired |
 |--|--|
 | **List<String\>** labels | Yes |
-| **int** initialLabelIndex | Yes |
+| **int** initialIndex (default selected index) | Yes |
 | **Function(int)** selectedLabelIndex | Yes |
 | **TextStyle** selectedTextStyle | Yes |
 | **TextStyle** unSelectedTextStyle | Yes |
+| **int** selectedIndex (listener for index selected) *see on example* | No |
 | **double** width (in Percent of width Screen) ***default*: 100** | No |
 | **double** height (double) ***default*: 45** | No |
 | **List<IconData\>** icons (List of IconData) | No |

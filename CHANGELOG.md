@@ -13,3 +13,8 @@
 # 0.0.2+1
 
 * Fix build issue
+
+# 0.0.3
+
+* Change initialLabelIndex to initialIndex
+* Support change selected index programmatically
