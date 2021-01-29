@@ -17,23 +17,27 @@ import 'helper.dart';
 ///*********************************************
 /// © 2020 | All Right Reserved
 class FlutterToggleTab extends StatefulWidget {
-  const FlutterToggleTab({
-    Key key,
-    @required this.labels,
-    @required this.initialIndex,
-    @required this.selectedLabelIndex,
-    @required this.selectedTextStyle,
-    @required this.unSelectedTextStyle,
-    this.height,
-    this.icons,
-    this.selectedBackgroundColors,
-    this.unSelectedBackgroundColors,
-    this.width,
-    this.borderRadius,
-    this.begin,
-    this.end,
-    this.selectedIndex,
-  }) : super(key: key);
+  /// Define parameter Flutter toggle tab
+  /// It's main attribute is available on Flutter Toggle Tab
+  /// is Scroll by default is set to Enable
+  const FlutterToggleTab(
+      {Key key,
+      @required this.labels,
+      @required this.initialIndex,
+      @required this.selectedLabelIndex,
+      @required this.selectedTextStyle,
+      @required this.unSelectedTextStyle,
+      this.height,
+      this.icons,
+      this.selectedBackgroundColors,
+      this.unSelectedBackgroundColors,
+      this.width,
+      this.borderRadius,
+      this.begin,
+      this.end,
+      this.selectedIndex,
+      this.isScroll = true})
+      : super(key: key);
 
   final List<String> labels;
   final List<IconData> icons;
@@ -41,6 +45,7 @@ class FlutterToggleTab extends StatefulWidget {
   final int selectedIndex;
   final double width;
   final double height;
+  final bool isScroll;
 
 //  final BoxDecoration selectedDecoration;
 //  final BoxDecoration unSelectedDecoration;
@@ -58,7 +63,7 @@ class FlutterToggleTab extends StatefulWidget {
 }
 
 class _FlutterToggleTabState extends State<FlutterToggleTab> {
-  var _labels = List<DataTab>();
+  List<DataTab> _labels = [];
 
   _setDefaultSelected() {
     setState(() {
@@ -91,6 +96,7 @@ class _FlutterToggleTabState extends State<FlutterToggleTab> {
         ? widthInPercent(widget.width, context)
         : widthInPercent(100, context);
 
+    // filter label size
     return widget.labels.length <= 1
         ? Text(
             "Error : Label should >1",
@@ -120,6 +126,9 @@ class _FlutterToggleTabState extends State<FlutterToggleTab> {
                 boxShadow: [bsInner]),
             child: ListView.builder(
               itemCount: _labels.length,
+              physics: widget.isScroll
+                  ? BouncingScrollPhysics()
+                  : NeverScrollableScrollPhysics(),
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) {
                 print("index $index , is null ? ${widget.icons == null}");

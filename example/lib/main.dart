@@ -107,6 +107,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   _tabTextIndexSelected = index;
                 });
               },
+              isScroll: false,
             ),
             SizedBox(
               height: heightInPercent(3, context),
@@ -258,7 +259,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       });
                     },
                   ),
-                  FlatButton(
+                  TextButton(
                     onPressed: () {
                       setState(() {
                         _tabSelectedIndexSelected = 2;

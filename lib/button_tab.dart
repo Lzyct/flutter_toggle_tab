@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'helper.dart';
 
 class ButtonsTab extends StatefulWidget {
+  /// Define attribute Widget and State
+  ///
   const ButtonsTab(
       {Key key,
       this.title,
@@ -48,6 +50,7 @@ class _ButtonsTabState extends State<ButtonsTab> {
     return Container(
       width: widget.width ?? widthInPercent(100, context),
       height: widget.height ?? 50,
+      // enable decoration when item is selected
       decoration: widget.isSelected
           ? bdHeader.copyWith(
               borderRadius: BorderRadius.circular(widget.radius),
@@ -59,11 +62,12 @@ class _ButtonsTabState extends State<ButtonsTab> {
                     widget.selectedColors ?? [Theme.of(context).primaryColor],
               ))
           : null,
-      child: FlatButton(
+      child: TextButton(
           onPressed: widget.onPressed,
-          shape: new RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(widget.radius)),
-          padding: EdgeInsets.all(0.0),
+          style: ButtonStyle(
+              shape: MaterialStateProperty.all(new RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(widget.radius))),
+              padding: MaterialStateProperty.all(EdgeInsets.zero)),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

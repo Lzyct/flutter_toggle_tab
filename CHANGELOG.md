@@ -26,3 +26,8 @@
 # 0.0.3+2
 
 * Fix missing formatting code
+
+# 0.0.4+3
+
+* Add support disable Horizontal Scroll
+* Update deprecated Widget
