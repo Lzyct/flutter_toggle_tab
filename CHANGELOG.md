@@ -31,3 +31,6 @@
 
 * Add support disable Horizontal Scroll
 * Update deprecated Widget
+
+# 0.0.5+4
+* Update Documentation
