@@ -12,7 +12,7 @@ In the `pubspec.yaml` of your flutter project, add the following dependency:
 ```yaml
 dependencies:
   ...
-  flutter_toggle_tab: "^0.0.3+2"
+  flutter_toggle_tab: "^latestVersion"
 ```
 
 Import it:
@@ -144,7 +144,8 @@ FlutterToggleTab(
 | **List<Color\>** selectedBackgroundColors ***default* : [ Theme.of(context).primaryColor]**| No |
 | **List<Color\>** unSelectedBackgroundColors ***default* [ Color(0xffe0e0e0)]**| No |
 | **Alignment** begin ***default* : Alignment.topCenter** | No |
-| **Alignment** endn ***default* : Alignment.bottomCenter** | No |
+| **Alignment** end ***default* : Alignment.bottomCenter** | No |
+| **bool** isScroll ***default* : true** | No |
 
 ---
 <h3 align="center">Buy me coffee if you love my works ☕️</h3>
