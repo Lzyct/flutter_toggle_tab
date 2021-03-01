@@ -131,7 +131,6 @@ class _FlutterToggleTabState extends State<FlutterToggleTab> {
                   : NeverScrollableScrollPhysics(),
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) {
-                print("index $index , is null ? ${widget.icons == null}");
                 return ButtonsTab(
                   unSelectedColors: widget.unSelectedBackgroundColors != null
                       ? (widget.unSelectedBackgroundColors.length == 1
