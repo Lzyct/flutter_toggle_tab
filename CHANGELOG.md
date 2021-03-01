@@ -34,3 +34,6 @@
 
 # 0.0.5+4
 * Update Documentation
+
+# 0.0.6+5
+* Remove log on builder
