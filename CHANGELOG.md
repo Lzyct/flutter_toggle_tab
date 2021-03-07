@@ -37,3 +37,6 @@
 
 # 0.0.6+5
 * Remove log on builder
+
+# 1.0.0
+* Migrate to Null Safety

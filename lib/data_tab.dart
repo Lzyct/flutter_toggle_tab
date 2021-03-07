@@ -1,6 +1,6 @@
 class DataTab {
-  String title;
-  bool isSelected;
+  String? title;
+  bool? isSelected;
 
   DataTab({this.title, this.isSelected});
 }

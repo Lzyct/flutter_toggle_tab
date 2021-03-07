@@ -21,12 +21,12 @@ class FlutterToggleTab extends StatefulWidget {
   /// It's main attribute is available on Flutter Toggle Tab
   /// is Scroll by default is set to Enable
   const FlutterToggleTab(
-      {Key key,
-      @required this.labels,
-      @required this.initialIndex,
-      @required this.selectedLabelIndex,
-      @required this.selectedTextStyle,
-      @required this.unSelectedTextStyle,
+      {Key? key,
+      required this.labels,
+      required this.initialIndex,
+      required this.selectedLabelIndex,
+      required this.selectedTextStyle,
+      required this.unSelectedTextStyle,
       this.height,
       this.icons,
       this.selectedBackgroundColors,
@@ -40,23 +40,23 @@ class FlutterToggleTab extends StatefulWidget {
       : super(key: key);
 
   final List<String> labels;
-  final List<IconData> icons;
+  final List<IconData>? icons;
   final int initialIndex;
-  final int selectedIndex;
-  final double width;
-  final double height;
+  final int? selectedIndex;
+  final double? width;
+  final double? height;
   final bool isScroll;
 
 //  final BoxDecoration selectedDecoration;
 //  final BoxDecoration unSelectedDecoration;
-  final List<Color> selectedBackgroundColors;
-  final List<Color> unSelectedBackgroundColors;
+  final List<Color>? selectedBackgroundColors;
+  final List<Color>? unSelectedBackgroundColors;
   final TextStyle selectedTextStyle;
   final TextStyle unSelectedTextStyle;
   final Function(int) selectedLabelIndex;
-  final double borderRadius;
-  final Alignment begin;
-  final Alignment end;
+  final double? borderRadius;
+  final Alignment? begin;
+  final Alignment? end;
 
   @override
   _FlutterToggleTabState createState() => _FlutterToggleTabState();
@@ -93,7 +93,7 @@ class _FlutterToggleTabState extends State<FlutterToggleTab> {
     _setDefaultSelected();
     print("initial ${widget.initialIndex}");
     var width = widget.width != null
-        ? widthInPercent(widget.width, context)
+        ? widthInPercent(widget.width!, context)
         : widthInPercent(100, context);
 
     // filter label size
@@ -114,12 +114,12 @@ class _FlutterToggleTabState extends State<FlutterToggleTab> {
                   begin: widget.begin ?? Alignment.topCenter,
                   end: widget.end ?? Alignment.bottomCenter,
                   colors: widget.unSelectedBackgroundColors != null
-                      ? (widget.unSelectedBackgroundColors.length == 1
+                      ? (widget.unSelectedBackgroundColors!.length == 1
                           ? [
-                              widget.unSelectedBackgroundColors[0],
-                              widget.unSelectedBackgroundColors[0]
+                              widget.unSelectedBackgroundColors![0],
+                              widget.unSelectedBackgroundColors![0]
                             ]
-                          : widget.unSelectedBackgroundColors)
+                          : widget.unSelectedBackgroundColors!)
                       : [Color(0xffe0e0e0), Color(0xffe0e0e0)],
                 ),
                 borderRadius: BorderRadius.circular(widget.borderRadius ?? 30),
@@ -133,25 +133,25 @@ class _FlutterToggleTabState extends State<FlutterToggleTab> {
               itemBuilder: (context, index) {
                 return ButtonsTab(
                   unSelectedColors: widget.unSelectedBackgroundColors != null
-                      ? (widget.unSelectedBackgroundColors.length == 1
+                      ? (widget.unSelectedBackgroundColors!.length == 1
                           ? [
-                              widget.unSelectedBackgroundColors[0],
-                              widget.unSelectedBackgroundColors[0]
+                              widget.unSelectedBackgroundColors![0],
+                              widget.unSelectedBackgroundColors![0]
                             ]
                           : widget.unSelectedBackgroundColors)
                       : [Color(0xffe0e0e0), Color(0xffe0e0e0)],
                   width: width / widget.labels.length,
                   title: _labels[index].title,
-                  icons: widget.icons != null ? widget.icons[index] : null,
+                  icons: widget.icons != null ? widget.icons![index] : null,
                   selectedTextStyle: widget.selectedTextStyle,
                   unSelectedTextStyle: widget.unSelectedTextStyle,
                   isSelected: _labels[index].isSelected,
                   radius: widget.borderRadius ?? 30,
                   selectedColors: widget.selectedBackgroundColors != null
-                      ? (widget.selectedBackgroundColors.length == 1
+                      ? (widget.selectedBackgroundColors!.length == 1
                           ? [
-                              widget.selectedBackgroundColors[0],
-                              widget.selectedBackgroundColors[0]
+                              widget.selectedBackgroundColors![0],
+                              widget.selectedBackgroundColors![0]
                             ]
                           : widget.selectedBackgroundColors)
                       : [

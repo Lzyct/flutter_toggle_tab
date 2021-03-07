@@ -6,39 +6,39 @@ class ButtonsTab extends StatefulWidget {
   /// Define attribute Widget and State
   ///
   const ButtonsTab(
-      {Key key,
+      {Key? key,
       this.title,
       this.onPressed,
-      @required this.width,
+      required this.width,
       this.height,
       this.isSelected,
       this.radius,
       this.selectedTextStyle,
       this.unSelectedTextStyle,
-      @required this.selectedColors,
+      required this.selectedColors,
       this.icons,
-      @required this.unSelectedColors,
+      required this.unSelectedColors,
       this.begin,
       this.end})
       : super(key: key);
 
-  final String title;
-  final Function onPressed;
-  final double width;
-  final double height;
-  final List<Color> selectedColors;
-  final List<Color> unSelectedColors;
-  final TextStyle selectedTextStyle;
-  final TextStyle unSelectedTextStyle;
+  final String? title;
+  final Function? onPressed;
+  final double? width;
+  final double? height;
+  final List<Color>? selectedColors;
+  final List<Color>? unSelectedColors;
+  final TextStyle? selectedTextStyle;
+  final TextStyle? unSelectedTextStyle;
 
 //  final BoxDecoration selectedDecoration;
 //  final BoxDecoration unSelectedDecoration;
-  final bool isSelected;
-  final double radius;
-  final IconData icons;
+  final bool? isSelected;
+  final double? radius;
+  final IconData? icons;
 
-  final Alignment begin;
-  final Alignment end;
+  final Alignment? begin;
+  final Alignment? end;
 
   @override
   _ButtonsTabState createState() => _ButtonsTabState();
@@ -51,9 +51,9 @@ class _ButtonsTabState extends State<ButtonsTab> {
       width: widget.width ?? widthInPercent(100, context),
       height: widget.height ?? 50,
       // enable decoration when item is selected
-      decoration: widget.isSelected
+      decoration: widget.isSelected!
           ? bdHeader.copyWith(
-              borderRadius: BorderRadius.circular(widget.radius),
+              borderRadius: BorderRadius.circular(widget.radius!),
               gradient: LinearGradient(
                 // Where the linear gradient begins and ends
                 begin: widget.begin ?? Alignment.topCenter,
@@ -63,10 +63,10 @@ class _ButtonsTabState extends State<ButtonsTab> {
               ))
           : null,
       child: TextButton(
-          onPressed: widget.onPressed,
+          onPressed: widget.onPressed as void Function()?,
           style: ButtonStyle(
               shape: MaterialStateProperty.all(new RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(widget.radius))),
+                  borderRadius: BorderRadius.circular(widget.radius!))),
               padding: MaterialStateProperty.all(EdgeInsets.zero)),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -74,9 +74,9 @@ class _ButtonsTabState extends State<ButtonsTab> {
               widget.icons != null
                   ? Icon(
                       widget.icons,
-                      color: widget.isSelected
-                          ? widget.selectedTextStyle.color
-                          : widget.unSelectedTextStyle.color,
+                      color: widget.isSelected!
+                          ? widget.selectedTextStyle!.color
+                          : widget.unSelectedTextStyle!.color,
                     )
                   : Container(),
               Visibility(
@@ -86,8 +86,8 @@ class _ButtonsTabState extends State<ButtonsTab> {
                 ),
               ),
               Text(
-                widget.title,
-                style: widget.isSelected
+                widget.title!,
+                style: widget.isSelected!
                     ? widget.selectedTextStyle
                     : widget.unSelectedTextStyle,
                 textAlign: TextAlign.center,
