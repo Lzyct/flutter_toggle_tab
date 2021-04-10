@@ -19,7 +19,8 @@ class ButtonsTab extends StatefulWidget {
       this.icons,
       required this.unSelectedColors,
       this.begin,
-      this.end})
+      this.end,
+      this.marginSelected = EdgeInsets.zero})
       : super(key: key);
 
   final String? title;
@@ -40,6 +41,8 @@ class ButtonsTab extends StatefulWidget {
   final Alignment? begin;
   final Alignment? end;
 
+  final EdgeInsets? marginSelected;
+
   @override
   _ButtonsTabState createState() => _ButtonsTabState();
 }
@@ -50,6 +53,7 @@ class _ButtonsTabState extends State<ButtonsTab> {
     return Container(
       width: widget.width ?? widthInPercent(100, context),
       height: widget.height ?? 50,
+      margin: widget.isSelected! ? widget.marginSelected : EdgeInsets.zero,
       // enable decoration when item is selected
       decoration: widget.isSelected!
           ? bdHeader.copyWith(

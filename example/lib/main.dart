@@ -126,7 +126,7 @@ class _MyHomePageState extends State<MyHomePage> {
               height: heightInPercent(3, context),
             ),
             Text(
-              "With Icon",
+              "Text With Icon",
               style: TextStyle(fontSize: 20, fontStyle: FontStyle.italic),
             ),
             Padding(
@@ -139,7 +139,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     style: TextStyle(fontSize: 20),
                   ),
                   FlutterToggleTab(
-                    width: 45,
+                    width: 50,
                     borderRadius: 15,
                     initialIndex: 0,
                     selectedTextStyle: TextStyle(
@@ -178,7 +178,8 @@ class _MyHomePageState extends State<MyHomePage> {
               height: heightInPercent(3, context),
             ),
             Text(
-              "With Icon Only ",
+              "With Icon Only and Implement margin for selected item",
+              textAlign: TextAlign.center,
               style: TextStyle(fontSize: 20, fontStyle: FontStyle.italic),
             ),
             Padding(
@@ -209,6 +210,8 @@ class _MyHomePageState extends State<MyHomePage> {
                         _tabIconIndexSelected = index;
                       });
                     },
+                    marginSelected:
+                        EdgeInsets.symmetric(horizontal: 4, vertical: 4),
                   ),
                 ],
               ),

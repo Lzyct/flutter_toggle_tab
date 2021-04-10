@@ -36,7 +36,8 @@ class FlutterToggleTab extends StatefulWidget {
       this.begin,
       this.end,
       this.selectedIndex,
-      this.isScroll = true})
+      this.isScroll = true,
+      this.marginSelected})
       : super(key: key);
 
   final List<String> labels;
@@ -57,6 +58,8 @@ class FlutterToggleTab extends StatefulWidget {
   final double? borderRadius;
   final Alignment? begin;
   final Alignment? end;
+
+  final EdgeInsets? marginSelected;
 
   @override
   _FlutterToggleTabState createState() => _FlutterToggleTabState();
@@ -132,6 +135,7 @@ class _FlutterToggleTabState extends State<FlutterToggleTab> {
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) {
                 return ButtonsTab(
+                  marginSelected: widget.marginSelected,
                   unSelectedColors: widget.unSelectedBackgroundColors != null
                       ? (widget.unSelectedBackgroundColors!.length == 1
                           ? [
