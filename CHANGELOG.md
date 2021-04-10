@@ -40,3 +40,6 @@
 
 # 1.0.0
 * Migrate to Null Safety
+
+# 1.1.0
+* Support margin for selected tab
