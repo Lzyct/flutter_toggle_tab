@@ -146,6 +146,7 @@ FlutterToggleTab(
 | **Alignment** begin ***default* : Alignment.topCenter** | No |
 | **Alignment** end ***default* : Alignment.bottomCenter** | No |
 | **bool** isScroll ***default* : true** | No |
+| **EdgeInsets** marginSelected ***default* : EdgeInsets.zero** | No |
 
 ---
 <h3 align="center">Buy me coffee if you love my works ☕️</h3>
