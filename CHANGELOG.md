@@ -43,3 +43,6 @@
 
 # 1.1.0
 * Support margin for selected tab
+
+# 1.1.1
+* Remove print statement
