@@ -145,7 +145,7 @@ class _FlutterToggleTabState extends State<FlutterToggleTab> {
                       : [Color(0xffe0e0e0), Color(0xffe0e0e0)],
                   width: width / widget.labels.length,
                   title: _labels[index].title,
-                  icons: widget.icons != null ? widget.icons![index] : null,
+                  icons: widget.icons?[index] ?? null,
                   selectedTextStyle: widget.selectedTextStyle,
                   unSelectedTextStyle: widget.unSelectedTextStyle,
                   isSelected: _labels[index].isSelected,
