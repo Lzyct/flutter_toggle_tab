@@ -20,7 +20,7 @@ class FlutterToggleTab extends StatefulWidget {
   /// Define parameter Flutter toggle tab
   /// It's main attribute is available on Flutter Toggle Tab
   /// is Scroll by default is set to Enable
-  const FlutterToggleTab(
+ const FlutterToggleTab(
       {Key? key,
       required this.labels,
       required this.initialIndex,
@@ -41,7 +41,7 @@ class FlutterToggleTab extends StatefulWidget {
       : super(key: key);
 
   final List<String> labels;
-  final List<IconData>? icons;
+  final List<IconData?>? icons;
   final int initialIndex;
   final int? selectedIndex;
   final double? width;
@@ -133,6 +133,15 @@ class _FlutterToggleTabState extends State<FlutterToggleTab> {
                   : NeverScrollableScrollPhysics(),
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) {
+                IconData? icon;
+
+                // Using try catch to fix error Range array
+                try {
+                  icon = widget.icons?[index];
+                } catch (e) {
+                  icon = null;
+                }
+
                 return ButtonsTab(
                   marginSelected: widget.marginSelected,
                   unSelectedColors: widget.unSelectedBackgroundColors != null
@@ -145,7 +154,7 @@ class _FlutterToggleTabState extends State<FlutterToggleTab> {
                       : [Color(0xffe0e0e0), Color(0xffe0e0e0)],
                   width: width / widget.labels.length,
                   title: _labels[index].title,
-                  icons: widget.icons?[index] ?? null,
+                  icons: icon,
                   selectedTextStyle: widget.selectedTextStyle,
                   unSelectedTextStyle: widget.unSelectedTextStyle,
                   isSelected: _labels[index].isSelected,
