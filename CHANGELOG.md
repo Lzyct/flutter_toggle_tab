@@ -46,3 +46,6 @@
 
 # 1.1.1
 * Remove print statement
+
+# 1.1.2
+* Fix issue null safety when icons is null
