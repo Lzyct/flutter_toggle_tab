@@ -49,3 +49,6 @@
 
 # 1.1.2
 * Fix issue null safety when icons is null
+
+# 1.1.3
+* Fix margin issue on last item
