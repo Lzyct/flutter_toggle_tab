@@ -52,3 +52,6 @@
 
 # 1.1.3
 * Fix margin issue on last item
+
+# 1.1.4
+* Fix duplicate button
