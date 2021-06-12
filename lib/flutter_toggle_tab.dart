@@ -20,7 +20,7 @@ class FlutterToggleTab extends StatefulWidget {
   /// Define parameter Flutter toggle tab
   /// It's main attribute is available on Flutter Toggle Tab
   /// is Scroll by default is set to Enable
- const FlutterToggleTab(
+  const FlutterToggleTab(
       {Key? key,
       required this.labels,
       required this.initialIndex,
@@ -92,8 +92,13 @@ class _FlutterToggleTabState extends State<FlutterToggleTab> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    super.initState();
     _setDefaultSelected();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     var width = widget.width != null
         ? widthInPercent(widget.width!, context)
         : widthInPercent(100, context);
