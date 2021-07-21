@@ -37,7 +37,8 @@ class FlutterToggleTab extends StatefulWidget {
       this.end,
       this.selectedIndex,
       this.isScroll = true,
-      this.marginSelected})
+      this.marginSelected,
+      this.isShadowEnable = true})
       : super(key: key);
 
   final List<String> labels;
@@ -60,6 +61,7 @@ class FlutterToggleTab extends StatefulWidget {
   final Alignment? end;
 
   final EdgeInsets? marginSelected;
+  final bool isShadowEnable;
 
   @override
   _FlutterToggleTabState createState() => _FlutterToggleTabState();
@@ -99,11 +101,12 @@ class _FlutterToggleTabState extends State<FlutterToggleTab> {
 
   @override
   Widget build(BuildContext context) {
+    /// set default 100 width if width param is null
     var width = widget.width != null
         ? widthInPercent(widget.width!, context)
         : widthInPercent(100, context);
 
-    // filter label size
+    /// Show text error if length less 1
     return widget.labels.length <= 1
         ? Text(
             "Error : Label should >1",
@@ -120,6 +123,10 @@ class _FlutterToggleTabState extends State<FlutterToggleTab> {
                   // Where the linear gradient begins and ends
                   begin: widget.begin ?? Alignment.topCenter,
                   end: widget.end ?? Alignment.bottomCenter,
+
+                  /// If unSelectedBackground is not null
+                  /// We check again if it's length only 1
+                  /// Using same color for gradients
                   colors: widget.unSelectedBackgroundColors != null
                       ? (widget.unSelectedBackgroundColors!.length == 1
                           ? [
@@ -130,9 +137,13 @@ class _FlutterToggleTabState extends State<FlutterToggleTab> {
                       : [Color(0xffe0e0e0), Color(0xffe0e0e0)],
                 ),
                 borderRadius: BorderRadius.circular(widget.borderRadius ?? 30),
-                boxShadow: [bsInner]),
+
+                /// Handle if shadow is Enable or not
+                boxShadow: [if (widget.isShadowEnable) bsInner]),
             child: ListView.builder(
               itemCount: _labels.length,
+
+              /// Handle if isScroll or not
               physics: widget.isScroll
                   ? BouncingScrollPhysics()
                   : NeverScrollableScrollPhysics(),
@@ -149,6 +160,10 @@ class _FlutterToggleTabState extends State<FlutterToggleTab> {
 
                 return ButtonsTab(
                   marginSelected: widget.marginSelected,
+
+                  /// If unSelectedBackground is not null
+                  /// We check again if it's length only 1
+                  /// Using same color for gradients
                   unSelectedColors: widget.unSelectedBackgroundColors != null
                       ? (widget.unSelectedBackgroundColors!.length == 1
                           ? [
@@ -164,6 +179,10 @@ class _FlutterToggleTabState extends State<FlutterToggleTab> {
                   unSelectedTextStyle: widget.unSelectedTextStyle,
                   isSelected: _labels[index].isSelected,
                   radius: widget.borderRadius ?? 30,
+
+                  /// If selectedBackgroundColors is not null
+                  /// We check again if it's length only 1
+                  /// Using same color for gradients
                   selectedColors: widget.selectedBackgroundColors != null
                       ? (widget.selectedBackgroundColors!.length == 1
                           ? [
