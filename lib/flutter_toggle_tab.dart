@@ -94,14 +94,9 @@ class _FlutterToggleTabState extends State<FlutterToggleTab> {
   }
 
   @override
-  void initState() {
-    super.initState();
-    _setDefaultSelected();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    /// set default 100 width if width param is null
+    /// Reload if selected index changed
+    _setDefaultSelected();
     var width = widget.width != null
         ? widthInPercent(widget.width!, context)
         : widthInPercent(100, context);
