@@ -62,3 +62,7 @@
 # 1.1.5
 
 * Disable shadow support
+
+# 1.1.6
+
+* Update selected if selectedIndex changed
