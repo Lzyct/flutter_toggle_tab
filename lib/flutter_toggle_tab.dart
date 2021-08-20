@@ -23,7 +23,6 @@ class FlutterToggleTab extends StatefulWidget {
   const FlutterToggleTab(
       {Key? key,
       required this.labels,
-      required this.initialIndex,
       required this.selectedLabelIndex,
       required this.selectedTextStyle,
       required this.unSelectedTextStyle,
@@ -35,7 +34,7 @@ class FlutterToggleTab extends StatefulWidget {
       this.borderRadius,
       this.begin,
       this.end,
-      this.selectedIndex,
+      required this.selectedIndex,
       this.isScroll = true,
       this.marginSelected,
       this.isShadowEnable = true})
@@ -43,8 +42,7 @@ class FlutterToggleTab extends StatefulWidget {
 
   final List<String> labels;
   final List<IconData?>? icons;
-  final int initialIndex;
-  final int? selectedIndex;
+  final int selectedIndex;
   final double? width;
   final double? height;
   final bool isScroll;
@@ -70,33 +68,40 @@ class FlutterToggleTab extends StatefulWidget {
 class _FlutterToggleTabState extends State<FlutterToggleTab> {
   List<DataTab> _labels = [];
 
-  _setDefaultSelected() {
+  /// Set default selected for first build
+  void _setDefaultSelected() {
     setState(() {
-      if (widget.selectedIndex != null) {
-        _labels.clear();
-        for (int x = 0; x < widget.labels.length; x++) {
-          if (x == widget.selectedIndex) {
-            _labels.add(DataTab(title: widget.labels[x], isSelected: true));
-          } else {
-            _labels.add(DataTab(title: widget.labels[x], isSelected: false));
-          }
-        }
-      } else {
-        for (int x = 0; x < widget.labels.length; x++) {
-          if (x == widget.initialIndex) {
-            _labels.add(DataTab(title: widget.labels[x], isSelected: true));
-          } else {
-            _labels.add(DataTab(title: widget.labels[x], isSelected: false));
-          }
-        }
+      /// loops label from widget labels
+      for (int x = 0; x < widget.labels.length; x++) {
+        _labels.add(DataTab(title: widget.labels[x], isSelected: false));
       }
     });
   }
 
   @override
-  Widget build(BuildContext context) {
-    /// Reload if selected index changed
+  void initState() {
+    super.initState();
+    /// init default selected in InitState
     _setDefaultSelected();
+  }
+
+  /// Update selected when selectedItem changed
+  void _updateSelected() {
+    setState(() {
+      /// set all item to false
+      for (final item in _labels) {
+        item.isSelected = false;
+      }
+      /// Update selectedIndex isSelected to True
+      _labels[widget.selectedIndex].isSelected = true;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    _updateSelected();
+
+    /// Check if width is null or not
     var width = widget.width != null
         ? widthInPercent(widget.width!, context)
         : widthInPercent(100, context);
@@ -112,7 +117,7 @@ class _FlutterToggleTabState extends State<FlutterToggleTab> {
           )
         : Container(
             width: width,
-            height: widget.height ?? 45,
+            height: widget.height ?? 45, /// Default height is 45
             decoration: BoxDecoration(
                 gradient: LinearGradient(
                   // Where the linear gradient begins and ends
@@ -195,6 +200,7 @@ class _FlutterToggleTabState extends State<FlutterToggleTab> {
                         setState(() {
                           if (_labels[index] == _labels[x]) {
                             _labels[x].isSelected = true;
+                            /// Send value to callback
                             widget.selectedLabelIndex(index);
                           } else
                             _labels[x].isSelected = false;

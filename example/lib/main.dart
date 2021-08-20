@@ -47,7 +47,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  var _tabTextIndexSelected = 0;
+  var _tabTextIndexSelected = 1;
   var _tabTextIconIndexSelected = 0;
   var _tabIconIndexSelected = 0;
   var _tabSelectedIndexSelected = 0;
@@ -76,6 +76,8 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
+
+            /// Basic Toggle Sample
             SizedBox(
               height: heightInPercent(3, context),
             ),
@@ -91,7 +93,7 @@ class _MyHomePageState extends State<MyHomePage> {
               width: 90,
               borderRadius: 30,
               height: 50,
-              initialIndex: 0,
+              selectedIndex: _tabTextIndexSelected,
               selectedBackgroundColors: [Colors.blue, Colors.blueAccent],
               selectedTextStyle: TextStyle(
                   color: Colors.white,
@@ -109,6 +111,14 @@ class _MyHomePageState extends State<MyHomePage> {
               },
               isScroll: false,
             ),
+            TextButton(
+              onPressed: () {
+                setState(() {
+                  _tabTextIndexSelected = 2;
+                });
+              },
+              child: Text("Change to Index 2"),
+            ),
             SizedBox(
               height: heightInPercent(3, context),
             ),
@@ -122,6 +132,8 @@ class _MyHomePageState extends State<MyHomePage> {
             Divider(
               thickness: 2,
             ),
+
+            /// Text with icon sample
             SizedBox(
               height: heightInPercent(3, context),
             ),
@@ -141,7 +153,6 @@ class _MyHomePageState extends State<MyHomePage> {
                   FlutterToggleTab(
                     width: 50,
                     borderRadius: 15,
-                    initialIndex: 0,
                     selectedTextStyle: TextStyle(
                         color: Colors.white,
                         fontSize: 18,
@@ -152,6 +163,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         fontWeight: FontWeight.w400),
                     labels: _listGenderText,
                     icons: _listIconTabToggle,
+                    selectedIndex: _tabTextIconIndexSelected,
                     selectedLabelIndex: (index) {
                       setState(() {
                         _tabTextIconIndexSelected = index;
@@ -161,6 +173,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 ],
               ),
             ),
+
+            /// Icon with Text Button Sample
             SizedBox(
               height: heightInPercent(3, context),
             ),
@@ -177,6 +191,8 @@ class _MyHomePageState extends State<MyHomePage> {
             SizedBox(
               height: heightInPercent(3, context),
             ),
+
+            /// Icon button sample
             Text(
               "With Icon Only and Implement margin for selected item",
               textAlign: TextAlign.center,
@@ -194,7 +210,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   FlutterToggleTab(
                     width: 40,
                     borderRadius: 15,
-                    initialIndex: _tabIconIndexSelected,
+                    selectedIndex: _tabIconIndexSelected,
                     selectedTextStyle: TextStyle(
                         color: Colors.white,
                         fontSize: 18,
@@ -226,6 +242,8 @@ class _MyHomePageState extends State<MyHomePage> {
             Divider(
               thickness: 2,
             ),
+
+            /// Update select programmatically sample
             SizedBox(
               height: heightInPercent(3, context),
             ),
@@ -245,7 +263,6 @@ class _MyHomePageState extends State<MyHomePage> {
                   FlutterToggleTab(
                     width: 90,
                     borderRadius: 15,
-                    initialIndex: 0,
                     selectedIndex: _tabSelectedIndexSelected,
                     selectedTextStyle: TextStyle(
                         color: Colors.white,

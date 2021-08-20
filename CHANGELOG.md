@@ -66,3 +66,9 @@
 # 1.1.6
 
 * Update selected if selectedIndex changed
+
+# 1.1.7
+* Remove initialIndex replace with selectedIndex
+* Set selectedIndex required
+* Fix issue double when tap button
+* Fix issue update selectedIndex value, selected button not updated
