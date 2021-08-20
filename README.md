@@ -132,11 +132,10 @@ FlutterToggleTab(
 | Param | isRequired |
 |--|--|
 | **List<String\>** labels | Yes |
-| **int** initialIndex (default selected index) | Yes |
 | **Function(int)** selectedLabelIndex | Yes |
 | **TextStyle** selectedTextStyle | Yes |
 | **TextStyle** unSelectedTextStyle | Yes |
-| **int** selectedIndex (listener for index selected) *see on example* | No |
+| **int** selectedIndex (listener for index selected) *see on example* | Yes |
 | **double** width (in Percent of width Screen) ***default*: 100** | No |
 | **double** height (double) ***default*: 45** | No |
 | **List<IconData\>** icons (List of IconData) | No |
