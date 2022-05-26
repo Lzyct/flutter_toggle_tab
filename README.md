@@ -81,7 +81,7 @@ FlutterToggleTab(
 
 ```
 
-![Farmers Market Finder Demo](https://github.com/ukieTux/flutter_toggle_tab/blob/master/gifs/with_icon.gif)
+![image](https://user-images.githubusercontent.com/1531684/170535796-814f380d-2640-4489-8598-97f5a24398fd.png)
 
 
 ### Basic tab/toggle switch with Icon Only and add margin on selected item
