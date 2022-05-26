@@ -5,23 +5,23 @@ import 'helper.dart';
 class ButtonsTab extends StatefulWidget {
   /// Define attribute Widget and State
   ///
-  const ButtonsTab(
-      {Key? key,
-      this.title,
-      this.onPressed,
-      required this.width,
-      this.height,
-      this.isSelected,
-      this.radius,
-      this.selectedTextStyle,
-      this.unSelectedTextStyle,
-      required this.selectedColors,
-      this.icons,
-      required this.unSelectedColors,
-      this.begin,
-      this.end,
-      this.marginSelected = EdgeInsets.zero})
-      : super(key: key);
+  const ButtonsTab({
+    Key? key,
+    this.title,
+    this.onPressed,
+    required this.width,
+    this.height,
+    this.isSelected,
+    this.radius,
+    this.selectedTextStyle,
+    this.unSelectedTextStyle,
+    required this.selectedColors,
+    this.icons,
+    required this.unSelectedColors,
+    this.begin,
+    this.end,
+    this.marginSelected = EdgeInsets.zero,
+  }) : super(key: key);
 
   final String? title;
   final Function? onPressed;

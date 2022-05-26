@@ -24,28 +24,33 @@ import 'package:flutter_toggle_tab/flutter_toggle_tab.dart';
 ## Usage Examples
 
 ### Basic tab/toggle switch 
+
 ```dart
 // Here default theme colors are used for activeBgColor, activeFgColor, inactiveBgColor and inactiveFgColor
-FlutterToggleTab(  
-  // width in percent, to set full width just set to 100  
-  width: 90,  
-  borderRadius: 30,  
-  height: 50,  
-  initialIndex:0, 
-  selectedColors: [Colors.blue],  
-  selectedTextStyle: TextStyle(  
-    color: Colors.white,
-    fontSize: 18,
-    fontWeight: FontWeight.w700),
-  unSelectedTextStyle: TextStyle(  
-    color: Colors.black87,
-    fontSize: 14,
-    fontWeight: FontWeight.w500),
-  labels: ["Tab A (10)", "Tab B (6)", "Tab C (9)"],  
-  selectedLabelIndex: (index) {  
-	print("Selected Index $index");
-  },  
+FlutterToggleTab(
+// width in percent
+  width: 90,
+  borderRadius: 30,
+  height: 50,
+  selectedIndex: _tabTextIndexSelected,
+  selectedBackgroundColors: [Colors.blue, Colors.blueAccent],
+  selectedTextStyle: TextStyle(
+  color: Colors.white,
+  fontSize: 18,
+  fontWeight: FontWeight.w700),
+  unSelectedTextStyle: TextStyle(
+  color: Colors.black87,
+  fontSize: 14,
+  fontWeight: FontWeight.w500),
+  labels: _listTextTabToggle,
+  selectedLabelIndex: (index) {
+    setState(() {
+    _tabTextIndexSelected = index;
+    });
+  },
+  isScroll: false,
 ),
+
 ```
 
 ![Farmers Market Finder Demo](https://github.com/ukieTux/flutter_toggle_tab/blob/master/gifs/basic.gif)
@@ -53,49 +58,58 @@ FlutterToggleTab(
 ### Basic tab/toggle switch with Icon 
 
 ```dart
-FlutterToggleTab(  
-  width: 50,  
-  borderRadius: 15,  
-  initialIndex:0, 
+FlutterToggleTab(
+  width: 50,
+  borderRadius: 15,
   selectedTextStyle: TextStyle(
-    color: Colors.white,
-    fontSize: 18,
-    fontWeight: FontWeight.w600),
+  color: Colors.white,
+  fontSize: 18,
+  fontWeight: FontWeight.w600),
   unSelectedTextStyle: TextStyle(
-    color: Colors.blue,
-    fontSize: 14,
-    fontWeight: FontWeight.w400),
-  labels: ["Male","Female"],  
-  icons: [Icons.person,Icons.pregnant_woman],  
-  selectedLabelIndex: (index) {  
-	print("Selected Index $index");
-  },  
+  color: Colors.blue,
+  fontSize: 14,
+  fontWeight: FontWeight.w400),
+  labels: _listGenderText,
+  icons: _listIconTabToggle,
+  selectedIndex: _tabTextIconIndexSelected,
+  selectedLabelIndex: (index) {
+    setState(() {
+      _tabTextIconIndexSelected = index;
+    });
+  },
 ),
+
 ```
 
 ![Farmers Market Finder Demo](https://github.com/ukieTux/flutter_toggle_tab/blob/master/gifs/with_icon.gif)
 
 
-### Basic tab/toggle switch with Icon Only
+### Basic tab/toggle switch with Icon Only and add margin on selected item
 
 ```dart
-FlutterToggleTab(  
-  width: 40,  
-  borderRadius: 15,  
-  initialIndex:0, 
+FlutterToggleTab(
+  width: 40,
+  borderRadius: 15,
+  selectedIndex: _tabIconIndexSelected,
   selectedTextStyle: TextStyle(
-    color: Colors.white,
-    fontSize: 18,
-    fontWeight: FontWeight.w600),
+  color: Colors.white,
+  fontSize: 18,
+  fontWeight: FontWeight.w600),
   unSelectedTextStyle: TextStyle(
-    color: Colors.grey,
-    fontSize: 14,
-    fontWeight: FontWeight.w400),
-  labels: ["",""],  
-  icons: [Icons.person,Icons.pregnant_woman], 
-  selectedLabelIndex: (index) { 
-	print("Selected Index $index");
+  color: Colors.grey,
+  fontSize: 14,
+  fontWeight: FontWeight.w400),
+  labels: _listGenderEmpty,
+  icons: _listIconTabToggle,
+  selectedLabelIndex: (index) {
+    setState(() {
+      _tabIconIndexSelected = index;
+    });
   },
+  marginSelected:
+    EdgeInsets.symmetric(horizontal: 4, vertical: 4),
+),
+
 ```
 
 ![Farmers Market Finder Demo](https://github.com/ukieTux/flutter_toggle_tab/blob/master/gifs/with_icon_only.gif)
@@ -103,28 +117,26 @@ FlutterToggleTab(
 ### Update selected tab Programmatically
 
 ```dart
-var _selectedIndex= 0 // you can change selected with update this 
-FlutterToggleTab(  
-  width: 40,  
+FlutterToggleTab(
+  width: 90,
   borderRadius: 15,
-  initialIndex:0, 
-  selectedIndex: _selectedIndex,  
+  selectedIndex: _tabSelectedIndexSelected,
   selectedTextStyle: TextStyle(
-    color: Colors.white,
-    fontSize: 18,
-    fontWeight: FontWeight.w600),
+  color: Colors.white,
+  fontSize: 18,
+  fontWeight: FontWeight.w600),
   unSelectedTextStyle: TextStyle(
-    color: Colors.grey,
-    fontSize: 14,
-    fontWeight: FontWeight.w400),
-  labels: ["",""],  
-  icons: [Icons.person,Icons.pregnant_woman], 
-  selectedLabelIndex: (index) {  
-	setState(() {
-	  _selectedIndex = index;
-	  print("Selected Index $index");
-	});
+  color: Colors.grey,
+  fontSize: 14,
+  fontWeight: FontWeight.w400),
+  labels: _listTextSelectedToggle,
+  selectedLabelIndex: (index) {
+    setState(() {
+      _tabSelectedIndexSelected = index;
+    });
   },
+),
+
 ```
 
 

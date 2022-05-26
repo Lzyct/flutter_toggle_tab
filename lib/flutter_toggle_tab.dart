@@ -3,7 +3,6 @@
 // To add platforms, run `flutter create -t plugin --platforms <platforms> .` under the same
 // directory. You can also find a detailed instruction on how to add platforms in the `pubspec.yaml` at https://flutter.dev/docs/development/packages-and-plugins/developing-packages#plugin-platforms.
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'button_tab.dart';
@@ -20,25 +19,25 @@ class FlutterToggleTab extends StatefulWidget {
   /// Define parameter Flutter toggle tab
   /// It's main attribute is available on Flutter Toggle Tab
   /// is Scroll by default is set to Enable
-  const FlutterToggleTab(
-      {Key? key,
-      required this.labels,
-      required this.selectedLabelIndex,
-      required this.selectedTextStyle,
-      required this.unSelectedTextStyle,
-      this.height,
-      this.icons,
-      this.selectedBackgroundColors,
-      this.unSelectedBackgroundColors,
-      this.width,
-      this.borderRadius,
-      this.begin,
-      this.end,
-      required this.selectedIndex,
-      this.isScroll = true,
-      this.marginSelected,
-      this.isShadowEnable = true})
-      : super(key: key);
+  const FlutterToggleTab({
+    Key? key,
+    required this.labels,
+    required this.selectedLabelIndex,
+    required this.selectedTextStyle,
+    required this.unSelectedTextStyle,
+    this.height,
+    this.icons,
+    this.selectedBackgroundColors,
+    this.unSelectedBackgroundColors,
+    this.width,
+    this.borderRadius,
+    this.begin,
+    this.end,
+    required this.selectedIndex,
+    this.isScroll = true,
+    this.marginSelected,
+    this.isShadowEnable = true,
+  }) : super(key: key);
 
   final List<String> labels;
   final List<IconData?>? icons;
@@ -81,6 +80,7 @@ class _FlutterToggleTabState extends State<FlutterToggleTab> {
   @override
   void initState() {
     super.initState();
+
     /// init default selected in InitState
     _setDefaultSelected();
   }
@@ -92,6 +92,7 @@ class _FlutterToggleTabState extends State<FlutterToggleTab> {
       for (final item in _labels) {
         item.isSelected = false;
       }
+
       /// Update selectedIndex isSelected to True
       _labels[widget.selectedIndex].isSelected = true;
     });
@@ -117,7 +118,9 @@ class _FlutterToggleTabState extends State<FlutterToggleTab> {
           )
         : Container(
             width: width,
-            height: widget.height ?? 45, /// Default height is 45
+            height: widget.height ?? 45,
+
+            /// Default height is 45
             decoration: BoxDecoration(
                 gradient: LinearGradient(
                   // Where the linear gradient begins and ends
@@ -200,6 +203,7 @@ class _FlutterToggleTabState extends State<FlutterToggleTab> {
                         setState(() {
                           if (_labels[index] == _labels[x]) {
                             _labels[x].isSelected = true;
+
                             /// Send value to callback
                             widget.selectedLabelIndex(index);
                           } else

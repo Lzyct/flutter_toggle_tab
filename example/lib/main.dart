@@ -76,7 +76,6 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-
             /// Basic Toggle Sample
             SizedBox(
               height: heightInPercent(3, context),
