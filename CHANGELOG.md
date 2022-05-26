@@ -72,3 +72,8 @@
 * Set selectedIndex required
 * Fix issue double when tap button
 * Fix issue update selectedIndex value, selected button not updated
+
+# 1.2.0
+* Update kotlin version on Example
+* Reformat library
+* Update README file
