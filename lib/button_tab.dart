@@ -85,7 +85,7 @@ class _ButtonsTabState extends State<ButtonsTab> {
                         )
                       : Container(),
                   Visibility(
-                    visible: widget.icons != null && widget.title != "",
+                    visible: widget.icons != null && widget.title.isNotEmpty,
                     child: SizedBox(
                       width: 4,
                     ),
