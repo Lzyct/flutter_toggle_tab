@@ -27,6 +27,7 @@ class FlutterToggleTab extends StatefulWidget {
     required this.unSelectedTextStyle,
     this.height,
     this.icons,
+    this.iconSize,
     this.selectedBackgroundColors,
     this.unSelectedBackgroundColors,
     this.width,
@@ -41,6 +42,7 @@ class FlutterToggleTab extends StatefulWidget {
 
   final List<String> labels;
   final List<IconData?>? icons;
+  final double? iconSize;
   final int selectedIndex;
   final double? width;
   final double? height;
@@ -178,6 +180,7 @@ class _FlutterToggleTabState extends State<FlutterToggleTab> {
                   width: width / widget.labels.length,
                   title: _labels[index].title,
                   icons: icon,
+                  iconSize: widget.iconSize,
                   selectedTextStyle: widget.selectedTextStyle,
                   unSelectedTextStyle: widget.unSelectedTextStyle,
                   isSelected: _labels[index].isSelected,

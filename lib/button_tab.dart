@@ -17,6 +17,7 @@ class ButtonsTab extends StatefulWidget {
     this.unSelectedTextStyle,
     required this.selectedColors,
     this.icons,
+    this.iconSize,
     required this.unSelectedColors,
     this.begin,
     this.end,
@@ -37,6 +38,7 @@ class ButtonsTab extends StatefulWidget {
   final bool? isSelected;
   final double? radius;
   final IconData? icons;
+  final double? iconSize;
 
   final Alignment? begin;
   final Alignment? end;
@@ -79,16 +81,16 @@ class _ButtonsTabState extends State<ButtonsTab> {
                   widget.icons != null
                       ? Icon(
                           widget.icons,
+                          size: widget.iconSize,
                           color: widget.isSelected!
                               ? widget.selectedTextStyle!.color
                               : widget.unSelectedTextStyle!.color,
                         )
                       : Container(),
                   Visibility(
-                    visible: widget.icons != null && widget.title.isNotEmpty,
-                    child: SizedBox(
-                      width: 4,
-                    ),
+                    visible: widget.icons != null &&
+                        widget.title.toString().isNotEmpty,
+                    child: SizedBox(width: 4),
                   ),
                   Text(
                     widget.title!,

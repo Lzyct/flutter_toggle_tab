@@ -1,6 +1,5 @@
 
 # Flutter Tab Toggle 
-[![Build Status](https://travis-ci.org/dart-lang/flutter_toggle_tab.svg?branch=master)](https://travis-ci.org/dart-lang/flutter_toggle_tab)
 [![pub package](https://img.shields.io/pub/v/flutter_toggle_tab.svg)](https://pub.dev/packages/flutter_toggle_tab)
 
 A Beautiful and Simple Tab/Toggle switch widget. It can be fully customized with desired icons, width, colors, text, corner radius etc. It also maintains selection state.
@@ -141,23 +140,24 @@ FlutterToggleTab(
 
 
 ## Available Parameters
-| Param | isRequired |
-|--|--|
-| **List<String\>** labels | Yes |
-| **Function(int)** selectedLabelIndex | Yes |
-| **TextStyle** selectedTextStyle | Yes |
-| **TextStyle** unSelectedTextStyle | Yes |
-| **int** selectedIndex (listener for index selected) *see on example* | Yes |
-| **double** width (in Percent of width Screen) ***default*: 100** | No |
-| **double** height (double) ***default*: 45** | No |
-| **List<IconData\>** icons (List of IconData) | No |
-| **double** borderRadius (double) ***default* 30**| No |
-| **List<Color\>** selectedBackgroundColors ***default* : [ Theme.of(context).primaryColor]**| No |
-| **List<Color\>** unSelectedBackgroundColors ***default* [ Color(0xffe0e0e0)]**| No |
-| **Alignment** begin ***default* : Alignment.topCenter** | No |
-| **Alignment** end ***default* : Alignment.bottomCenter** | No |
-| **bool** isScroll ***default* : true** | No |
-| **EdgeInsets** marginSelected ***default* : EdgeInsets.zero** | No |
+| Param                                                                                       | isRequired |
+|---------------------------------------------------------------------------------------------|------------|
+| **List<String\>** labels                                                                    | Yes        |
+| **Function(int)** selectedLabelIndex                                                        | Yes        |
+| **TextStyle** selectedTextStyle                                                             | Yes        |
+| **TextStyle** unSelectedTextStyle                                                           | Yes        |
+| **int** selectedIndex (listener for index selected) *see on example*                        | Yes        |
+| **double** width (in Percent of width Screen) ***default*: 100**                            | No         |
+| **double** height (double) ***default*: 45**                                                | No         |
+| **List<IconData\>** icons (List of IconData)                                                | No         |
+| **double** iconSize                                                                         | No         |
+| **double** borderRadius (double) ***default* 30**                                           | No         |
+| **List<Color\>** selectedBackgroundColors ***default* : [ Theme.of(context).primaryColor]** | No         |
+| **List<Color\>** unSelectedBackgroundColors ***default* [ Color(0xffe0e0e0)]**              | No         |
+| **Alignment** begin ***default* : Alignment.topCenter**                                     | No         |
+| **Alignment** end ***default* : Alignment.bottomCenter**                                    | No         |
+| **bool** isScroll ***default* : true**                                                      | No         |
+| **EdgeInsets** marginSelected ***default* : EdgeInsets.zero**                               | No         |
 
 ---
 <h3 align="center">Buy me coffee if you love my works ☕️</h3>

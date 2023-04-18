@@ -77,3 +77,7 @@
 * Update kotlin version on Example
 * Reformat library
 * Update README file
+
+# 1.3.0
+* Expose iconSize
+* Fix: Invisible a right margin in the button tab if only the icon is set. thanks to @kaedeee

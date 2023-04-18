@@ -220,6 +220,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         fontWeight: FontWeight.w400),
                     labels: _listGenderEmpty,
                     icons: _listIconTabToggle,
+                    iconSize: 40,
                     selectedLabelIndex: (index) {
                       setState(() {
                         _tabIconIndexSelected = index;
