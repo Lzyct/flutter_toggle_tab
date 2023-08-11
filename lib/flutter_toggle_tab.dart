@@ -3,11 +3,11 @@
 // To add platforms, run `flutter create -t plugin --platforms <platforms> .` under the same
 // directory. You can also find a detailed instruction on how to add platforms in the `pubspec.yaml` at https://flutter.dev/docs/development/packages-and-plugins/developing-packages#plugin-platforms.
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-
-import 'button_tab.dart';
-import 'data_tab.dart';
-import 'helper.dart';
+import 'package:flutter_toggle_tab/button_tab.dart';
+import 'package:flutter_toggle_tab/data_tab.dart';
+import 'package:flutter_toggle_tab/helper.dart';
 
 ///*********************************************
 /// Created by ukieTux on 22/04/2020 with ♥
@@ -20,11 +20,11 @@ class FlutterToggleTab extends StatefulWidget {
   /// It's main attribute is available on Flutter Toggle Tab
   /// is Scroll by default is set to Enable
   const FlutterToggleTab({
-    Key? key,
+    super.key,
     required this.labels,
     required this.selectedLabelIndex,
-    required this.selectedTextStyle,
-    required this.unSelectedTextStyle,
+    this.selectedTextStyle,
+    this.unSelectedTextStyle,
     this.height,
     this.icons,
     this.iconSize,
@@ -38,7 +38,7 @@ class FlutterToggleTab extends StatefulWidget {
     this.isScroll = true,
     this.marginSelected,
     this.isShadowEnable = true,
-  }) : super(key: key);
+  });
 
   final List<String> labels;
   final List<IconData?>? icons;
@@ -52,8 +52,8 @@ class FlutterToggleTab extends StatefulWidget {
 //  final BoxDecoration unSelectedDecoration;
   final List<Color>? selectedBackgroundColors;
   final List<Color>? unSelectedBackgroundColors;
-  final TextStyle selectedTextStyle;
-  final TextStyle unSelectedTextStyle;
+  final TextStyle? selectedTextStyle;
+  final TextStyle? unSelectedTextStyle;
   final Function(int) selectedLabelIndex;
   final double? borderRadius;
   final Alignment? begin;
@@ -67,7 +67,7 @@ class FlutterToggleTab extends StatefulWidget {
 }
 
 class _FlutterToggleTabState extends State<FlutterToggleTab> {
-  List<DataTab> _labels = [];
+  final List<DataTab> _labels = [];
 
   /// Set default selected for first build
   void _setDefaultSelected() {
@@ -105,18 +105,19 @@ class _FlutterToggleTabState extends State<FlutterToggleTab> {
     _updateSelected();
 
     /// Check if width is null or not
-    var width = widget.width != null
+    final width = widget.width != null
         ? widthInPercent(widget.width!, context)
         : widthInPercent(100, context);
 
     /// Show text error if length less 1
     return widget.labels.length <= 1
-        ? Text(
+        ? const Text(
             "Error : Label should >1",
             style: TextStyle(
-                color: Colors.redAccent,
-                fontWeight: FontWeight.bold,
-                fontSize: 20),
+              color: Colors.redAccent,
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+            ),
           )
         : Container(
             width: width,
@@ -124,34 +125,35 @@ class _FlutterToggleTabState extends State<FlutterToggleTab> {
 
             /// Default height is 45
             decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  // Where the linear gradient begins and ends
-                  begin: widget.begin ?? Alignment.topCenter,
-                  end: widget.end ?? Alignment.bottomCenter,
+              gradient: LinearGradient(
+                // Where the linear gradient begins and ends
+                begin: widget.begin ?? Alignment.topCenter,
+                end: widget.end ?? Alignment.bottomCenter,
 
-                  /// If unSelectedBackground is not null
-                  /// We check again if it's length only 1
-                  /// Using same color for gradients
-                  colors: widget.unSelectedBackgroundColors != null
-                      ? (widget.unSelectedBackgroundColors!.length == 1
-                          ? [
-                              widget.unSelectedBackgroundColors![0],
-                              widget.unSelectedBackgroundColors![0]
-                            ]
-                          : widget.unSelectedBackgroundColors!)
-                      : [Color(0xffe0e0e0), Color(0xffe0e0e0)],
-                ),
-                borderRadius: BorderRadius.circular(widget.borderRadius ?? 30),
+                /// If unSelectedBackground is not null
+                /// We check again if it's length only 1
+                /// Using same color for gradients
+                colors: widget.unSelectedBackgroundColors != null
+                    ? (widget.unSelectedBackgroundColors!.length == 1
+                        ? [
+                            widget.unSelectedBackgroundColors![0],
+                            widget.unSelectedBackgroundColors![0]
+                          ]
+                        : widget.unSelectedBackgroundColors!)
+                    : [const Color(0xffe0e0e0), const Color(0xffe0e0e0)],
+              ),
+              borderRadius: BorderRadius.circular(widget.borderRadius ?? 30),
 
-                /// Handle if shadow is Enable or not
-                boxShadow: [if (widget.isShadowEnable) bsInner]),
+              /// Handle if shadow is Enable or not
+              boxShadow: [if (widget.isShadowEnable) bsInner],
+            ),
             child: ListView.builder(
               itemCount: _labels.length,
 
               /// Handle if isScroll or not
               physics: widget.isScroll
-                  ? BouncingScrollPhysics()
-                  : NeverScrollableScrollPhysics(),
+                  ? const BouncingScrollPhysics()
+                  : const NeverScrollableScrollPhysics(),
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) {
                 IconData? icon;
@@ -176,13 +178,21 @@ class _FlutterToggleTabState extends State<FlutterToggleTab> {
                               widget.unSelectedBackgroundColors![0]
                             ]
                           : widget.unSelectedBackgroundColors)
-                      : [Color(0xffe0e0e0), Color(0xffe0e0e0)],
+                      : [const Color(0xffe0e0e0), const Color(0xffe0e0e0)],
                   width: width / widget.labels.length,
                   title: _labels[index].title,
                   icons: icon,
                   iconSize: widget.iconSize,
-                  selectedTextStyle: widget.selectedTextStyle,
-                  unSelectedTextStyle: widget.unSelectedTextStyle,
+                  selectedTextStyle: widget.selectedTextStyle ??
+                      Theme.of(context).textTheme.bodyMedium,
+                  unSelectedTextStyle: widget.unSelectedTextStyle ??
+                      Theme.of(context).textTheme.bodyMedium?.copyWith(
+                            color: Theme.of(context)
+                                .textTheme
+                                .bodyMedium
+                                ?.color
+                                ?.withOpacity(0.7),
+                          ),
                   isSelected: _labels[index].isSelected,
                   radius: widget.borderRadius ?? 30,
 
@@ -209,16 +219,20 @@ class _FlutterToggleTabState extends State<FlutterToggleTab> {
 
                             /// Send value to callback
                             widget.selectedLabelIndex(index);
-                          } else
+                          } else {
                             _labels[x].isSelected = false;
+                          }
                         });
                       }
                     } catch (e) {
-                      print("err : $e");
+                      if (kDebugMode) {
+                        print("err : $e");
+                      }
                     }
                   },
                 );
               },
-            ));
+            ),
+          );
   }
 }
