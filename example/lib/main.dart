@@ -264,8 +264,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 "Select your sex : ",
                 style: TextStyle(fontSize: 20),
               ),
+              SizedBox(height: heightInPercent(3, context)),
               FlutterToggleTab(
-                width: 90,
+                width: 85,
                 borderRadius: 15,
                 selectedIndex: _tabSelectedIndexSelected,
                 selectedTextStyle: const TextStyle(
