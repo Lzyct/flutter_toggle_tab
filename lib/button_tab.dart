@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_toggle_tab/helper.dart';
 
-class ButtonsTab extends StatefulWidget {
+class ButtonsTab extends StatelessWidget {
   /// Define attribute Widget and State
   ///
   const ButtonsTab({
@@ -45,36 +45,30 @@ class ButtonsTab extends StatefulWidget {
   final EdgeInsets? marginSelected;
 
   @override
-  _ButtonsTabState createState() => _ButtonsTabState();
-}
-
-class _ButtonsTabState extends State<ButtonsTab> {
-  @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: widget.width ?? widthInPercent(100, context),
-      height: widget.height ?? 50,
+      width: width ?? widthInPercent(100, context),
+      height: height ?? 50,
       //wrap with container to fix margin issue
       child: Container(
-        margin: widget.isSelected! ? widget.marginSelected : EdgeInsets.zero,
-        decoration: widget.isSelected!
+        margin: isSelected! ? marginSelected : EdgeInsets.zero,
+        decoration: isSelected!
             ? bdHeader.copyWith(
-                borderRadius: BorderRadius.circular(widget.radius!),
+                borderRadius: BorderRadius.circular(radius!),
                 gradient: LinearGradient(
                   // Where the linear gradient begins and ends
-                  begin: widget.begin ?? Alignment.topCenter,
-                  end: widget.end ?? Alignment.bottomCenter,
-                  colors:
-                      widget.selectedColors ?? [Theme.of(context).primaryColor],
+                  begin: begin ?? Alignment.topCenter,
+                  end: end ?? Alignment.bottomCenter,
+                  colors: selectedColors ?? [Theme.of(context).primaryColor],
                 ),
               )
             : null,
         child: TextButton(
-          onPressed: widget.onPressed as void Function()?,
+          onPressed: onPressed as void Function()?,
           style: ButtonStyle(
             shape: MaterialStateProperty.all(
               RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(widget.radius!),
+                borderRadius: BorderRadius.circular(radius!),
               ),
             ),
             padding: MaterialStateProperty.all(EdgeInsets.zero),
@@ -82,26 +76,23 @@ class _ButtonsTabState extends State<ButtonsTab> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              if (widget.icons != null)
+              if (icons != null)
                 Icon(
-                  widget.icons,
-                  size: widget.iconSize,
-                  color: widget.isSelected!
-                      ? widget.selectedTextStyle!.color
-                      : widget.unSelectedTextStyle!.color,
+                  icons,
+                  size: iconSize,
+                  color: isSelected!
+                      ? selectedTextStyle!.color
+                      : unSelectedTextStyle!.color,
                 )
               else
                 const SizedBox.shrink(),
               Visibility(
-                visible:
-                    widget.icons != null && widget.title.toString().isNotEmpty,
+                visible: icons != null && title.toString().isNotEmpty,
                 child: const SizedBox(width: 4),
               ),
               Text(
-                widget.title!,
-                style: widget.isSelected!
-                    ? widget.selectedTextStyle
-                    : widget.unSelectedTextStyle,
+                title!,
+                style: isSelected! ? selectedTextStyle : unSelectedTextStyle,
                 textAlign: TextAlign.center,
               )
             ],
