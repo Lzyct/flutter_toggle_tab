@@ -104,6 +104,9 @@ class _FlutterToggleTabState extends State<FlutterToggleTab> {
 
   @override
   Widget build(BuildContext context) {
+    /// update selected when selectedIndex changed
+    _updateSelected();
+
     /// set width to 100% if width is null
     final width = widthInPercent(widget.width ?? 100, context);
 
