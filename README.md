@@ -1,8 +1,9 @@
+# Flutter Tab Toggle
 
-# Flutter Tab Toggle 
 [![pub package](https://img.shields.io/pub/v/flutter_toggle_tab.svg)](https://pub.dev/packages/flutter_toggle_tab)
 
-A Beautiful and Simple Tab/Toggle switch widget. It can be fully customized with desired icons, width, colors, text, corner radius etc. It also maintains selection state.
+A Beautiful and Simple Tab/Toggle switch widget. It can be fully customized with desired icons, width, colors, text,
+corner radius etc. It also maintains selection state.
 
 ## Getting Started
 
@@ -10,7 +11,6 @@ In the `pubspec.yaml` of your flutter project, add the following dependency:
 
 ```yaml
 dependencies:
-  ...
   flutter_toggle_tab: "^latestVersion"
 ```
 
@@ -22,13 +22,14 @@ import 'package:flutter_toggle_tab/flutter_toggle_tab.dart';
 
 ## Usage Examples
 
-### Basic tab/toggle switch 
+### Basic tab/toggle switch
 
-```dart
+``` dart
+
 // Here default theme colors are used for activeBgColor, activeFgColor, inactiveBgColor and inactiveFgColor
-FlutterToggleTab(
-// width in percent
-  width: 90,
+FlutterToggleTab
+(
+  width: 90, // width in percent
   borderRadius: 30,
   height: 50,
   selectedIndex: _tabTextIndexSelected,
@@ -44,20 +45,22 @@ FlutterToggleTab(
   labels: _listTextTabToggle,
   selectedLabelIndex: (index) {
     setState(() {
-    _tabTextIndexSelected = index;
+        _tabTextIndexSelected = index;
     });
   },
-  isScroll: false,
-),
-
+  isScroll:false,
+)
 ```
 
-![Farmers Market Finder Demo](https://github.com/ukieTux/flutter_toggle_tab/blob/master/gifs/basic.gif)
+---
 
-### Basic tab/toggle switch with Icon 
+![image](https://github.com/ukieTux/flutter_toggle_tab/blob/master/gifs/basic.gif?raw=true)
+
+### Basic tab/toggle switch with Icon
 
 ```dart
-FlutterToggleTab(
+FlutterToggleTab
+(
   width: 50,
   borderRadius: 15,
   selectedTextStyle: TextStyle(
@@ -76,17 +79,18 @@ FlutterToggleTab(
       _tabTextIconIndexSelected = index;
     });
   },
-),
-
+)
 ```
 
-![image](https://user-images.githubusercontent.com/1531684/170535796-814f380d-2640-4489-8598-97f5a24398fd.png)
+---
 
+![image](https://user-images.githubusercontent.com/1531684/170535796-814f380d-2640-4489-8598-97f5a24398fd.png)
 
 ### Basic tab/toggle switch with Icon Only and add margin on selected item
 
 ```dart
-FlutterToggleTab(
+FlutterToggleTab
+(
   width: 40,
   borderRadius: 15,
   selectedIndex: _tabIconIndexSelected,
@@ -105,18 +109,18 @@ FlutterToggleTab(
       _tabIconIndexSelected = index;
     });
   },
-  marginSelected:
-    EdgeInsets.symmetric(horizontal: 4, vertical: 4),
-),
-
+  marginSelected: EdgeInsets.symmetric(horizontal: 4,vertical:4),
+)
 ```
+---
 
-![Farmers Market Finder Demo](https://github.com/ukieTux/flutter_toggle_tab/blob/master/gifs/with_icon_only.gif)
+![image](https://github.com/ukieTux/flutter_toggle_tab/blob/master/gifs/with_icon_only.gif?raw=true)
 
 ### Update selected tab Programmatically
 
 ```dart
-FlutterToggleTab(
+FlutterToggleTab
+(
   width: 90,
   borderRadius: 15,
   selectedIndex: _tabSelectedIndexSelected,
@@ -134,18 +138,17 @@ FlutterToggleTab(
       _tabSelectedIndexSelected = index;
     });
   },
-),
-
+)
 ```
 
-
 ## Available Parameters
+
 | Param                                                                                       | isRequired |
 |---------------------------------------------------------------------------------------------|------------|
 | **List<String\>** labels                                                                    | Yes        |
 | **Function(int)** selectedLabelIndex                                                        | Yes        |
-| **TextStyle** selectedTextStyle                                                             | Yes        |
-| **TextStyle** unSelectedTextStyle                                                           | Yes        |
+| **TextStyle** selectedTextStyle ***default*:Theme.of(context).textTheme.bodyMedium,**       | No         |
+| **TextStyle** unSelectedTextStyle ***default*:Theme.of(context).textTheme.bodyMedium,**     | No         |
 | **int** selectedIndex (listener for index selected) *see on example*                        | Yes        |
 | **double** width (in Percent of width Screen) ***default*: 100**                            | No         |
 | **double** height (double) ***default*: 45**                                                | No         |

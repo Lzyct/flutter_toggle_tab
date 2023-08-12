@@ -1,0 +1,13 @@
+include: package:lint/strict.yaml
+analyzer:
+  exclude:
+    - '**.freezed.dart'
+    - '**.g.dart'
+    - '**.mocks.dart'
+    - '**/core/localization/generated/**'
+  errors:
+    invalid_annotation_target: ignore
+linter:
+  rules:
+    sort_pub_dependencies: false
+    avoid_dynamic_calls: false
