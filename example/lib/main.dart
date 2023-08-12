@@ -50,23 +50,25 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  var _tabTextIndexSelected = 1;
-  var _tabTextIconIndexSelected = 0;
-  var _tabIconIndexSelected = 0;
-  var _tabSelectedIndexSelected = 0;
+  final ValueNotifier<int> _tabIndexBasicToggle = ValueNotifier(1);
+  final ValueNotifier<int> _tabIndexTextWithIcon = ValueNotifier(0);
+  final ValueNotifier<int> _tabIndexIconButton = ValueNotifier(0);
+  final ValueNotifier<int> _tabIndexUpdateProgrammatically = ValueNotifier(0);
 
-  final _listTextTabToggle = ["Tab A (10)", "Tab B (6)", "Tab C (9)"];
-  final _listTextSelectedToggle = [
-    "Select A (10)",
-    "Select B (6)",
-    "Select C (9)"
-  ];
-  final _listIconTabToggle = [
-    Icons.person,
-    Icons.pregnant_woman,
-  ];
-  final _listGenderText = ["Male", "Female"];
-  final _listGenderEmpty = ["", ""];
+  List<String> get _listTextTabToggle =>
+      ["Tab A (10)", "Tab B (6)", "Tab C (9)"];
+
+  List<String> get _listTextSelectedToggle =>
+      ["Select A (10)", "Select B (6)", "Select C (9)"];
+
+  List<IconData> get _listIconTabToggle => [
+        Icons.person,
+        Icons.pregnant_woman,
+      ];
+
+  List<String> get _listGenderText => ["Male", "Female"];
+
+  List<String> get _listGenderEmpty => ["", ""];
 
   @override
   Widget build(BuildContext context) {
@@ -79,13 +81,13 @@ class _MyHomePageState extends State<MyHomePage> {
         padding: const EdgeInsets.symmetric(vertical: 36, horizontal: 8),
         child: Column(
           children: <Widget>[
-            ...basicTabToggle(),
+            basicTabToggle(),
             ...divider(),
-            ...textWithIcon(),
+            textWithIcon(),
             ...divider(),
-            ...iconButton(),
+            iconButton(),
             ...divider(),
-            ...updateProgrammatically(),
+            updateProgrammatically(),
           ],
         ),
       ),
@@ -99,208 +101,246 @@ class _MyHomePageState extends State<MyHomePage> {
         SizedBox(height: heightInPercent(3, context)),
       ];
 
-  List<Widget> basicTabToggle() => [
-        /// Basic Toggle Sample
-        SizedBox(height: heightInPercent(3, context)),
-        const Text(
-          "Basic Tab Toggle",
-          style: TextStyle(fontSize: 20, fontStyle: FontStyle.italic),
-        ),
-        SizedBox(height: heightInPercent(3, context)),
-        FlutterToggleTab(
-          // width in percent
-          width: 90,
-          borderRadius: 30,
-          height: 50,
-          selectedIndex: _tabTextIndexSelected,
-          selectedBackgroundColors: const [
-            Colors.blue,
-            Colors.blueAccent,
-          ],
-          selectedTextStyle: const TextStyle(
-            color: Colors.white,
-            fontSize: 18,
-            fontWeight: FontWeight.w700,
+  Widget basicTabToggle() => Column(
+        children: [
+          /// Basic Toggle Sample
+          SizedBox(height: heightInPercent(3, context)),
+          const Text(
+            "Basic Tab Toggle",
+            style: TextStyle(fontSize: 20, fontStyle: FontStyle.italic),
           ),
-          unSelectedTextStyle: const TextStyle(
-            color: Colors.black87,
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
-          ),
-          labels: _listTextTabToggle,
-          selectedLabelIndex: (index) {
-            setState(() {
-              _tabTextIndexSelected = index;
-            });
-          },
-          isScroll: false,
-        ),
-        TextButton(
-          onPressed: () {
-            setState(() {
-              _tabTextIndexSelected = 2;
-            });
-          },
-          child: const Text("Change to Index 2"),
-        ),
-        SizedBox(height: heightInPercent(3, context)),
-        Text(
-          "Index selected : $_tabTextIndexSelected",
-          style: const TextStyle(fontSize: 20),
-        ),
-      ];
-
-  List<Widget> textWithIcon() => [
-        /// Text with icon sample
-        SizedBox(height: heightInPercent(3, context)),
-        const Text(
-          "Text With Icon",
-          style: TextStyle(fontSize: 20, fontStyle: FontStyle.italic),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(16),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text(
-                "Select your sex : ",
-                style: TextStyle(fontSize: 20),
-              ),
-              FlutterToggleTab(
-                width: 50,
-                borderRadius: 15,
+          SizedBox(height: heightInPercent(3, context)),
+          ValueListenableBuilder(
+            valueListenable: _tabIndexBasicToggle,
+            builder: (context, currentIndex, _) {
+              return FlutterToggleTab(
+                // width in percent
+                width: 90,
+                borderRadius: 30,
+                height: 50,
+                selectedIndex: currentIndex,
+                selectedBackgroundColors: const [
+                  Colors.blue,
+                  Colors.blueAccent,
+                ],
                 selectedTextStyle: const TextStyle(
                   color: Colors.white,
                   fontSize: 18,
-                  fontWeight: FontWeight.w600,
+                  fontWeight: FontWeight.w700,
                 ),
                 unSelectedTextStyle: const TextStyle(
-                  color: Colors.blue,
+                  color: Colors.black87,
                   fontSize: 14,
-                  fontWeight: FontWeight.w400,
+                  fontWeight: FontWeight.w500,
                 ),
-                labels: _listGenderText,
-                icons: _listIconTabToggle,
-                selectedIndex: _tabTextIconIndexSelected,
+                labels: _listTextTabToggle,
                 selectedLabelIndex: (index) {
-                  setState(() {
-                    _tabTextIconIndexSelected = index;
-                  });
+                  _tabIndexBasicToggle.value = index;
                 },
-              ),
-            ],
+                isScroll: false,
+              );
+            },
           ),
-        ),
-
-        /// Icon with Text Button Sample
-        SizedBox(height: heightInPercent(3, context)),
-        Text(
-          "Selected sex : ${_listGenderText[_tabTextIconIndexSelected]} ",
-          style: const TextStyle(fontSize: 20),
-        ),
-      ];
-
-  List<Widget> iconButton() => [
-        /// Icon button sample
-        const Text(
-          "With Icon Only and Implement margin for selected item",
-          textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 20, fontStyle: FontStyle.italic),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(16),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text(
-                "Select your sex : ",
-                style: TextStyle(fontSize: 20),
-              ),
-              FlutterToggleTab(
-                width: 40,
-                borderRadius: 15,
-                selectedIndex: _tabIconIndexSelected,
-                selectedTextStyle: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                ),
-                unSelectedTextStyle: const TextStyle(
-                  color: Colors.grey,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400,
-                ),
-                labels: _listGenderEmpty,
-                icons: _listIconTabToggle,
-                iconSize: 40,
-                selectedLabelIndex: (index) {
-                  setState(() {
-                    _tabIconIndexSelected = index;
-                  });
-                },
-                marginSelected:
-                    const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
-              ),
-            ],
+          TextButton(
+            onPressed: () {
+              _tabIndexBasicToggle.value = 2;
+            },
+            child: const Text("Change to Index 2"),
           ),
-        ),
-        Text(
-          "Selected sex index: $_tabIconIndexSelected ",
-          style: const TextStyle(fontSize: 20),
-        ),
-      ];
-
-  List<Widget> updateProgrammatically() => [
-        const Text(
-          "Update selected programmatically  ",
-          style: TextStyle(fontSize: 20, fontStyle: FontStyle.italic),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text(
-                "Select your sex : ",
-                style: TextStyle(fontSize: 20),
-              ),
-              SizedBox(height: heightInPercent(3, context)),
-              FlutterToggleTab(
-                width: 85,
-                borderRadius: 15,
-                selectedIndex: _tabSelectedIndexSelected,
-                selectedTextStyle: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                ),
-                unSelectedTextStyle: const TextStyle(
-                  color: Colors.grey,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400,
-                ),
-                labels: _listTextSelectedToggle,
-                selectedLabelIndex: (index) {
-                  setState(() {
-                    _tabSelectedIndexSelected = index;
-                  });
-                },
-              ),
-              TextButton(
-                onPressed: () {
-                  setState(() {
-                    _tabSelectedIndexSelected = 2;
-                  });
-                },
-                child: const Text("Select C"),
-              )
-            ],
+          SizedBox(height: heightInPercent(3, context)),
+          ValueListenableBuilder(
+            valueListenable: _tabIndexBasicToggle,
+            builder: (context, currentIndex, _) {
+              return Text(
+                "Index selected : $currentIndex",
+                style: const TextStyle(fontSize: 20),
+              );
+            },
           ),
-        ),
-        SizedBox(height: heightInPercent(3, context)),
-        Text(
-          "Selected sex index: $_tabSelectedIndexSelected ",
-          style: const TextStyle(fontSize: 20),
-        ),
-      ];
+        ],
+      );
+
+  Widget textWithIcon() => Column(
+        children: [
+          /// Text with icon sample
+          SizedBox(height: heightInPercent(3, context)),
+          const Text(
+            "Text With Icon",
+            style: TextStyle(fontSize: 20, fontStyle: FontStyle.italic),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
+                  "Select your sex : ",
+                  style: TextStyle(fontSize: 20),
+                ),
+                ValueListenableBuilder(
+                  valueListenable: _tabIndexTextWithIcon,
+                  builder: (context, currentIndex, _) {
+                    return FlutterToggleTab(
+                      width: 50,
+                      borderRadius: 15,
+                      selectedTextStyle: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                      ),
+                      unSelectedTextStyle: const TextStyle(
+                        color: Colors.blue,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                      ),
+                      labels: _listGenderText,
+                      icons: _listIconTabToggle,
+                      selectedIndex: currentIndex,
+                      selectedLabelIndex: (index) {
+                        _tabIndexTextWithIcon.value = index;
+                      },
+                    );
+                  },
+                ),
+              ],
+            ),
+          ),
+
+          /// Icon with Text Button Sample
+          SizedBox(height: heightInPercent(3, context)),
+          ValueListenableBuilder(
+            valueListenable: _tabIndexTextWithIcon,
+            builder: (context, currentIndex, _) {
+              return Text(
+                "Selected sex : ${_listGenderText[currentIndex]} ",
+                style: const TextStyle(fontSize: 20),
+              );
+            },
+          ),
+        ],
+      );
+
+  Widget iconButton() => Column(
+        children: [
+          /// Icon button sample
+          const Text(
+            "With Icon Only and Implement margin for selected item",
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 20, fontStyle: FontStyle.italic),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
+                  "Select your sex : ",
+                  style: TextStyle(fontSize: 20),
+                ),
+                ValueListenableBuilder(
+                  valueListenable: _tabIndexIconButton,
+                  builder: (context, currentIndex, _) {
+                    return FlutterToggleTab(
+                      width: 40,
+                      borderRadius: 15,
+                      selectedIndex: currentIndex,
+                      selectedTextStyle: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                      ),
+                      unSelectedTextStyle: const TextStyle(
+                        color: Colors.grey,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                      ),
+                      labels: _listGenderEmpty,
+                      icons: _listIconTabToggle,
+                      iconSize: 40,
+                      selectedLabelIndex: (index) {
+                        _tabIndexIconButton.value = index;
+                      },
+                      marginSelected: const EdgeInsets.symmetric(
+                        horizontal: 4,
+                        vertical: 4,
+                      ),
+                    );
+                  },
+                ),
+              ],
+            ),
+          ),
+          ValueListenableBuilder(
+            valueListenable: _tabIndexIconButton,
+            builder: (context, currentIndex, _) {
+              return Text(
+                "Selected sex index: $currentIndex",
+                style: const TextStyle(fontSize: 20),
+              );
+            },
+          ),
+        ],
+      );
+
+  Widget updateProgrammatically() => Column(
+        children: [
+          const Text(
+            "Update selected programmatically  ",
+            style: TextStyle(fontSize: 20, fontStyle: FontStyle.italic),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
+                  "Select your sex : ",
+                  style: TextStyle(fontSize: 20),
+                ),
+                SizedBox(height: heightInPercent(3, context)),
+                ValueListenableBuilder(
+                  valueListenable: _tabIndexUpdateProgrammatically,
+                  builder: (context, currentIndex, _) {
+                    return FlutterToggleTab(
+                      width: 85,
+                      borderRadius: 15,
+                      selectedIndex: currentIndex,
+                      selectedTextStyle: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                      ),
+                      unSelectedTextStyle: const TextStyle(
+                        color: Colors.grey,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                      ),
+                      labels: _listTextSelectedToggle,
+                      selectedLabelIndex: (index) {
+                        _tabIndexUpdateProgrammatically.value = index;
+                      },
+                    );
+                  },
+                ),
+                TextButton(
+                  onPressed: () {
+                    _tabIndexUpdateProgrammatically.value = 2;
+                  },
+                  child: const Text("Select C"),
+                )
+              ],
+            ),
+          ),
+          SizedBox(height: heightInPercent(3, context)),
+          ValueListenableBuilder(
+            valueListenable: _tabIndexUpdateProgrammatically,
+            builder: (context, currentIndex, _) {
+              return Text(
+                "Selected sex index: $currentIndex ",
+                style: const TextStyle(fontSize: 20),
+              );
+            },
+          ),
+        ],
+      );
 }
