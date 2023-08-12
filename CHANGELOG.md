@@ -95,3 +95,6 @@
 * Add support dart 3
 * Set text style is not required, use Theme.of(context).textTheme.bodyMedium as default style
 * Improve performance, use valueNotifier to update selected index instead of setState
+
+# 1.4.1
+* Update docs
