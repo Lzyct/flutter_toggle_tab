@@ -103,6 +103,12 @@ class _FlutterToggleTabState extends State<FlutterToggleTab> {
   }
 
   @override
+  void dispose() {
+    _labelsNotifier.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     /// update selected when selectedIndex changed
     _updateSelected();
