@@ -1,13 +1,12 @@
 part of 'flutter_toggle_tab.dart';
 
 /// This constant function to distribute reuse function
-
-double widthInPercent(double percent, BuildContext context) {
+double _widthInPercent(double percent, BuildContext context) {
   final toDouble = percent / 100;
   return MediaQuery.of(context).size.width * toDouble;
 }
 
-double heightInPercent(double percent, BuildContext context) {
+double _heightInPercent(double percent, BuildContext context) {
   final toDouble = percent / 100;
   return MediaQuery.of(context).size.height * toDouble;
 }

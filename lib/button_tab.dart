@@ -41,7 +41,7 @@ class ButtonsTab extends StatelessWidget {
   final Widget? counterWidget;
 
   final String? title;
-  final Function? onPressed;
+  final VoidCallback? onPressed;
   final double? width;
   final double? height;
   final List<Color>? selectedColors;
@@ -62,63 +62,65 @@ class ButtonsTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: width ?? widthInPercent(100, context),
+      width: width ?? _widthInPercent(100, context),
       height: height ?? 50,
       //wrap with container to fix margin issue
-      child: Container(
-        margin: isSelected! ? marginSelected : EdgeInsets.zero,
-        decoration: isSelected!
-            ? bdHeader.copyWith(
-                borderRadius: BorderRadius.circular(radius!),
-                gradient: LinearGradient(
-                  // Where the linear gradient begins and ends
-                  begin: begin ?? Alignment.topCenter,
-                  end: end ?? Alignment.bottomCenter,
-                  colors: selectedColors ?? [Theme.of(context).primaryColor],
-                ),
-              )
-            : null,
-        child: TextButton(
-          onPressed: onPressed as void Function()?,
-          style: ButtonStyle(
-            shape: WidgetStateProperty.all(
-              RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(radius!),
-              ),
-            ),
-            padding: WidgetStateProperty.all(EdgeInsets.zero),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              if (icons != null)
-                Icon(
-                  icons,
-                  size: iconSize,
-                  color: isSelected!
-                      ? selectedTextStyle!.color
-                      : unSelectedTextStyle!.color,
+      child: Padding(
+        padding:
+            isSelected! ? (marginSelected ?? EdgeInsets.zero) : EdgeInsets.zero,
+        child: DecoratedBox(
+          decoration: isSelected!
+              ? bdHeader.copyWith(
+                  borderRadius: BorderRadius.circular(radius!),
+                  gradient: LinearGradient(
+                    // Where the linear gradient begins and ends
+                    begin: begin ?? Alignment.topCenter,
+                    end: end ?? Alignment.bottomCenter,
+                    colors: selectedColors ?? [Theme.of(context).primaryColor],
+                  ),
                 )
-              else
-                const SizedBox.shrink(),
-              Visibility(
-                visible: icons != null && title.toString().isNotEmpty,
-                child: const SizedBox(width: 4),
-              ),
-              if (title != null)
-                Text(
-                  title!,
-                  style: isSelected! ? selectedTextStyle : unSelectedTextStyle,
-                  textAlign: TextAlign.center,
+              : const BoxDecoration(),
+          child: TextButton(
+            onPressed: onPressed,
+            style: ButtonStyle(
+              shape: WidgetStateProperty.all(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(radius!),
                 ),
-              Visibility(
-                visible: icons != null &&
-                    title.toString().isNotEmpty &&
-                    counterWidget != null,
-                child: const SizedBox(width: 4),
               ),
-              if (counterWidget != null) counterWidget!,
-            ],
+              padding: WidgetStateProperty.all(EdgeInsets.zero),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                if (icons != null)
+                  Icon(
+                    icons,
+                    size: iconSize,
+                    color: isSelected!
+                        ? selectedTextStyle!.color
+                        : unSelectedTextStyle!.color,
+                  ),
+                Visibility(
+                  visible: icons != null && title.toString().isNotEmpty,
+                  child: const SizedBox(width: 4),
+                ),
+                if (title != null)
+                  Text(
+                    title!,
+                    style:
+                        isSelected! ? selectedTextStyle : unSelectedTextStyle,
+                    textAlign: TextAlign.center,
+                  ),
+                Visibility(
+                  visible: icons != null &&
+                      title.toString().isNotEmpty &&
+                      counterWidget != null,
+                  child: const SizedBox(width: 4),
+                ),
+                if (counterWidget != null) counterWidget!,
+              ],
+            ),
           ),
         ),
       ),

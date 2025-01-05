@@ -113,7 +113,7 @@ class _FlutterToggleTabState extends State<FlutterToggleTab> {
     _updateSelected();
 
     /// set width to 100% if width is null
-    final width = widthInPercent(widget.width ?? 100, context);
+    final width = _widthInPercent(widget.width ?? 100, context);
 
     /// Show text error if length less 1
     return widget.dataTab.length <= 1
