@@ -97,4 +97,12 @@
 * Improve performance, use valueNotifier to update selected index instead of setState
 
 # 1.4.1
+
 * Update docs
+
+# 1.5.0
+
+* Breaking change: remove labels and icons replaced with dataTabs
+* support custom counter-widget to fix #16
+* update example project to support AGP >= 8
+* improve widget usage and fix warning from linter
