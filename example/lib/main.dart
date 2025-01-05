@@ -165,7 +165,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   fontSize: 14,
                   fontWeight: FontWeight.w500,
                 ),
-                dataTab: _listTextTabToggle,
+                dataTabs: _listTextTabToggle,
                 selectedLabelIndex: (index) =>
                     _tabIndexBasicToggle.value = index,
                 isScroll: false,
@@ -219,7 +219,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   fontSize: 14,
                   fontWeight: FontWeight.w500,
                 ),
-                dataTab: _listTextTabToggleCounter,
+                dataTabs: _listTextTabToggleCounter,
                 selectedLabelIndex: (index) =>
                     _tabIndexBasicToggleCounter.value = index,
                 isScroll: false,
@@ -273,7 +273,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       fontSize: 14,
                       fontWeight: FontWeight.w400,
                     ),
-                    dataTab: _listGenderText,
+                    dataTabs: _listGenderText,
                     selectedIndex: currentIndex,
                     selectedLabelIndex: (index) =>
                         _tabIndexTextWithIcon.value = index,
@@ -328,7 +328,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       fontSize: 14,
                       fontWeight: FontWeight.w400,
                     ),
-                    dataTab: _listIconTabToggle,
+                    dataTabs: _listIconTabToggle,
                     iconSize: 40,
                     selectedLabelIndex: (index) =>
                         _tabIndexIconButton.value = index,
@@ -383,7 +383,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       fontSize: 14,
                       fontWeight: FontWeight.w400,
                     ),
-                    dataTab: _listTextSelectedToggle,
+                    dataTabs: _listTextSelectedToggle,
                     selectedLabelIndex: (index) {
                       _tabIndexUpdateProgrammatically.value = index;
                     },

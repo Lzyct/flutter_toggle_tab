@@ -13,7 +13,7 @@ part 'helper.dart';
 /// A custom Flutter toggle tab widget.
 class FlutterToggleTab extends StatefulWidget {
   /// Define attribute Widget and State
-  /// [dataTab] is required to set the data of the widget.
+  /// [dataTabs] is required to set the data of the widget.
   /// [iconSize] is optional to set the size of the icon.
   /// [selectedIndex] is required to set the selected index.
   /// [width] is optional to set the width of the widget.
@@ -33,7 +33,7 @@ class FlutterToggleTab extends StatefulWidget {
   /// [isShadowEnable] is optional to set the shadow of the widget.
   const FlutterToggleTab({
     super.key,
-    required this.dataTab,
+    required this.dataTabs,
     required this.selectedLabelIndex,
     this.selectedTextStyle,
     this.unSelectedTextStyle,
@@ -56,7 +56,7 @@ class FlutterToggleTab extends StatefulWidget {
   final double? width;
   final double? height;
   final bool isScroll;
-  final List<DataTab> dataTab;
+  final List<DataTab> dataTabs;
 
 //  final BoxDecoration selectedDecoration;
 //  final BoxDecoration unSelectedDecoration;
@@ -83,7 +83,7 @@ class _FlutterToggleTabState extends State<FlutterToggleTab> {
   void initState() {
     super.initState();
 
-    _labelsNotifier.value.addAll(widget.dataTab);
+    _labelsNotifier.value.addAll(widget.dataTabs);
 
     _updateSelected();
 
@@ -116,7 +116,7 @@ class _FlutterToggleTabState extends State<FlutterToggleTab> {
     final width = _widthInPercent(widget.width ?? 100, context);
 
     /// Show text error if length less 1
-    return widget.dataTab.length <= 1
+    return widget.dataTabs.length <= 1
         ? const Text(
             "Error : Label should >1",
             style: TextStyle(
@@ -171,7 +171,7 @@ class _FlutterToggleTabState extends State<FlutterToggleTab> {
 
                       // Using try catch to fix error Range array
                       try {
-                        icon = widget.dataTab[index].icon;
+                        icon = widget.dataTabs[index].icon;
                       } catch (_) {
                         icon = null;
                       }
@@ -194,7 +194,7 @@ class _FlutterToggleTabState extends State<FlutterToggleTab> {
                                 const Color(0xffe0e0e0),
                                 const Color(0xffe0e0e0),
                               ],
-                        width: width / widget.dataTab.length,
+                        width: width / widget.dataTabs.length,
                         title: labels[index].title,
                         icons: icon,
                         iconSize: widget.iconSize,
