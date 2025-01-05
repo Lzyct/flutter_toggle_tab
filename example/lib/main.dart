@@ -232,7 +232,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           SizedBox(height: heightInPercent(3, context)),
           ValueListenableBuilder(
-            valueListenable: _tabIndexBasicToggle,
+            valueListenable: _tabIndexBasicToggleCounter,
             builder: (context, currentIndex, _) => Text(
               "Index selected : $currentIndex",
               style: const TextStyle(fontSize: 20),
@@ -406,4 +406,9 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ],
       );
+
+  double heightInPercent(double percent, BuildContext context) {
+    final toDouble = percent / 100;
+    return MediaQuery.of(context).size.height * toDouble;
+  }
 }
