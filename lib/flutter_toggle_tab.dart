@@ -5,28 +5,39 @@
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_toggle_tab/button_tab.dart';
-import 'package:flutter_toggle_tab/data_tab.dart';
-import 'package:flutter_toggle_tab/helper.dart';
 
-///*********************************************
-/// Created by ukieTux on 22/04/2020 with ♥
-/// (>’_’)> email : ukie.tux@gmail.com
-/// github : https://www.github.com/ukieTux <(’_’<)
-///*********************************************
-/// © 2020 | All Right Reserved
+part 'button_tab.dart';
+part 'data_tab.dart';
+part 'helper.dart';
+
+/// A custom Flutter toggle tab widget.
 class FlutterToggleTab extends StatefulWidget {
-  /// Define parameter Flutter toggle tab
-  /// It's main attribute is available on Flutter Toggle Tab
-  /// is Scroll by default is set to Enable
+  /// Define attribute Widget and State
+  /// [dataTabs] is required to set the data of the widget.
+  /// [iconSize] is optional to set the size of the icon.
+  /// [selectedIndex] is required to set the selected index.
+  /// [width] is optional to set the width of the widget.
+  /// [height] is optional to set the height of the widget.
+  /// [isScroll] is optional to set the scrollable or not.
+  ///
+  /// [selectedTextStyle] is optional to set the text style of the selected label.
+  /// [unSelectedTextStyle] is optional to set the text style of the unselected label.
+  /// [selectedBackgroundColors] is optional to set the background color of the selected label.
+  /// [unSelectedBackgroundColors] is optional to set the background color of the unselected label.
+  /// [selectedLabelIndex] is required to set the selected label index.
+  /// [borderRadius] is optional to set the border radius of the widget.
+  /// [begin] is optional to set the begin alignment of the gradient.
+  /// [end] is optional to set the end alignment of the gradient.
+  ///
+  /// [marginSelected] is optional to set the margin of the selected label.
+  /// [isShadowEnable] is optional to set the shadow of the widget.
   const FlutterToggleTab({
     super.key,
-    required this.labels,
+    required this.dataTabs,
     required this.selectedLabelIndex,
     this.selectedTextStyle,
     this.unSelectedTextStyle,
     this.height,
-    this.icons,
     this.iconSize,
     this.selectedBackgroundColors,
     this.unSelectedBackgroundColors,
@@ -40,13 +51,12 @@ class FlutterToggleTab extends StatefulWidget {
     this.isShadowEnable = true,
   });
 
-  final List<String> labels;
-  final List<IconData?>? icons;
   final double? iconSize;
   final int selectedIndex;
   final double? width;
   final double? height;
   final bool isScroll;
+  final List<DataTab> dataTabs;
 
 //  final BoxDecoration selectedDecoration;
 //  final BoxDecoration unSelectedDecoration;
@@ -69,26 +79,15 @@ class FlutterToggleTab extends StatefulWidget {
 class _FlutterToggleTabState extends State<FlutterToggleTab> {
   final ValueNotifier<List<DataTab>> _labelsNotifier = ValueNotifier([]);
 
-  /// Set default selected for first build
-  void _setDefaultSelected() {
-    /// loops label from widget labels
-    for (int x = 0; x < widget.labels.length; x++) {
-      _labelsNotifier.value
-          .add(DataTab(title: widget.labels[x], isSelected: false));
-    }
-  }
-
   @override
   void initState() {
     super.initState();
 
-    /// init default selected in InitState
-    _setDefaultSelected();
+    _labelsNotifier.value.addAll(widget.dataTabs);
+
     _updateSelected();
 
-    _labelsNotifier.addListener(() {
-      _updateSelected();
-    });
+    _labelsNotifier.addListener(() => _updateSelected());
   }
 
   /// Update selected when selectedItem changed
@@ -114,10 +113,10 @@ class _FlutterToggleTabState extends State<FlutterToggleTab> {
     _updateSelected();
 
     /// set width to 100% if width is null
-    final width = widthInPercent(widget.width ?? 100, context);
+    final width = _widthInPercent(widget.width ?? 100, context);
 
     /// Show text error if length less 1
-    return widget.labels.length <= 1
+    return widget.dataTabs.length <= 1
         ? const Text(
             "Error : Label should >1",
             style: TextStyle(
@@ -126,130 +125,136 @@ class _FlutterToggleTabState extends State<FlutterToggleTab> {
               fontSize: 20,
             ),
           )
-        : Container(
+        : SizedBox(
             width: width,
 
             /// Default height is 45
             height: widget.height ?? 45,
 
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                // Where the linear gradient begins and ends
-                begin: widget.begin ?? Alignment.topCenter,
-                end: widget.end ?? Alignment.bottomCenter,
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  // Where the linear gradient begins and ends
+                  begin: widget.begin ?? Alignment.topCenter,
+                  end: widget.end ?? Alignment.bottomCenter,
 
-                /// If unSelectedBackground is not null
-                /// We check again if it's length only 1
-                /// Using same color for gradients
-                colors: widget.unSelectedBackgroundColors != null
-                    ? (widget.unSelectedBackgroundColors!.length == 1
-                        ? [
-                            widget.unSelectedBackgroundColors![0],
-                            widget.unSelectedBackgroundColors![0]
-                          ]
-                        : widget.unSelectedBackgroundColors!)
-                    : [const Color(0xffe0e0e0), const Color(0xffe0e0e0)],
+                  /// If unSelectedBackground is not null
+                  /// We check again if it's length only 1
+                  /// Using same color for gradients
+                  colors: widget.unSelectedBackgroundColors != null
+                      ? (widget.unSelectedBackgroundColors!.length == 1
+                          ? [
+                              widget.unSelectedBackgroundColors![0],
+                              widget.unSelectedBackgroundColors![0],
+                            ]
+                          : widget.unSelectedBackgroundColors!)
+                      : [const Color(0xffe0e0e0), const Color(0xffe0e0e0)],
+                ),
+                borderRadius: BorderRadius.circular(widget.borderRadius ?? 30),
+
+                /// Handle if shadow is Enable or not
+                boxShadow: [if (widget.isShadowEnable) bsInner],
               ),
-              borderRadius: BorderRadius.circular(widget.borderRadius ?? 30),
+              child: ValueListenableBuilder(
+                valueListenable: _labelsNotifier,
+                builder: (context, labels, _) {
+                  return ListView.builder(
+                    itemCount: labels.length,
 
-              /// Handle if shadow is Enable or not
-              boxShadow: [if (widget.isShadowEnable) bsInner],
-            ),
-            child: ValueListenableBuilder(
-              valueListenable: _labelsNotifier,
-              builder: (context, labels, _) {
-                return ListView.builder(
-                  itemCount: labels.length,
+                    /// Handle if isScroll or not
+                    physics: widget.isScroll
+                        ? const BouncingScrollPhysics()
+                        : const NeverScrollableScrollPhysics(),
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) {
+                      IconData? icon;
 
-                  /// Handle if isScroll or not
-                  physics: widget.isScroll
-                      ? const BouncingScrollPhysics()
-                      : const NeverScrollableScrollPhysics(),
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index) {
-                    IconData? icon;
+                      // Using try catch to fix error Range array
+                      try {
+                        icon = widget.dataTabs[index].icon;
+                      } catch (_) {
+                        icon = null;
+                      }
 
-                    // Using try catch to fix error Range array
-                    try {
-                      icon = widget.icons?[index];
-                    } catch (_) {
-                      icon = null;
-                    }
+                      return ButtonsTab(
+                        marginSelected: widget.marginSelected,
 
-                    return ButtonsTab(
-                      marginSelected: widget.marginSelected,
+                        /// If unSelectedBackground is not null
+                        /// We check again if it's length only 1
+                        /// Using same color for gradients
+                        unSelectedColors: widget.unSelectedBackgroundColors !=
+                                null
+                            ? (widget.unSelectedBackgroundColors!.length == 1
+                                ? [
+                                    widget.unSelectedBackgroundColors![0],
+                                    widget.unSelectedBackgroundColors![0],
+                                  ]
+                                : widget.unSelectedBackgroundColors)
+                            : [
+                                const Color(0xffe0e0e0),
+                                const Color(0xffe0e0e0),
+                              ],
+                        width: width / widget.dataTabs.length,
+                        title: labels[index].title,
+                        icons: icon,
+                        iconSize: widget.iconSize,
+                        counterWidget: labels[index].counterWidget,
 
-                      /// If unSelectedBackground is not null
-                      /// We check again if it's length only 1
-                      /// Using same color for gradients
-                      unSelectedColors: widget.unSelectedBackgroundColors !=
-                              null
-                          ? (widget.unSelectedBackgroundColors!.length == 1
-                              ? [
-                                  widget.unSelectedBackgroundColors![0],
-                                  widget.unSelectedBackgroundColors![0]
-                                ]
-                              : widget.unSelectedBackgroundColors)
-                          : [const Color(0xffe0e0e0), const Color(0xffe0e0e0)],
-                      width: width / widget.labels.length,
-                      title: labels[index].title,
-                      icons: icon,
-                      iconSize: widget.iconSize,
+                        /// default selectedTextStyle is Theme.of(context).textTheme.bodyMedium
+                        selectedTextStyle: widget.selectedTextStyle ??
+                            Theme.of(context).textTheme.bodyMedium,
 
-                      /// default selectedTextStyle is Theme.of(context).textTheme.bodyMedium
-                      selectedTextStyle: widget.selectedTextStyle ??
-                          Theme.of(context).textTheme.bodyMedium,
+                        /// default unSelectedTextStyle is Theme.of(context).textTheme.bodyMedium
+                        unSelectedTextStyle: widget.unSelectedTextStyle ??
+                            Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium
+                                      ?.color
+                                      ?.withValues(alpha: 0.7),
+                                ),
+                        isSelected: labels[index].isSelected,
 
-                      /// default unSelectedTextStyle is Theme.of(context).textTheme.bodyMedium
-                      unSelectedTextStyle: widget.unSelectedTextStyle ??
-                          Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                color: Theme.of(context)
-                                    .textTheme
-                                    .bodyMedium
-                                    ?.color
-                                    ?.withOpacity(0.7),
-                              ),
-                      isSelected: labels[index].isSelected,
+                        /// default borderRadius is 30
+                        radius: widget.borderRadius ?? 30,
 
-                      /// default borderRadius is 30
-                      radius: widget.borderRadius ?? 30,
+                        /// If selectedBackgroundColors is not null
+                        /// We check again if it's length only 1
+                        /// Using same color for gradients
+                        selectedColors: widget.selectedBackgroundColors != null
+                            ? (widget.selectedBackgroundColors!.length == 1
+                                ? [
+                                    widget.selectedBackgroundColors![0],
+                                    widget.selectedBackgroundColors![0],
+                                  ]
+                                : widget.selectedBackgroundColors)
+                            : [
+                                Theme.of(context).primaryColor,
+                                Theme.of(context).primaryColor,
+                              ],
+                        onPressed: () {
+                          try {
+                            for (int x = 0; x < labels.length; x++) {
+                              if (labels[index] == labels[x]) {
+                                labels[x].isSelected = true;
 
-                      /// If selectedBackgroundColors is not null
-                      /// We check again if it's length only 1
-                      /// Using same color for gradients
-                      selectedColors: widget.selectedBackgroundColors != null
-                          ? (widget.selectedBackgroundColors!.length == 1
-                              ? [
-                                  widget.selectedBackgroundColors![0],
-                                  widget.selectedBackgroundColors![0]
-                                ]
-                              : widget.selectedBackgroundColors)
-                          : [
-                              Theme.of(context).primaryColor,
-                              Theme.of(context).primaryColor
-                            ],
-                      onPressed: () {
-                        try {
-                          for (int x = 0; x < labels.length; x++) {
-                            if (labels[index] == labels[x]) {
-                              labels[x].isSelected = true;
-
-                              /// Send value to callback
-                              widget.selectedLabelIndex(index);
-                            } else {
-                              labels[x].isSelected = false;
+                                /// Send value to callback
+                                widget.selectedLabelIndex(index);
+                              } else {
+                                labels[x].isSelected = false;
+                              }
+                            }
+                          } catch (e) {
+                            if (kDebugMode) {
+                              print("err : $e");
                             }
                           }
-                        } catch (e) {
-                          if (kDebugMode) {
-                            print("err : $e");
-                          }
-                        }
-                      },
-                    );
-                  },
-                );
-              },
+                        },
+                      );
+                    },
+                  );
+                },
+              ),
             ),
           );
   }
