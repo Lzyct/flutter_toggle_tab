@@ -6,11 +6,6 @@ double _widthInPercent(double percent, BuildContext context) {
   return MediaQuery.of(context).size.width * toDouble;
 }
 
-double _heightInPercent(double percent, BuildContext context) {
-  final toDouble = percent / 100;
-  return MediaQuery.of(context).size.height * toDouble;
-}
-
 const BoxShadow bsInner = BoxShadow(
   color: Colors.black12,
   offset: Offset(0.0, 1.5),
