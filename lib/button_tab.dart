@@ -1,13 +1,28 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_toggle_tab/helper.dart';
+part of 'flutter_toggle_tab.dart';
 
 class ButtonsTab extends StatelessWidget {
   /// Define attribute Widget and State
-  ///
+  /// [counterWidget] is a widget to show counter
+  /// [title] is a title of the button
+  /// [onPressed] is a function to handle button press
+  /// [width] is a width of the button
+  /// [height] is a height of the button
+  /// [selectedColors] is a list of color when the button is selected
+  /// [unSelectedColors] is a list of color when the button is unselected
+  /// [selectedTextStyle] is a text style when the button is selected
+  /// [unSelectedTextStyle] is a text style when the button is unselected
+  /// [isSelected] is a boolean to check if the button is selected or not
+  /// [radius] is a radius of the button
+  /// [icons] is an icon of the button
+  /// [iconSize] is a size of the icon
+  /// [begin] is a begin alignment of the gradient
+  /// [end] is an end alignment of the gradient
+  /// [marginSelected] is a margin when the button is selected
   const ButtonsTab({
     super.key,
     this.title,
     this.onPressed,
+    this.counterWidget,
     required this.width,
     this.height,
     this.isSelected,
@@ -23,6 +38,8 @@ class ButtonsTab extends StatelessWidget {
     this.marginSelected = EdgeInsets.zero,
   });
 
+  final Widget? counterWidget;
+
   final String? title;
   final Function? onPressed;
   final double? width;
@@ -32,8 +49,6 @@ class ButtonsTab extends StatelessWidget {
   final TextStyle? selectedTextStyle;
   final TextStyle? unSelectedTextStyle;
 
-//  final BoxDecoration selectedDecoration;
-//  final BoxDecoration unSelectedDecoration;
   final bool? isSelected;
   final double? radius;
   final IconData? icons;
@@ -66,12 +81,12 @@ class ButtonsTab extends StatelessWidget {
         child: TextButton(
           onPressed: onPressed as void Function()?,
           style: ButtonStyle(
-            shape: MaterialStateProperty.all(
+            shape: WidgetStateProperty.all(
               RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(radius!),
               ),
             ),
-            padding: MaterialStateProperty.all(EdgeInsets.zero),
+            padding: WidgetStateProperty.all(EdgeInsets.zero),
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -90,11 +105,19 @@ class ButtonsTab extends StatelessWidget {
                 visible: icons != null && title.toString().isNotEmpty,
                 child: const SizedBox(width: 4),
               ),
-              Text(
-                title!,
-                style: isSelected! ? selectedTextStyle : unSelectedTextStyle,
-                textAlign: TextAlign.center,
-              )
+              if (title != null)
+                Text(
+                  title!,
+                  style: isSelected! ? selectedTextStyle : unSelectedTextStyle,
+                  textAlign: TextAlign.center,
+                ),
+              Visibility(
+                visible: icons != null &&
+                    title.toString().isNotEmpty &&
+                    counterWidget != null,
+                child: const SizedBox(width: 4),
+              ),
+              if (counterWidget != null) counterWidget!,
             ],
           ),
         ),

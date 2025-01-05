@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+part of 'flutter_toggle_tab.dart';
 
 /// This constant function to distribute reuse function
 
