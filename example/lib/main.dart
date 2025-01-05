@@ -115,11 +115,11 @@ class _MyHomePageState extends State<MyHomePage> {
             ..._divider(),
             _basicTabToggleWithCounter(),
             ..._divider(),
-            textWithIcon(),
+            _textWithIcon(),
             ..._divider(),
-            iconButton(),
+            _iconButton(),
             ..._divider(),
-            updateProgrammatically(),
+            _updateProgrammatically(),
           ],
         ),
       ),
@@ -166,28 +166,23 @@ class _MyHomePageState extends State<MyHomePage> {
                   fontWeight: FontWeight.w500,
                 ),
                 dataTab: _listTextTabToggle,
-                selectedLabelIndex: (index) {
-                  _tabIndexBasicToggle.value = index;
-                },
+                selectedLabelIndex: (index) =>
+                    _tabIndexBasicToggle.value = index,
                 isScroll: false,
               );
             },
           ),
           TextButton(
-            onPressed: () {
-              _tabIndexBasicToggle.value = 2;
-            },
+            onPressed: () => _tabIndexBasicToggle.value = 2,
             child: const Text("Change to Index 2"),
           ),
           SizedBox(height: heightInPercent(3, context)),
           ValueListenableBuilder(
             valueListenable: _tabIndexBasicToggle,
-            builder: (context, currentIndex, _) {
-              return Text(
-                "Index selected : $currentIndex",
-                style: const TextStyle(fontSize: 20),
-              );
-            },
+            builder: (context, currentIndex, _) => Text(
+              "Index selected : $currentIndex",
+              style: const TextStyle(fontSize: 20),
+            ),
           ),
         ],
       );
@@ -225,33 +220,28 @@ class _MyHomePageState extends State<MyHomePage> {
                   fontWeight: FontWeight.w500,
                 ),
                 dataTab: _listTextTabToggleCounter,
-                selectedLabelIndex: (index) {
-                  _tabIndexBasicToggleCounter.value = index;
-                },
+                selectedLabelIndex: (index) =>
+                    _tabIndexBasicToggleCounter.value = index,
                 isScroll: false,
               );
             },
           ),
           TextButton(
-            onPressed: () {
-              _tabIndexBasicToggleCounter.value = 0;
-            },
+            onPressed: () => _tabIndexBasicToggleCounter.value = 0,
             child: const Text("Change to Index 0"),
           ),
           SizedBox(height: heightInPercent(3, context)),
           ValueListenableBuilder(
             valueListenable: _tabIndexBasicToggle,
-            builder: (context, currentIndex, _) {
-              return Text(
-                "Index selected : $currentIndex",
-                style: const TextStyle(fontSize: 20),
-              );
-            },
+            builder: (context, currentIndex, _) => Text(
+              "Index selected : $currentIndex",
+              style: const TextStyle(fontSize: 20),
+            ),
           ),
         ],
       );
 
-  Widget textWithIcon() => Column(
+  Widget _textWithIcon() => Column(
         children: [
           /// Text with icon sample
           SizedBox(height: heightInPercent(3, context)),
@@ -270,27 +260,24 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 ValueListenableBuilder(
                   valueListenable: _tabIndexTextWithIcon,
-                  builder: (context, currentIndex, _) {
-                    return FlutterToggleTab(
-                      width: 50,
-                      borderRadius: 15,
-                      selectedTextStyle: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600,
-                      ),
-                      unSelectedTextStyle: const TextStyle(
-                        color: Colors.blue,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                      ),
-                      dataTab: _listGenderText,
-                      selectedIndex: currentIndex,
-                      selectedLabelIndex: (index) {
-                        _tabIndexTextWithIcon.value = index;
-                      },
-                    );
-                  },
+                  builder: (context, currentIndex, _) => FlutterToggleTab(
+                    width: 50,
+                    borderRadius: 15,
+                    selectedTextStyle: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                    ),
+                    unSelectedTextStyle: const TextStyle(
+                      color: Colors.blue,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                    ),
+                    dataTab: _listGenderText,
+                    selectedIndex: currentIndex,
+                    selectedLabelIndex: (index) =>
+                        _tabIndexTextWithIcon.value = index,
+                  ),
                 ),
               ],
             ),
@@ -300,17 +287,15 @@ class _MyHomePageState extends State<MyHomePage> {
           SizedBox(height: heightInPercent(3, context)),
           ValueListenableBuilder(
             valueListenable: _tabIndexTextWithIcon,
-            builder: (context, currentIndex, _) {
-              return Text(
-                "Selected sex : ${_listGenderText[currentIndex].title} ",
-                style: const TextStyle(fontSize: 20),
-              );
-            },
+            builder: (context, currentIndex, _) => Text(
+              "Selected sex : ${_listGenderText[currentIndex].title} ",
+              style: const TextStyle(fontSize: 20),
+            ),
           ),
         ],
       );
 
-  Widget iconButton() => Column(
+  Widget _iconButton() => Column(
         children: [
           /// Icon button sample
           const Text(
@@ -329,49 +314,44 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 ValueListenableBuilder(
                   valueListenable: _tabIndexIconButton,
-                  builder: (context, currentIndex, _) {
-                    return FlutterToggleTab(
-                      width: 40,
-                      borderRadius: 15,
-                      selectedIndex: currentIndex,
-                      selectedTextStyle: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600,
-                      ),
-                      unSelectedTextStyle: const TextStyle(
-                        color: Colors.grey,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                      ),
-                      dataTab: _listIconTabToggle,
-                      iconSize: 40,
-                      selectedLabelIndex: (index) {
-                        _tabIndexIconButton.value = index;
-                      },
-                      marginSelected: const EdgeInsets.symmetric(
-                        horizontal: 4,
-                        vertical: 4,
-                      ),
-                    );
-                  },
+                  builder: (context, currentIndex, _) => FlutterToggleTab(
+                    width: 40,
+                    borderRadius: 15,
+                    selectedIndex: currentIndex,
+                    selectedTextStyle: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                    ),
+                    unSelectedTextStyle: const TextStyle(
+                      color: Colors.grey,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                    ),
+                    dataTab: _listIconTabToggle,
+                    iconSize: 40,
+                    selectedLabelIndex: (index) =>
+                        _tabIndexIconButton.value = index,
+                    marginSelected: const EdgeInsets.symmetric(
+                      horizontal: 4,
+                      vertical: 4,
+                    ),
+                  ),
                 ),
               ],
             ),
           ),
           ValueListenableBuilder(
             valueListenable: _tabIndexIconButton,
-            builder: (context, currentIndex, _) {
-              return Text(
-                "Selected sex index: $currentIndex",
-                style: const TextStyle(fontSize: 20),
-              );
-            },
+            builder: (context, currentIndex, _) => Text(
+              "Selected sex index: $currentIndex",
+              style: const TextStyle(fontSize: 20),
+            ),
           ),
         ],
       );
 
-  Widget updateProgrammatically() => Column(
+  Widget _updateProgrammatically() => Column(
         children: [
           const Text(
             "Update selected programmatically  ",
@@ -389,32 +369,28 @@ class _MyHomePageState extends State<MyHomePage> {
                 SizedBox(height: heightInPercent(3, context)),
                 ValueListenableBuilder(
                   valueListenable: _tabIndexUpdateProgrammatically,
-                  builder: (context, currentIndex, _) {
-                    return FlutterToggleTab(
-                      width: 85,
-                      borderRadius: 15,
-                      selectedIndex: currentIndex,
-                      selectedTextStyle: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600,
-                      ),
-                      unSelectedTextStyle: const TextStyle(
-                        color: Colors.grey,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                      ),
-                      dataTab: _listTextSelectedToggle,
-                      selectedLabelIndex: (index) {
-                        _tabIndexUpdateProgrammatically.value = index;
-                      },
-                    );
-                  },
+                  builder: (context, currentIndex, _) => FlutterToggleTab(
+                    width: 85,
+                    borderRadius: 15,
+                    selectedIndex: currentIndex,
+                    selectedTextStyle: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                    ),
+                    unSelectedTextStyle: const TextStyle(
+                      color: Colors.grey,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                    ),
+                    dataTab: _listTextSelectedToggle,
+                    selectedLabelIndex: (index) {
+                      _tabIndexUpdateProgrammatically.value = index;
+                    },
+                  ),
                 ),
                 TextButton(
-                  onPressed: () {
-                    _tabIndexUpdateProgrammatically.value = 2;
-                  },
+                  onPressed: () => _tabIndexUpdateProgrammatically.value = 2,
                   child: const Text("Select C"),
                 ),
               ],
