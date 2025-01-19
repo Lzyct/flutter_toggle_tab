@@ -196,6 +196,8 @@ FlutterToggleTab
 | **Alignment** end ***default* : Alignment.bottomCenter**                                    | No         |
 | **bool** isScroll ***default* : true**                                                      | No         |
 | **EdgeInsets** marginSelected ***default* : EdgeInsets.zero**                               | No         |
+| **bool** isShadowEnable ***default* : true**                                                | No         |
+| **bool** isInnerShadowEnable ***default* : true**                                           | No         |
 
 ---
 

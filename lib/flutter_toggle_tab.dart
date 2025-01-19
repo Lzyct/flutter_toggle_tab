@@ -31,6 +31,7 @@ class FlutterToggleTab extends StatefulWidget {
   ///
   /// [marginSelected] is optional to set the margin of the selected label.
   /// [isShadowEnable] is optional to set the shadow of the widget.
+  /// [isInnerShadowEnable] is optional to set the shadow of the selected tab.
   const FlutterToggleTab({
     super.key,
     required this.dataTabs,
@@ -49,6 +50,7 @@ class FlutterToggleTab extends StatefulWidget {
     this.isScroll = true,
     this.marginSelected,
     this.isShadowEnable = true,
+    this.isInnerShadowEnable = true,
   });
 
   final double? iconSize;
@@ -71,6 +73,7 @@ class FlutterToggleTab extends StatefulWidget {
 
   final EdgeInsets? marginSelected;
   final bool isShadowEnable;
+  final bool isInnerShadowEnable;
 
   @override
   _FlutterToggleTabState createState() => _FlutterToggleTabState();
@@ -199,6 +202,7 @@ class _FlutterToggleTabState extends State<FlutterToggleTab> {
                         icons: icon,
                         iconSize: widget.iconSize,
                         counterWidget: labels[index].counterWidget,
+                        isInnerShadowEnable: widget.isInnerShadowEnable,
 
                         /// default selectedTextStyle is Theme.of(context).textTheme.bodyMedium
                         selectedTextStyle: widget.selectedTextStyle ??
