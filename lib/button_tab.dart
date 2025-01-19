@@ -18,6 +18,7 @@ class ButtonsTab extends StatelessWidget {
   /// [begin] is a begin alignment of the gradient
   /// [end] is an end alignment of the gradient
   /// [marginSelected] is a margin when the button is selected
+  /// [isInnerShadowEnable] is optional to set the shadow of the selected tab.
   const ButtonsTab({
     super.key,
     this.title,
@@ -36,6 +37,7 @@ class ButtonsTab extends StatelessWidget {
     this.begin,
     this.end,
     this.marginSelected = EdgeInsets.zero,
+    this.isInnerShadowEnable = true,
   });
 
   final Widget? counterWidget;
@@ -58,6 +60,7 @@ class ButtonsTab extends StatelessWidget {
   final Alignment? end;
 
   final EdgeInsets? marginSelected;
+  final bool isInnerShadowEnable;
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +73,8 @@ class ButtonsTab extends StatelessWidget {
             isSelected! ? (marginSelected ?? EdgeInsets.zero) : EdgeInsets.zero,
         child: DecoratedBox(
           decoration: isSelected!
-              ? bdHeader.copyWith(
+              ? (isInnerShadowEnable ? bdHeader : const BoxDecoration())
+                  .copyWith(
                   borderRadius: BorderRadius.circular(radius!),
                   gradient: LinearGradient(
                     // Where the linear gradient begins and ends
