@@ -1,6 +1,6 @@
 name: flutter_toggle_tab
-description: Library to create Beautiful and Customized Tab/Toggle Widget on Flutter
-version: 1.5.0
+description: Library to create Beautiful and Customized Toggle Tab Widget on Flutter
+version: 1.5.1
 homepage: https://github.com/Lzyct/flutter_toggle_tab
 
 environment:

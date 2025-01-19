@@ -106,3 +106,7 @@
 * support custom counter-widget to fix #16
 * update example project to support AGP >= 8
 * improve widget usage and fix warning from linter
+
+# 1.5.1
+
+* Add new parameters `isInnerShadowEnable` and `isShadowEnable` to enable or turn off the shadow (#18) Thanks to @ysak-y
