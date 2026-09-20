@@ -25,16 +25,22 @@ void main() {
     final selectedIndex = ValueNotifier(0);
     addTearDown(selectedIndex.dispose);
     final tabs = [DataTab(title: 'First'), DataTab(title: 'Second')];
+    var parentBuildCount = 0;
 
     await tester.pumpWidget(
       MaterialApp(
-        home: ValueListenableBuilder(
-          valueListenable: selectedIndex,
-          builder: (context, currentIndex, _) => FlutterToggleTab(
-            dataTabs: tabs,
-            selectedIndex: currentIndex,
-            selectedLabelIndex: (index) => selectedIndex.value = index,
-          ),
+        home: Builder(
+          builder: (context) {
+            parentBuildCount++;
+            return ValueListenableBuilder(
+              valueListenable: selectedIndex,
+              builder: (context, currentIndex, _) => FlutterToggleTab(
+                dataTabs: tabs,
+                selectedIndex: currentIndex,
+                selectedLabelIndex: (index) => selectedIndex.value = index,
+              ),
+            );
+          },
         ),
       ),
     );
@@ -43,6 +49,7 @@ void main() {
     await tester.pump();
 
     expect(selectedIndex.value, 1);
+    expect(parentBuildCount, 1);
     expect(tabs.every((tab) => !tab.isSelected), isTrue);
   });
 
