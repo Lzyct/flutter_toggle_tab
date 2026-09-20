@@ -99,7 +99,7 @@ class _CategoryToggleState extends State<CategoryToggle> {
 }
 ```
 
-![Basic Tab Toggle](gifs/basic.gif)
+![Basic Tab Toggle](gifs/basic_toggle.gif)
 
 The remaining examples assume `selectedIndex` is a `ValueNotifier<int>` owned and
 disposed by the surrounding `State`, as demonstrated in the basic example.
@@ -305,7 +305,7 @@ width is smaller than the control. Set `adaptiveTabAlignment` to another
 alignment has no visible effect while the content is wider than the viewport
 and scrolling is required.
 
-![Adaptive-width tabs changing selection](gifs/adaptive_width.gif)
+![Adaptive-width tabs changing selection](gifs/adaptive_layout.gif)
 
 To replay the interactions used by the README demos on a running example app:
 
@@ -327,30 +327,30 @@ Every usage shown above has a corresponding widget test in
 
 ### `FlutterToggleTab`
 
-| Property                     | Type                | Default            | Description                                                                   |
-|------------------------------|---------------------|--------------------|-------------------------------------------------------------------------------|
-| `dataTabs`                   | `List<DataTab>`     | required           | Tabs in display order. At least two are required.                             |
-| `selectedIndex`              | `int`               | required           | Zero-based selected index. An out-of-range value leaves every tab unselected. |
-| `selectedLabelIndex`         | `ValueChanged<int>` | required           | Called when a tab is pressed.                                                 |
-| `width`                      | `double?`           | `100`              | Percentage of screen width, constrained by the parent.                        |
-| `height`                     | `double?`           | `45`               | Control height in logical pixels.                                             |
-| `iconSize`                   | `double?`           | icon theme         | Icon size in logical pixels.                                                  |
-| `borderRadius`               | `double?`           | `30`               | Radius of the control and selected tab.                                       |
-| `selectedBackgroundColors`   | `List<Color>?`      | theme primary      | Selected-tab gradient colors.                                                 |
-| `unSelectedBackgroundColors` | `List<Color>?`      | light grey         | Control background gradient colors.                                           |
-| `selectedTextStyle`          | `TextStyle?`        | `bodyMedium`       | Selected-tab text style.                                                      |
-| `unSelectedTextStyle`        | `TextStyle?`        | faded `bodyMedium` | Unselected-tab text style.                                                    |
-| `begin`                      | `Alignment?`        | `topCenter`        | Gradient start alignment.                                                     |
-| `end`                        | `Alignment?`        | `bottomCenter`     | Gradient end alignment.                                                       |
-| `isScroll`                   | `bool`              | `true`             | Enables bouncing horizontal scroll physics.                                   |
-| `marginSelected`             | `EdgeInsets?`       | `EdgeInsets.zero`  | Insets applied to the selected tab.                                           |
-| `isShadowEnable`             | `bool`              | `true`             | Shows the outer control shadow.                                               |
-| `isInnerShadowEnable`        | `bool`              | `true`             | Shows the selected-tab shadow.                                                |
-| `animationDuration`          | `Duration`          | `250ms`            | Duration of the sliding selected-tab indicator.                               |
-| `animationCurve`             | `Curve`             | `easeInOutCubic`   | Curve used by the selected-tab indicator.                                     |
-| `isAdaptiveWidth`            | `bool`              | `false`            | Sizes every tab from its content instead of dividing the available width.     |
-| `adaptiveTabPadding`         | `EdgeInsetsGeometry` | horizontal `16`    | Padding around every tab in adaptive-width mode.                              |
-| `adaptiveTabAlignment`       | `AlignmentGeometry` | `Alignment.center` | Positions the complete adaptive tab surface when it is narrower than the control. |
+| Property                     | Type                 | Default            | Description                                                                       |
+|------------------------------|----------------------|--------------------|-----------------------------------------------------------------------------------|
+| `dataTabs`                   | `List<DataTab>`      | required           | Tabs in display order. At least two are required.                                 |
+| `selectedIndex`              | `int`                | required           | Zero-based selected index. An out-of-range value leaves every tab unselected.     |
+| `selectedLabelIndex`         | `ValueChanged<int>`  | required           | Called when a tab is pressed.                                                     |
+| `width`                      | `double?`            | `100`              | Percentage of screen width, constrained by the parent.                            |
+| `height`                     | `double?`            | `45`               | Control height in logical pixels.                                                 |
+| `iconSize`                   | `double?`            | icon theme         | Icon size in logical pixels.                                                      |
+| `borderRadius`               | `double?`            | `30`               | Radius of the control and selected tab.                                           |
+| `selectedBackgroundColors`   | `List<Color>?`       | theme primary      | Selected-tab gradient colors.                                                     |
+| `unSelectedBackgroundColors` | `List<Color>?`       | light grey         | Control background gradient colors.                                               |
+| `selectedTextStyle`          | `TextStyle?`         | `bodyMedium`       | Selected-tab text style.                                                          |
+| `unSelectedTextStyle`        | `TextStyle?`         | faded `bodyMedium` | Unselected-tab text style.                                                        |
+| `begin`                      | `Alignment?`         | `topCenter`        | Gradient start alignment.                                                         |
+| `end`                        | `Alignment?`         | `bottomCenter`     | Gradient end alignment.                                                           |
+| `isScroll`                   | `bool`               | `true`             | Enables bouncing horizontal scroll physics.                                       |
+| `marginSelected`             | `EdgeInsets?`        | `EdgeInsets.zero`  | Insets applied to the selected tab.                                               |
+| `isShadowEnable`             | `bool`               | `true`             | Shows the outer control shadow.                                                   |
+| `isInnerShadowEnable`        | `bool`               | `true`             | Shows the selected-tab shadow.                                                    |
+| `animationDuration`          | `Duration`           | `250ms`            | Duration of the sliding selected-tab indicator.                                   |
+| `animationCurve`             | `Curve`              | `easeInOutCubic`   | Curve used by the selected-tab indicator.                                         |
+| `isAdaptiveWidth`            | `bool`               | `false`            | Sizes every tab from its content instead of dividing the available width.         |
+| `adaptiveTabPadding`         | `EdgeInsetsGeometry` | horizontal `16`    | Padding around every tab in adaptive-width mode.                                  |
+| `adaptiveTabAlignment`       | `AlignmentGeometry`  | `Alignment.center` | Positions the complete adaptive tab surface when it is narrower than the control. |
 
 ### `DataTab`
 

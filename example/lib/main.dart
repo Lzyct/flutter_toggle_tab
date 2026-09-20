@@ -197,6 +197,7 @@ class _MyHomePageState extends State<MyHomePage> {
               fontSize: 14,
               fontWeight: FontWeight.w500,
             ),
+            animationDuration: const Duration(seconds: 5),
             dataTabs: _listTextTabToggle,
             selectedLabelIndex: (index) => _tabIndexBasicToggle.value = index,
             isScroll: false,
