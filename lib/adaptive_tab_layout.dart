@@ -20,6 +20,7 @@ class _AdaptiveTabLayout extends StatefulWidget {
     required this.animationDuration,
     required this.animationCurve,
     required this.padding,
+    required this.alignment,
     required this.isScroll,
   });
 
@@ -41,6 +42,7 @@ class _AdaptiveTabLayout extends StatefulWidget {
   final Duration animationDuration;
   final Curve animationCurve;
   final EdgeInsetsGeometry padding;
+  final AlignmentGeometry alignment;
   final bool isScroll;
 
   @override
@@ -165,86 +167,101 @@ class _AdaptiveTabLayoutState extends State<_AdaptiveTabLayout> {
             ? geometries[hasValidSelection ? widget.selectedIndex : 0]
             : null;
 
-        return SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          physics: widget.isScroll
-              ? const BouncingScrollPhysics()
-              : const NeverScrollableScrollPhysics(),
-          child: DecoratedBox(
-            key: const ValueKey('flutter-toggle-tab-background'),
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: widget.begin ?? Alignment.topCenter,
-                end: widget.end ?? Alignment.bottomCenter,
-                colors: widget.unselectedColors,
-              ),
-              borderRadius: BorderRadius.circular(widget.radius),
-              boxShadow: [if (widget.isShadowEnable) _bsInner],
-            ),
-            child: Stack(
-              key: _stackKey,
-              children: [
-                if (geometry != null)
-                  // For adaptive widths, the indicator uses measured geometry.
-                  // Its left edge is the sum of all preceding tab widths and
-                  // its width is the selected tab width. AnimatedPositioned
-                  // can then interpolate both values on selection changes.
-                  AnimatedPositioned(
-                    left: geometry.left,
-                    top: 0,
-                    width: geometry.width,
-                    height: widget.height,
-                    duration: widget.animationDuration,
-                    curve: widget.animationCurve,
-                    child: IgnorePointer(
-                      child: AnimatedOpacity(
-                        opacity: hasValidSelection ? 1 : 0,
-                        duration: widget.animationDuration,
-                        curve: widget.animationCurve,
-                        child: _SelectedTabIndicator(
+        return LayoutBuilder(
+          builder: (context, constraints) => SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            physics: widget.isScroll
+                ? const BouncingScrollPhysics()
+                : const NeverScrollableScrollPhysics(),
+            child: ConstrainedBox(
+              constraints: BoxConstraints(minWidth: constraints.maxWidth),
+              child: Align(
+                alignment: widget.alignment,
+                child: DecoratedBox(
+                  key: const ValueKey('flutter-toggle-tab-background'),
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: widget.begin ?? Alignment.topCenter,
+                      end: widget.end ?? Alignment.bottomCenter,
+                      colors: widget.unselectedColors,
+                    ),
+                    borderRadius: BorderRadius.circular(widget.radius),
+                    boxShadow: [if (widget.isShadowEnable) _bsInner],
+                  ),
+                  child: Stack(
+                    key: _stackKey,
+                    children: [
+                      if (geometry != null)
+                        // For adaptive widths, the indicator uses measured geometry.
+                        // Its left edge is the sum of all preceding tab widths and
+                        // its width is the selected tab width. AnimatedPositioned
+                        // can then interpolate both values on selection changes.
+                        AnimatedPositioned(
+                          left: geometry.left,
+                          top: 0,
                           width: geometry.width,
                           height: widget.height,
-                          margin: widget.marginSelected,
-                          radius: widget.radius,
-                          colors: widget.selectedColors,
-                          begin: widget.begin,
-                          end: widget.end,
-                          isShadowEnable: widget.isInnerShadowEnable,
-                        ),
-                      ),
-                    ),
-                  ),
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    for (var index = 0; index < widget.dataTabs.length; index++)
-                      KeyedSubtree(
-                        key: _tabKeys[index],
-                        child: ConstrainedBox(
-                          constraints: BoxConstraints(
-                            minWidth: _minimumTabWidth(
-                              context,
-                              widget.dataTabs[index],
+                          duration: widget.animationDuration,
+                          curve: widget.animationCurve,
+                          child: IgnorePointer(
+                            child: AnimatedOpacity(
+                              opacity: hasValidSelection ? 1 : 0,
+                              duration: widget.animationDuration,
+                              curve: widget.animationCurve,
+                              child: _SelectedTabIndicator(
+                                width: geometry.width,
+                                height: widget.height,
+                                margin: widget.marginSelected,
+                                radius: widget.radius,
+                                colors: widget.selectedColors,
+                                begin: widget.begin,
+                                end: widget.end,
+                                isShadowEnable: widget.isInnerShadowEnable,
+                              ),
                             ),
                           ),
-                          child: _ButtonsTab(
-                            height: widget.height,
-                            title: widget.dataTabs[index].title,
-                            icons: widget.dataTabs[index].icon,
-                            iconSize: widget.iconSize,
-                            counterWidget: widget.dataTabs[index].counterWidget,
-                            selectedTextStyle: widget.selectedTextStyle,
-                            unSelectedTextStyle: widget.unSelectedTextStyle,
-                            isSelected: index == widget.selectedIndex,
-                            radius: widget.radius,
-                            padding: widget.padding,
-                            onPressed: () => widget.selectedLabelIndex(index),
-                          ),
                         ),
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          for (
+                            var index = 0;
+                            index < widget.dataTabs.length;
+                            index++
+                          )
+                            KeyedSubtree(
+                              key: _tabKeys[index],
+                              child: ConstrainedBox(
+                                constraints: BoxConstraints(
+                                  minWidth: _minimumTabWidth(
+                                    context,
+                                    widget.dataTabs[index],
+                                  ),
+                                ),
+                                child: _ButtonsTab(
+                                  height: widget.height,
+                                  title: widget.dataTabs[index].title,
+                                  icons: widget.dataTabs[index].icon,
+                                  iconSize: widget.iconSize,
+                                  counterWidget:
+                                      widget.dataTabs[index].counterWidget,
+                                  selectedTextStyle: widget.selectedTextStyle,
+                                  unSelectedTextStyle:
+                                      widget.unSelectedTextStyle,
+                                  isSelected: index == widget.selectedIndex,
+                                  radius: widget.radius,
+                                  padding: widget.padding,
+                                  onPressed: () =>
+                                      widget.selectedLabelIndex(index),
+                                ),
+                              ),
+                            ),
+                        ],
                       ),
-                  ],
+                    ],
+                  ),
                 ),
-              ],
+              ),
             ),
           ),
         );

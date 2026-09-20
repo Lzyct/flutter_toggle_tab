@@ -56,6 +56,13 @@ void main() {
       tester.getSize(longButton).width,
       greaterThan(tester.getSize(shortButton).width),
     );
+    final background = find.descendant(
+      of: toggle,
+      matching: find.byKey(const ValueKey('flutter-toggle-tab-background')),
+    );
+    final screenCenterX =
+        tester.view.physicalSize.width / tester.view.devicePixelRatio / 2;
+    expect(tester.getCenter(background).dx, closeTo(screenCenterX, 0.01));
 
     await tester.tap(longButton);
     await tester.pumpAndSettle();

@@ -168,6 +168,63 @@ void main() {
     expect(animatedIndicatorWidth, lessThan(finalIndicatorWidth));
   });
 
+  testWidgets('adaptive tab surface supports configurable alignment', (
+    tester,
+  ) async {
+    const viewportKey = ValueKey('adaptive-alignment-viewport');
+    const backgroundKey = ValueKey('flutter-toggle-tab-background');
+
+    Widget buildToggle({AlignmentGeometry? alignment}) {
+      final toggle = alignment == null
+          ? FlutterToggleTab(
+              dataTabs: [
+                DataTab(title: 'A'),
+                DataTab(title: 'Longer'),
+              ],
+              selectedIndex: 0,
+              selectedLabelIndex: (_) {},
+              isAdaptiveWidth: true,
+            )
+          : FlutterToggleTab(
+              dataTabs: [
+                DataTab(title: 'A'),
+                DataTab(title: 'Longer'),
+              ],
+              selectedIndex: 0,
+              selectedLabelIndex: (_) {},
+              isAdaptiveWidth: true,
+              adaptiveTabAlignment: alignment,
+            );
+
+      return MaterialApp(
+        home: Center(
+          child: SizedBox(key: viewportKey, width: 400, child: toggle),
+        ),
+      );
+    }
+
+    await tester.pumpWidget(buildToggle());
+    await tester.pumpAndSettle();
+
+    var viewport = tester.getRect(find.byKey(viewportKey));
+    var background = tester.getRect(find.byKey(backgroundKey));
+    expect(background.center.dx, closeTo(viewport.center.dx, 0.01));
+
+    await tester.pumpWidget(buildToggle(alignment: Alignment.centerLeft));
+    await tester.pumpAndSettle();
+
+    viewport = tester.getRect(find.byKey(viewportKey));
+    background = tester.getRect(find.byKey(backgroundKey));
+    expect(background.left, closeTo(viewport.left, 0.01));
+
+    await tester.pumpWidget(buildToggle(alignment: Alignment.centerRight));
+    await tester.pumpAndSettle();
+
+    viewport = tester.getRect(find.byKey(viewportKey));
+    background = tester.getRect(find.byKey(backgroundKey));
+    expect(background.right, closeTo(viewport.right, 0.01));
+  });
+
   testWidgets('long labels and empty gradients fit narrow constraints', (
     tester,
   ) async {

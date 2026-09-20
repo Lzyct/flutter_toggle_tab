@@ -47,6 +47,7 @@ class FlutterToggleTab extends StatelessWidget {
     this.animationCurve = Curves.easeInOutCubic,
     this.isAdaptiveWidth = false,
     this.adaptiveTabPadding = const EdgeInsets.symmetric(horizontal: 16),
+    this.adaptiveTabAlignment = Alignment.center,
   }) : assert(selectedIndex >= 0, 'selectedIndex must not be negative.');
 
   /// Size of every icon in logical pixels.
@@ -157,6 +158,14 @@ class FlutterToggleTab extends StatelessWidget {
   /// Defaults to 16 logical pixels on the left and right.
   final EdgeInsetsGeometry adaptiveTabPadding;
 
+  /// Alignment of the complete tab surface in adaptive-width mode.
+  ///
+  /// This alignment is visible when the combined tab width is smaller than
+  /// the available control width. Use [AlignmentDirectional.centerStart] or
+  /// [AlignmentDirectional.centerEnd] for direction-aware positioning.
+  /// Defaults to [Alignment.center].
+  final AlignmentGeometry adaptiveTabAlignment;
+
   @override
   Widget build(BuildContext context) {
     if (dataTabs.length <= 1) {
@@ -221,6 +230,7 @@ class FlutterToggleTab extends StatelessWidget {
                   animationDuration: animationDuration,
                   animationCurve: animationCurve,
                   padding: adaptiveTabPadding,
+                  alignment: adaptiveTabAlignment,
                   isScroll: isScroll,
                 )
               : _NonAdaptiveTabLayout(
