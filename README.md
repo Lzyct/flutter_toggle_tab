@@ -6,17 +6,12 @@ A controlled, responsive toggle-tab widget for Flutter. It supports text,
 icons, counter widgets, equal or adaptive widths, gradients, custom text
 styles, margins, shadows, and animated selection.
 
-## Latest demos
+## Interactive demos
 
-The demos below show the controlled selection API, animated indicator, and
-adaptive tab/background widths from the current implementation.
-
-| Animated equal widths | Animated adaptive widths |
-|-----------------------|--------------------------|
-| ![Animated equal-width tabs](gifs/basic.gif) | ![Animated adaptive-width tabs](gifs/adaptive_width.gif) |
-
-Both GIFs are captured from the reproducible Maestro flows
-`.maestro/readme_basic.yaml` and `.maestro/readme_adaptive.yaml`.
+Every usage section below includes a GIF captured from its reproducible
+Maestro flow. The demos show the current controlled-selection API, animated
+indicator, adaptive widths, custom counter, icons, selected margin, and
+programmatic selection.
 
 ## Requirements
 
@@ -45,7 +40,7 @@ import 'package:material_ui/material_ui.dart';
 
 ## Usage
 
-### Basic controlled tabs
+### Basic Tab Toggle
 
 `FlutterToggleTab` is controlled by `selectedIndex`. A `ValueNotifier` keeps
 selection updates local to the toggle instead of rebuilding the complete page.
@@ -104,12 +99,14 @@ class _CategoryToggleState extends State<CategoryToggle> {
 }
 ```
 
+![Basic Tab Toggle](gifs/basic.gif)
+
 The remaining examples assume `selectedIndex` is a `ValueNotifier<int>` owned and
 disposed by the surrounding `State`, as demonstrated in the basic example.
 Only the matching `ValueListenableBuilder` subtree rebuilds when its value
 changes.
 
-### Counter widget
+### Basic Tab Toggle with Counter Widget
 
 Any widget can be placed after a tab title with `counterWidget`.
 
@@ -132,7 +129,9 @@ ValueListenableBuilder<int>(
 );
 ```
 
-### Text and icon
+![Basic Tab Toggle with Counter Widget](gifs/basic_with_counter.gif)
+
+### Text With Icon
 
 ```dart
 final tabs = [
@@ -152,7 +151,9 @@ ValueListenableBuilder<int>(
 );
 ```
 
-### Icon only
+![Text With Icon](gifs/with_icon.gif)
+
+### With Icon Only and Implement margin for selected item
 
 ```dart
 final tabs = [
@@ -174,7 +175,9 @@ ValueListenableBuilder<int>(
 );
 ```
 
-### Programmatic selection
+![Icon-only tabs with selected-item margin](gifs/with_icon_only.gif)
+
+### Update selected programmatically
 
 Because selection is controlled, change `selectedIndex` from any event:
 
@@ -196,6 +199,8 @@ ValueListenableBuilder<int>(
   ),
 );
 ```
+
+![Update selected programmatically](gifs/programmatic_selection.gif)
 
 ### Selection animation
 
@@ -266,7 +271,7 @@ The implementation uses `AnimatedPositioned` with `indicatorLeft` and
 the indicator animate its position and width simultaneously. An out-of-range
 `selectedIndex` uses the first geometry while the indicator is hidden.
 
-### Adaptive tab widths
+### Adaptive Tab Width
 
 Enable `isAdaptiveWidth` when each tab should use the width required by its
 content. For example, the second tab below is wider than the first one:
@@ -297,9 +302,13 @@ indicator scroll horizontally if `isScroll` is enabled.
 To replay the interactions used by the README demos on a running example app:
 
 ```sh
-maestro test .maestro/readme_basic.yaml
-maestro test .maestro/readme_adaptive.yaml
+maestro test .maestro
 ```
+
+The six flow files are named after their README sections:
+`readme_basic.yaml`, `readme_adaptive.yaml`, `readme_counter.yaml`,
+`readme_text_icon.yaml`, `readme_icon_only.yaml`, and
+`readme_programmatic.yaml`.
 
 The complete runnable examples are available in
 [`example/lib/main.dart`](https://github.com/Lzyct/flutter_toggle_tab/blob/master/example/lib/main.dart).

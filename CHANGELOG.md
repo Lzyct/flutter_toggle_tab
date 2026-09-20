@@ -14,7 +14,8 @@
 * Add opt-in adaptive tab and background widths based on each tab's content.
 * Separate adaptive and equal-width layout components for maintainability.
 * Scope selection and adaptive-geometry updates with `ValueListenable` APIs.
-* Refresh README usage and animated demos with reproducible Maestro flows.
+* Refresh every README usage section with a dedicated animated demo and
+  reproducible Maestro flow.
 
 # 0.0.1
 
