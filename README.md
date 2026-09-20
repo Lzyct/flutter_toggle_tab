@@ -184,11 +184,14 @@ FlutterToggleTab(
 
 Use `Duration.zero` when the selection should change without motion.
 
-#### How equal-width indicator alignment works
+#### How indicator positioning works
+
+The indicator calculation follows the selected width mode.
 
 In the default equal-width mode, Flutter's horizontal `Alignment` coordinate
 runs from `-1` at the left edge, through `0` at the center, to `1` at the right
-edge. The selected tab index is mapped onto that range with:
+edge. Because every tab has the same width, the selected index can be mapped
+directly onto that range:
 
 ```dart
 final indicatorAlignment = Alignment(
@@ -207,10 +210,28 @@ required `-1` through `1` alignment. For three tabs this gives:
 | `1`       | `-1 + (2 * 1 / 2)`       | `0` (center)         |
 | `2`       | `-1 + (2 * 2 / 2)`       | `1` (right)          |
 
-At least two tabs are required, so `dataTabs.length - 1` cannot be zero. An
-out-of-range `selectedIndex` temporarily uses index `0` while the indicator is
-hidden. Adaptive-width mode does not use this formula because its indicator is
-positioned from the measured offset and width of each tab.
+At least two tabs are required, so `dataTabs.length - 1` cannot be zero.
+
+Adaptive-width mode measures every rendered tab because indexes are no longer
+evenly spaced. For selected tab `i`, its geometry is:
+
+```text
+indicatorLeft  = width[0] + width[1] + ... + width[i - 1]
+indicatorWidth = width[i]
+```
+
+If that position needs to be expressed as an `Alignment.x` value, account for
+the indicator width because `Align` moves within the remaining free space:
+
+```text
+adaptiveAlignmentX = -1 + (2 * indicatorLeft
+                           / (totalWidth - indicatorWidth))
+```
+
+The implementation uses `AnimatedPositioned` with `indicatorLeft` and
+`indicatorWidth` directly. This avoids rounding the measured geometry and lets
+the indicator animate its position and width simultaneously. An out-of-range
+`selectedIndex` uses the first geometry while the indicator is hidden.
 
 ### Adaptive tab widths
 
@@ -230,9 +251,10 @@ FlutterToggleTab(
 );
 ```
 
-The indicator animates both its position and width. When the combined content
-is wider than the control, the tabs scroll horizontally if `isScroll` is
-enabled.
+The indicator animates both its position and width. The unselected background
+also follows the combined adaptive tab width instead of filling unused space.
+When that background is wider than the control, the complete tab surface and
+indicator scroll horizontally if `isScroll` is enabled.
 
 The complete runnable examples are available in
 [`example/lib/main.dart`](https://github.com/Lzyct/flutter_toggle_tab/blob/master/example/lib/main.dart).
