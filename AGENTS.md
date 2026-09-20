@@ -46,7 +46,8 @@ explicitly describe a breaking release.
 - Equal-width mode divides the available control width by the number of tabs.
 - Adaptive mode measures actual tab geometry. Its background width must equal
   the combined tab width, and the indicator must animate both `left` and
-  `width` values.
+  `width` values. When the combined width is smaller than the viewport, align
+  the complete surface with `adaptiveTabAlignment`; its default is center.
 - Keep the tab row, adaptive background, and adaptive indicator in the same
   horizontal scroll surface.
 - Preserve support for text, icons, counter widgets, margins, gradients,

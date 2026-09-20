@@ -12,6 +12,7 @@
 * Animate the selected-tab indicator and expose configurable duration and
   curve options.
 * Add opt-in adaptive tab and background widths based on each tab's content.
+* Center adaptive tabs by default and support configurable adaptive alignment.
 * Separate adaptive and equal-width layout components for maintainability.
 * Scope selection and adaptive-geometry updates with `ValueListenable` APIs.
 * Refresh every README usage section with a dedicated animated demo and

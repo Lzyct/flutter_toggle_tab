@@ -288,6 +288,7 @@ ValueListenableBuilder<int>(
     selectedLabelIndex: (index) => selectedIndex.value = index,
     isAdaptiveWidth: true,
     adaptiveTabPadding: const EdgeInsets.symmetric(horizontal: 20),
+    adaptiveTabAlignment: AlignmentDirectional.centerStart,
   ),
 );
 ```
@@ -296,6 +297,13 @@ The indicator animates both its position and width. The unselected background
 also follows the combined adaptive tab width instead of filling unused space.
 When that background is wider than the control, the complete tab surface and
 indicator scroll horizontally if `isScroll` is enabled.
+
+The complete adaptive tab surface is centered by default when its combined
+width is smaller than the control. Set `adaptiveTabAlignment` to another
+`AlignmentGeometry`, such as `AlignmentDirectional.centerStart` or
+`AlignmentDirectional.centerEnd`, to place it at either logical edge. The
+alignment has no visible effect while the content is wider than the viewport
+and scrolling is required.
 
 ![Adaptive-width tabs changing selection](gifs/adaptive_width.gif)
 
@@ -342,6 +350,7 @@ Every usage shown above has a corresponding widget test in
 | `animationCurve`             | `Curve`             | `easeInOutCubic`   | Curve used by the selected-tab indicator.                                     |
 | `isAdaptiveWidth`            | `bool`              | `false`            | Sizes every tab from its content instead of dividing the available width.     |
 | `adaptiveTabPadding`         | `EdgeInsetsGeometry` | horizontal `16`    | Padding around every tab in adaptive-width mode.                              |
+| `adaptiveTabAlignment`       | `AlignmentGeometry` | `Alignment.center` | Positions the complete adaptive tab surface when it is narrower than the control. |
 
 ### `DataTab`
 
