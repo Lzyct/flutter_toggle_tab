@@ -1,3 +1,15 @@
+# 2.0.0
+
+* Require Flutter 3.47.x and Dart 3.13.
+* Migrate Material widgets to the standalone `material_ui` package.
+* Update the example Android and iOS projects to Flutter 3.47 platform baselines.
+* Make tab selection controlled without mutating caller-owned `DataTab` values.
+* Handle constrained layouts, long labels, and empty gradient color lists.
+* Add widget tests for every example usage.
+* Complete dartdoc coverage and remove unintended internal widgets and styles
+  from the public API.
+* Rewrite the README for the controlled 2.0 API and Flutter 3.47 requirements.
+
 # 0.0.1
 
 * Initial Release
@@ -93,7 +105,7 @@
 # 1.4.0
 
 * Add support dart 3
-* Set text style is not required, use Theme.of(context).textTheme.bodyMedium as default style
+* Set text style is not required, use TextTheme.of(context).bodyMedium as default style
 * Improve performance, use valueNotifier to update selected index instead of setState
 
 # 1.4.1
