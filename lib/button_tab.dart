@@ -5,7 +5,7 @@ class _ButtonsTab extends StatelessWidget {
     this.title,
     this.onPressed,
     this.counterWidget,
-    required this.width,
+    this.width,
     required this.height,
     required this.isSelected,
     required this.radius,
@@ -13,12 +13,13 @@ class _ButtonsTab extends StatelessWidget {
     required this.unSelectedTextStyle,
     this.icons,
     this.iconSize,
+    this.padding = EdgeInsets.zero,
   });
 
   final Widget? counterWidget;
   final String? title;
   final VoidCallback? onPressed;
-  final double width;
+  final double? width;
   final double height;
   final TextStyle selectedTextStyle;
   final TextStyle unSelectedTextStyle;
@@ -26,6 +27,7 @@ class _ButtonsTab extends StatelessWidget {
   final double radius;
   final IconData? icons;
   final double? iconSize;
+  final EdgeInsetsGeometry padding;
 
   @override
   Widget build(BuildContext context) {
@@ -38,9 +40,11 @@ class _ButtonsTab extends StatelessWidget {
           shape: WidgetStateProperty.all(
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(radius)),
           ),
-          padding: WidgetStateProperty.all(EdgeInsets.zero),
+          padding: WidgetStateProperty.all(padding),
+          minimumSize: WidgetStateProperty.all(Size.zero),
         ),
         child: Row(
+          mainAxisSize: width == null ? MainAxisSize.min : MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             if (icons != null)
@@ -56,19 +60,26 @@ class _ButtonsTab extends StatelessWidget {
               child: const SizedBox(width: 4),
             ),
             if (title != null)
-              Flexible(
-                child: Text(
+              if (width == null)
+                Text(
                   title!,
                   maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
                   style: isSelected ? selectedTextStyle : unSelectedTextStyle,
                   textAlign: TextAlign.center,
+                )
+              else
+                Flexible(
+                  child: Text(
+                    title!,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: isSelected ? selectedTextStyle : unSelectedTextStyle,
+                    textAlign: TextAlign.center,
+                  ),
                 ),
-              ),
             Visibility(
               visible:
-                  icons != null &&
-                  title.toString().isNotEmpty &&
+                  (icons != null || title.toString().isNotEmpty) &&
                   counterWidget != null,
               child: const SizedBox(width: 4),
             ),

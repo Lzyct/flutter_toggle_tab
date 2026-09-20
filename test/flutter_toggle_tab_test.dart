@@ -91,6 +91,69 @@ void main() {
     expect(animatedX, lessThan(finalX));
   });
 
+  testWidgets('adaptive width follows content and animates indicator size', (
+    tester,
+  ) async {
+    var selectedIndex = 0;
+
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Center(
+          child: SizedBox(
+            width: 220,
+            child: StatefulBuilder(
+              builder: (context, setState) => FlutterToggleTab(
+                dataTabs: [
+                  DataTab(title: 'AAAA'),
+                  DataTab(title: 'AAAAAAAAAAAAAAA'),
+                ],
+                selectedIndex: selectedIndex,
+                selectedLabelIndex: (index) {
+                  setState(() => selectedIndex = index);
+                },
+                isAdaptiveWidth: true,
+                animationDuration: const Duration(milliseconds: 300),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    final shortButton = find.ancestor(
+      of: find.text('AAAA'),
+      matching: find.byType(TextButton),
+    );
+    final longButton = find.ancestor(
+      of: find.text('AAAAAAAAAAAAAAA'),
+      matching: find.byType(TextButton),
+    );
+    final initialIndicatorWidth = tester
+        .getSize(find.byKey(const ValueKey('flutter-toggle-tab-indicator')))
+        .width;
+
+    expect(
+      tester.getSize(longButton).width,
+      greaterThan(tester.getSize(shortButton).width),
+    );
+
+    await tester.tap(longButton);
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 150));
+    final animatedIndicatorWidth = tester
+        .getSize(find.byKey(const ValueKey('flutter-toggle-tab-indicator')))
+        .width;
+
+    await tester.pumpAndSettle();
+    final finalIndicatorWidth = tester
+        .getSize(find.byKey(const ValueKey('flutter-toggle-tab-indicator')))
+        .width;
+
+    expect(animatedIndicatorWidth, greaterThan(initialIndicatorWidth));
+    expect(animatedIndicatorWidth, lessThan(finalIndicatorWidth));
+  });
+
   testWidgets('long labels and empty gradients fit narrow constraints', (
     tester,
   ) async {

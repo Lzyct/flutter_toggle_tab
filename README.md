@@ -3,7 +3,8 @@
 [![pub package](https://img.shields.io/pub/v/flutter_toggle_tab.svg)](https://pub.dev/packages/flutter_toggle_tab)
 
 A controlled, responsive toggle-tab widget for Flutter. It supports text,
-icons, counter widgets, gradients, custom text styles, margins, and shadows.
+icons, counter widgets, equal or adaptive widths, gradients, custom text
+styles, margins, shadows, and animated selection.
 
 ![Basic toggle tab](gifs/basic.gif)
 
@@ -183,6 +184,28 @@ FlutterToggleTab(
 
 Use `Duration.zero` when the selection should change without motion.
 
+### Adaptive tab widths
+
+Enable `isAdaptiveWidth` when each tab should use the width required by its
+content. For example, the second tab below is wider than the first one:
+
+```dart
+FlutterToggleTab(
+  dataTabs: [
+    DataTab(title: 'AAAA'),
+    DataTab(title: 'AAAAAAAAAAAAAAA'),
+  ],
+  selectedIndex: selectedIndex,
+  selectedLabelIndex: (index) => setState(() => selectedIndex = index),
+  isAdaptiveWidth: true,
+  adaptiveTabPadding: const EdgeInsets.symmetric(horizontal: 20),
+);
+```
+
+The indicator animates both its position and width. When the combined content
+is wider than the control, the tabs scroll horizontally if `isScroll` is
+enabled.
+
 The complete runnable examples are available in
 [`example/lib/main.dart`](https://github.com/Lzyct/flutter_toggle_tab/blob/master/example/lib/main.dart).
 Every usage shown above has a corresponding widget test in
@@ -213,6 +236,8 @@ Every usage shown above has a corresponding widget test in
 | `isInnerShadowEnable`        | `bool`              | `true`             | Shows the selected-tab shadow.                                                |
 | `animationDuration`          | `Duration`          | `250ms`            | Duration of the sliding selected-tab indicator.                               |
 | `animationCurve`             | `Curve`             | `easeInOutCubic`   | Curve used by the selected-tab indicator.                                     |
+| `isAdaptiveWidth`            | `bool`              | `false`            | Sizes every tab from its content instead of dividing the available width.     |
+| `adaptiveTabPadding`         | `EdgeInsetsGeometry` | horizontal `16`    | Padding around every tab in adaptive-width mode.                              |
 
 ### `DataTab`
 

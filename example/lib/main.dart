@@ -24,6 +24,8 @@ abstract final class ExampleKeys {
   static const programmaticToggle = Key('programmatic-toggle');
   static const programmaticResult = Key('programmatic-result');
   static const selectProgrammatically = Key('select-programmatically');
+  static const adaptiveToggle = Key('adaptive-toggle');
+  static const adaptiveResult = Key('adaptive-result');
 }
 
 class MyApp extends StatelessWidget {
@@ -68,6 +70,7 @@ class _MyHomePageState extends State<MyHomePage> {
   final ValueNotifier<int> _tabIndexTextWithIcon = ValueNotifier(0);
   final ValueNotifier<int> _tabIndexIconButton = ValueNotifier(0);
   final ValueNotifier<int> _tabIndexUpdateProgrammatically = ValueNotifier(0);
+  final ValueNotifier<int> _tabIndexAdaptive = ValueNotifier(0);
 
   List<DataTab> get _listTextTabToggle => [
     DataTab(title: "Tab A (10)"),
@@ -116,6 +119,11 @@ class _MyHomePageState extends State<MyHomePage> {
     DataTab(title: "Female", icon: Icons.pregnant_woman),
   ];
 
+  List<DataTab> get _listAdaptiveTabs => [
+    DataTab(title: 'AAAA'),
+    DataTab(title: 'AAAAAAAAAAAAAAA'),
+  ];
+
   @override
   void dispose() {
     _tabIndexBasicToggle.dispose();
@@ -123,6 +131,7 @@ class _MyHomePageState extends State<MyHomePage> {
     _tabIndexTextWithIcon.dispose();
     _tabIndexIconButton.dispose();
     _tabIndexUpdateProgrammatically.dispose();
+    _tabIndexAdaptive.dispose();
     super.dispose();
   }
 
@@ -135,6 +144,8 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           children: <Widget>[
             _basicTabToggle(),
+            ..._divider(),
+            _adaptiveTabToggle(),
             ..._divider(),
             _basicTabToggleWithCounter(),
             ..._divider(),
@@ -255,6 +266,35 @@ class _MyHomePageState extends State<MyHomePage> {
         builder: (context, currentIndex, _) => Text(
           "Index selected : $currentIndex",
           key: ExampleKeys.counterResult,
+          style: const TextStyle(fontSize: 20),
+        ),
+      ),
+    ],
+  );
+
+  Widget _adaptiveTabToggle() => Column(
+    children: [
+      const Text(
+        'Adaptive Tab Width',
+        style: TextStyle(fontSize: 20, fontStyle: FontStyle.italic),
+      ),
+      SizedBox(height: heightInPercent(3, context)),
+      ValueListenableBuilder(
+        valueListenable: _tabIndexAdaptive,
+        builder: (context, currentIndex, _) => FlutterToggleTab(
+          key: ExampleKeys.adaptiveToggle,
+          width: 90,
+          dataTabs: _listAdaptiveTabs,
+          selectedIndex: currentIndex,
+          selectedLabelIndex: (index) => _tabIndexAdaptive.value = index,
+          isAdaptiveWidth: true,
+        ),
+      ),
+      ValueListenableBuilder(
+        valueListenable: _tabIndexAdaptive,
+        builder: (context, currentIndex, _) => Text(
+          'Index selected : $currentIndex',
+          key: ExampleKeys.adaptiveResult,
           style: const TextStyle(fontSize: 20),
         ),
       ),

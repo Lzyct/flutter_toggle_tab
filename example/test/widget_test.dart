@@ -35,6 +35,34 @@ void main() {
     expect(_text(tester, ExampleKeys.counterResult), 'Index selected : 0');
   });
 
+  testWidgets('adaptive usage gives longer content more width', (tester) async {
+    await _pumpExample(tester);
+    final toggle = find.byKey(ExampleKeys.adaptiveToggle);
+    final shortLabel = find.descendant(of: toggle, matching: find.text('AAAA'));
+    final longLabel = find.descendant(
+      of: toggle,
+      matching: find.text('AAAAAAAAAAAAAAA'),
+    );
+    final shortButton = find.ancestor(
+      of: shortLabel,
+      matching: find.byType(TextButton),
+    );
+    final longButton = find.ancestor(
+      of: longLabel,
+      matching: find.byType(TextButton),
+    );
+
+    expect(
+      tester.getSize(longButton).width,
+      greaterThan(tester.getSize(shortButton).width),
+    );
+
+    await tester.tap(longButton);
+    await tester.pumpAndSettle();
+
+    expect(_text(tester, ExampleKeys.adaptiveResult), 'Index selected : 1');
+  });
+
   testWidgets('text and icon usage reports the selected label', (tester) async {
     await _pumpExample(tester);
     final femaleTab = find.descendant(
