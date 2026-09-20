@@ -5,9 +5,13 @@ analyzer:
     - '**.g.dart'
     - '**.mocks.dart'
     - '**/core/localization/generated/**'
+    - build/**
   errors:
     invalid_annotation_target: ignore
 linter:
   rules:
     sort_pub_dependencies: false
     avoid_dynamic_calls: false
+    public_member_api_docs: true
+    unnecessary_type_name_in_constructor: false
+    use_primary_constructors: false
