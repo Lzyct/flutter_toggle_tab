@@ -1,0 +1,11 @@
+appId: com.example.example
+---
+- launchApp:
+    clearState: true
+- assertVisible: "Adaptive Tab Width"
+- tapOn: "AAAAAAAAAAAAAAA"
+- waitForAnimationToEnd
+- assertVisible: "Index selected : 1"
+- tapOn: "AAAA"
+- waitForAnimationToEnd
+- assertVisible: "Index selected : 0"
