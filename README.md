@@ -35,8 +35,8 @@ import 'package:material_ui/material_ui.dart';
 
 ## Basic usage
 
-`FlutterToggleTab` is controlled by `selectedIndex`. Update that value whenever
-`selectedLabelIndex` is called.
+`FlutterToggleTab` is controlled by `selectedIndex`. A `ValueNotifier` keeps
+selection updates local to the toggle instead of rebuilding the complete page.
 
 ```dart
 class CategoryToggle extends StatefulWidget {
@@ -47,7 +47,7 @@ class CategoryToggle extends StatefulWidget {
 }
 
 class _CategoryToggleState extends State<CategoryToggle> {
-  int selectedIndex = 0;
+  final selectedIndex = ValueNotifier<int>(0);
 
   final tabs = [
     DataTab(title: 'Popular'),
@@ -56,34 +56,46 @@ class _CategoryToggleState extends State<CategoryToggle> {
   ];
 
   @override
+  void dispose() {
+    selectedIndex.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return FlutterToggleTab(
-      width: 90,
-      height: 50,
-      borderRadius: 30,
-      dataTabs: tabs,
-      selectedIndex: selectedIndex,
-      selectedBackgroundColors: const [Colors.blue, Colors.blueAccent],
-      selectedTextStyle: const TextStyle(
-        color: Colors.white,
-        fontSize: 18,
-        fontWeight: FontWeight.w700,
+    return ValueListenableBuilder<int>(
+      valueListenable: selectedIndex,
+      builder: (context, currentIndex, _) => FlutterToggleTab(
+        width: 90,
+        height: 50,
+        borderRadius: 30,
+        dataTabs: tabs,
+        selectedIndex: currentIndex,
+        selectedBackgroundColors: const [Colors.blue, Colors.blueAccent],
+        selectedTextStyle: const TextStyle(
+          color: Colors.white,
+          fontSize: 18,
+          fontWeight: FontWeight.w700,
+        ),
+        unSelectedTextStyle: const TextStyle(
+          color: Colors.black87,
+          fontSize: 14,
+          fontWeight: FontWeight.w500,
+        ),
+        selectedLabelIndex: (index) => selectedIndex.value = index,
+        isScroll: false,
       ),
-      unSelectedTextStyle: const TextStyle(
-        color: Colors.black87,
-        fontSize: 14,
-        fontWeight: FontWeight.w500,
-      ),
-      selectedLabelIndex: (index) {
-        setState(() => selectedIndex = index);
-      },
-      isScroll: false,
     );
   }
 }
 ```
 
 ## Usage examples
+
+The examples below assume `selectedIndex` is a `ValueNotifier<int>` owned and
+disposed by the surrounding `State`, as demonstrated in the basic example.
+Only the matching `ValueListenableBuilder` subtree rebuilds when its value
+changes.
 
 ### Counter widget
 
@@ -98,10 +110,13 @@ final tabs = [
   DataTab(title: 'Archived'),
 ];
 
-FlutterToggleTab(
-  dataTabs: tabs,
-  selectedIndex: selectedIndex,
-  selectedLabelIndex: (index) => setState(() => selectedIndex = index),
+ValueListenableBuilder<int>(
+  valueListenable: selectedIndex,
+  builder: (context, currentIndex, _) => FlutterToggleTab(
+    dataTabs: tabs,
+    selectedIndex: currentIndex,
+    selectedLabelIndex: (index) => selectedIndex.value = index,
+  ),
 );
 ```
 
@@ -115,12 +130,15 @@ final tabs = [
   DataTab(title: 'Female', icon: Icons.pregnant_woman),
 ];
 
-FlutterToggleTab(
-  width: 50,
-  borderRadius: 15,
-  dataTabs: tabs,
-  selectedIndex: selectedIndex,
-  selectedLabelIndex: (index) => setState(() => selectedIndex = index),
+ValueListenableBuilder<int>(
+  valueListenable: selectedIndex,
+  builder: (context, currentIndex, _) => FlutterToggleTab(
+    width: 50,
+    borderRadius: 15,
+    dataTabs: tabs,
+    selectedIndex: currentIndex,
+    selectedLabelIndex: (index) => selectedIndex.value = index,
+  ),
 );
 ```
 
@@ -134,14 +152,17 @@ final tabs = [
   DataTab(icon: Icons.pregnant_woman),
 ];
 
-FlutterToggleTab(
-  width: 40,
-  borderRadius: 15,
-  dataTabs: tabs,
-  iconSize: 40,
-  selectedIndex: selectedIndex,
-  marginSelected: const EdgeInsets.all(4),
-  selectedLabelIndex: (index) => setState(() => selectedIndex = index),
+ValueListenableBuilder<int>(
+  valueListenable: selectedIndex,
+  builder: (context, currentIndex, _) => FlutterToggleTab(
+    width: 40,
+    borderRadius: 15,
+    dataTabs: tabs,
+    iconSize: 40,
+    selectedIndex: currentIndex,
+    marginSelected: const EdgeInsets.all(4),
+    selectedLabelIndex: (index) => selectedIndex.value = index,
+  ),
 );
 ```
 
@@ -152,18 +173,21 @@ FlutterToggleTab(
 Because selection is controlled, change `selectedIndex` from any event:
 
 ```dart
-Column(
-  children: [
-    FlutterToggleTab(
-      dataTabs: tabs,
-      selectedIndex: selectedIndex,
-      selectedLabelIndex: (index) => setState(() => selectedIndex = index),
-    ),
-    TextButton(
-      onPressed: () => setState(() => selectedIndex = 2),
-      child: const Text('Select the third tab'),
-    ),
-  ],
+ValueListenableBuilder<int>(
+  valueListenable: selectedIndex,
+  builder: (context, currentIndex, _) => Column(
+    children: [
+      FlutterToggleTab(
+        dataTabs: tabs,
+        selectedIndex: currentIndex,
+        selectedLabelIndex: (index) => selectedIndex.value = index,
+      ),
+      TextButton(
+        onPressed: () => selectedIndex.value = 2,
+        child: const Text('Select the third tab'),
+      ),
+    ],
+  ),
 );
 ```
 
@@ -173,12 +197,15 @@ The selected background slides to the new tab whenever `selectedIndex`
 changes. The animation is enabled by default and can be customized:
 
 ```dart
-FlutterToggleTab(
-  dataTabs: tabs,
-  selectedIndex: selectedIndex,
-  selectedLabelIndex: (index) => setState(() => selectedIndex = index),
-  animationDuration: const Duration(milliseconds: 400),
-  animationCurve: Curves.easeOutBack,
+ValueListenableBuilder<int>(
+  valueListenable: selectedIndex,
+  builder: (context, currentIndex, _) => FlutterToggleTab(
+    dataTabs: tabs,
+    selectedIndex: currentIndex,
+    selectedLabelIndex: (index) => selectedIndex.value = index,
+    animationDuration: const Duration(milliseconds: 400),
+    animationCurve: Curves.easeOutBack,
+  ),
 );
 ```
 
@@ -239,15 +266,18 @@ Enable `isAdaptiveWidth` when each tab should use the width required by its
 content. For example, the second tab below is wider than the first one:
 
 ```dart
-FlutterToggleTab(
-  dataTabs: [
-    DataTab(title: 'AAAA'),
-    DataTab(title: 'AAAAAAAAAAAAAAA'),
-  ],
-  selectedIndex: selectedIndex,
-  selectedLabelIndex: (index) => setState(() => selectedIndex = index),
-  isAdaptiveWidth: true,
-  adaptiveTabPadding: const EdgeInsets.symmetric(horizontal: 20),
+ValueListenableBuilder<int>(
+  valueListenable: selectedIndex,
+  builder: (context, currentIndex, _) => FlutterToggleTab(
+    dataTabs: [
+      DataTab(title: 'AAAA'),
+      DataTab(title: 'AAAAAAAAAAAAAAA'),
+    ],
+    selectedIndex: currentIndex,
+    selectedLabelIndex: (index) => selectedIndex.value = index,
+    isAdaptiveWidth: true,
+    adaptiveTabPadding: const EdgeInsets.symmetric(horizontal: 20),
+  ),
 );
 ```
 

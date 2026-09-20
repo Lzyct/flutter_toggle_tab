@@ -15,7 +15,9 @@ part 'selected_tab_indicator.dart';
 /// A customizable, controlled toggle-tab widget.
 ///
 /// Selection is derived from [selectedIndex]. Callers should update that value
-/// after [selectedLabelIndex] is invoked.
+/// after [selectedLabelIndex] is invoked. Prefer a [ValueNotifier] with a
+/// [ValueListenableBuilder] around this widget so a selection change rebuilds
+/// only the toggle subtree.
 class FlutterToggleTab extends StatelessWidget {
   /// Creates a controlled toggle tab.
   ///
@@ -98,6 +100,9 @@ class FlutterToggleTab extends StatelessWidget {
   final TextStyle? unSelectedTextStyle;
 
   /// Called with the zero-based index of a pressed tab.
+  ///
+  /// Assign the reported value to the selection source used by [selectedIndex].
+  /// A [ValueNotifier] is recommended for narrowly scoped rebuilds.
   final ValueChanged<int> selectedLabelIndex;
 
   /// Corner radius used by the control and selected tab.
