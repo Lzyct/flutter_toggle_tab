@@ -100,7 +100,7 @@ void main() {
       MaterialApp(
         home: Center(
           child: SizedBox(
-            width: 220,
+            width: 400,
             child: StatefulBuilder(
               builder: (context, setState) => FlutterToggleTab(
                 dataTabs: [
@@ -132,11 +132,18 @@ void main() {
     final initialIndicatorWidth = tester
         .getSize(find.byKey(const ValueKey('flutter-toggle-tab-indicator')))
         .width;
+    final backgroundWidth = tester
+        .getSize(find.byKey(const ValueKey('flutter-toggle-tab-background')))
+        .width;
+    final combinedTabWidth =
+        tester.getSize(shortButton).width + tester.getSize(longButton).width;
 
     expect(
       tester.getSize(longButton).width,
       greaterThan(tester.getSize(shortButton).width),
     );
+    expect(backgroundWidth, closeTo(combinedTabWidth, 0.01));
+    expect(backgroundWidth, lessThan(400));
 
     await tester.tap(longButton);
     await tester.pump();
