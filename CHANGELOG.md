@@ -5,6 +5,7 @@
 * Update the example Android and iOS projects to Flutter 3.47 platform baselines.
 * Make tab selection controlled without mutating caller-owned `DataTab` values.
 * Handle constrained layouts, long labels, and empty gradient color lists.
+* Use an explicit `DataTab` constructor compatible with Dart 3.13 analysis.
 * Add widget tests for every example usage.
 * Complete dartdoc coverage and remove unintended internal widgets and styles
   from the public API.
