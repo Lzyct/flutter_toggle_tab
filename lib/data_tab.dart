@@ -2,11 +2,8 @@ part of 'flutter_toggle_tab.dart';
 
 /// Describes the content of one [FlutterToggleTab] item.
 class DataTab {
-  /// Creates a tab descriptor.
-  ///
-  /// A tab can contain a [title], an [icon], a [counterWidget], or a
-  /// combination of those values.
-  DataTab({this.title, this.isSelected = false, this.icon, this.counterWidget});
+  /// Creates a tab with optional text, icon, and counter content.
+  DataTab({this.title, this.icon, this.counterWidget, this.isSelected = false});
 
   /// Text displayed in the tab.
   final String? title;
