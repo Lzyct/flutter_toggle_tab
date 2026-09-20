@@ -13,6 +13,7 @@
   curve options.
 * Add opt-in adaptive tab and background widths based on each tab's content.
 * Separate adaptive and equal-width layout components for maintainability.
+* Scope selection and adaptive-geometry updates with `ValueListenable` APIs.
 
 # 0.0.1
 

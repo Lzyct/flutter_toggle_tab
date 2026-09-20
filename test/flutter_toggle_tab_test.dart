@@ -49,23 +49,23 @@ void main() {
   testWidgets('selected indicator slides toward the newly selected tab', (
     tester,
   ) async {
-    var selectedIndex = 0;
+    final selectedIndex = ValueNotifier(0);
+    addTearDown(selectedIndex.dispose);
 
     await tester.pumpWidget(
       MaterialApp(
         home: Center(
           child: SizedBox(
             width: 300,
-            child: StatefulBuilder(
-              builder: (context, setState) => FlutterToggleTab(
+            child: ValueListenableBuilder(
+              valueListenable: selectedIndex,
+              builder: (context, currentIndex, _) => FlutterToggleTab(
                 dataTabs: [
                   DataTab(title: 'First'),
                   DataTab(title: 'Second'),
                 ],
-                selectedIndex: selectedIndex,
-                selectedLabelIndex: (index) {
-                  setState(() => selectedIndex = index);
-                },
+                selectedIndex: currentIndex,
+                selectedLabelIndex: (index) => selectedIndex.value = index,
                 animationDuration: const Duration(milliseconds: 300),
               ),
             ),
@@ -94,23 +94,23 @@ void main() {
   testWidgets('adaptive width follows content and animates indicator size', (
     tester,
   ) async {
-    var selectedIndex = 0;
+    final selectedIndex = ValueNotifier(0);
+    addTearDown(selectedIndex.dispose);
 
     await tester.pumpWidget(
       MaterialApp(
         home: Center(
           child: SizedBox(
             width: 400,
-            child: StatefulBuilder(
-              builder: (context, setState) => FlutterToggleTab(
+            child: ValueListenableBuilder(
+              valueListenable: selectedIndex,
+              builder: (context, currentIndex, _) => FlutterToggleTab(
                 dataTabs: [
                   DataTab(title: 'AAAA'),
                   DataTab(title: 'AAAAAAAAAAAAAAA'),
                 ],
-                selectedIndex: selectedIndex,
-                selectedLabelIndex: (index) {
-                  setState(() => selectedIndex = index);
-                },
+                selectedIndex: currentIndex,
+                selectedLabelIndex: (index) => selectedIndex.value = index,
                 isAdaptiveWidth: true,
                 animationDuration: const Duration(milliseconds: 300),
               ),

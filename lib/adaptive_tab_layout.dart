@@ -50,7 +50,7 @@ class _AdaptiveTabLayout extends StatefulWidget {
 class _AdaptiveTabLayoutState extends State<_AdaptiveTabLayout> {
   final GlobalKey _stackKey = GlobalKey();
   var _tabKeys = <GlobalKey>[];
-  var _tabGeometries = <_TabGeometry>[];
+  final ValueNotifier<List<_TabGeometry>> _tabGeometries = ValueNotifier([]);
   var _measurementScheduled = false;
 
   @override
@@ -65,10 +65,16 @@ class _AdaptiveTabLayoutState extends State<_AdaptiveTabLayout> {
     _syncTabKeys();
   }
 
+  @override
+  void dispose() {
+    _tabGeometries.dispose();
+    super.dispose();
+  }
+
   void _syncTabKeys() {
     if (_tabKeys.length != widget.dataTabs.length) {
       _tabKeys = List.generate(widget.dataTabs.length, (_) => GlobalKey());
-      _tabGeometries = [];
+      _tabGeometries.value = [];
     }
   }
 
@@ -95,8 +101,8 @@ class _AdaptiveTabLayoutState extends State<_AdaptiveTabLayout> {
         );
       }
 
-      if (!_sameGeometries(_tabGeometries, geometries)) {
-        setState(() => _tabGeometries = geometries);
+      if (!_sameGeometries(_tabGeometries.value, geometries)) {
+        _tabGeometries.value = geometries;
       }
     });
   }
@@ -150,94 +156,99 @@ class _AdaptiveTabLayoutState extends State<_AdaptiveTabLayout> {
   @override
   Widget build(BuildContext context) {
     _scheduleMeasurement();
-    final hasValidSelection = widget.selectedIndex < widget.dataTabs.length;
-    final hasGeometry = _tabGeometries.length == widget.dataTabs.length;
-    final geometry = hasGeometry
-        ? _tabGeometries[hasValidSelection ? widget.selectedIndex : 0]
-        : null;
+    return ValueListenableBuilder<List<_TabGeometry>>(
+      valueListenable: _tabGeometries,
+      builder: (context, geometries, _) {
+        final hasValidSelection = widget.selectedIndex < widget.dataTabs.length;
+        final hasGeometry = geometries.length == widget.dataTabs.length;
+        final geometry = hasGeometry
+            ? geometries[hasValidSelection ? widget.selectedIndex : 0]
+            : null;
 
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      physics: widget.isScroll
-          ? const BouncingScrollPhysics()
-          : const NeverScrollableScrollPhysics(),
-      child: DecoratedBox(
-        key: const ValueKey('flutter-toggle-tab-background'),
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: widget.begin ?? Alignment.topCenter,
-            end: widget.end ?? Alignment.bottomCenter,
-            colors: widget.unselectedColors,
-          ),
-          borderRadius: BorderRadius.circular(widget.radius),
-          boxShadow: [if (widget.isShadowEnable) _bsInner],
-        ),
-        child: Stack(
-          key: _stackKey,
-          children: [
-            if (geometry != null)
-              // For adaptive widths, the indicator uses measured geometry.
-              // Its left edge is the sum of all preceding tab widths and its
-              // width is the selected tab width. AnimatedPositioned can then
-              // interpolate both values when the selection changes.
-              AnimatedPositioned(
-                left: geometry.left,
-                top: 0,
-                width: geometry.width,
-                height: widget.height,
-                duration: widget.animationDuration,
-                curve: widget.animationCurve,
-                child: IgnorePointer(
-                  child: AnimatedOpacity(
-                    opacity: hasValidSelection ? 1 : 0,
+        return SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          physics: widget.isScroll
+              ? const BouncingScrollPhysics()
+              : const NeverScrollableScrollPhysics(),
+          child: DecoratedBox(
+            key: const ValueKey('flutter-toggle-tab-background'),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: widget.begin ?? Alignment.topCenter,
+                end: widget.end ?? Alignment.bottomCenter,
+                colors: widget.unselectedColors,
+              ),
+              borderRadius: BorderRadius.circular(widget.radius),
+              boxShadow: [if (widget.isShadowEnable) _bsInner],
+            ),
+            child: Stack(
+              key: _stackKey,
+              children: [
+                if (geometry != null)
+                  // For adaptive widths, the indicator uses measured geometry.
+                  // Its left edge is the sum of all preceding tab widths and
+                  // its width is the selected tab width. AnimatedPositioned
+                  // can then interpolate both values on selection changes.
+                  AnimatedPositioned(
+                    left: geometry.left,
+                    top: 0,
+                    width: geometry.width,
+                    height: widget.height,
                     duration: widget.animationDuration,
                     curve: widget.animationCurve,
-                    child: _SelectedTabIndicator(
-                      width: geometry.width,
-                      height: widget.height,
-                      margin: widget.marginSelected,
-                      radius: widget.radius,
-                      colors: widget.selectedColors,
-                      begin: widget.begin,
-                      end: widget.end,
-                      isShadowEnable: widget.isInnerShadowEnable,
-                    ),
-                  ),
-                ),
-              ),
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                for (var index = 0; index < widget.dataTabs.length; index++)
-                  KeyedSubtree(
-                    key: _tabKeys[index],
-                    child: ConstrainedBox(
-                      constraints: BoxConstraints(
-                        minWidth: _minimumTabWidth(
-                          context,
-                          widget.dataTabs[index],
+                    child: IgnorePointer(
+                      child: AnimatedOpacity(
+                        opacity: hasValidSelection ? 1 : 0,
+                        duration: widget.animationDuration,
+                        curve: widget.animationCurve,
+                        child: _SelectedTabIndicator(
+                          width: geometry.width,
+                          height: widget.height,
+                          margin: widget.marginSelected,
+                          radius: widget.radius,
+                          colors: widget.selectedColors,
+                          begin: widget.begin,
+                          end: widget.end,
+                          isShadowEnable: widget.isInnerShadowEnable,
                         ),
                       ),
-                      child: _ButtonsTab(
-                        height: widget.height,
-                        title: widget.dataTabs[index].title,
-                        icons: widget.dataTabs[index].icon,
-                        iconSize: widget.iconSize,
-                        counterWidget: widget.dataTabs[index].counterWidget,
-                        selectedTextStyle: widget.selectedTextStyle,
-                        unSelectedTextStyle: widget.unSelectedTextStyle,
-                        isSelected: index == widget.selectedIndex,
-                        radius: widget.radius,
-                        padding: widget.padding,
-                        onPressed: () => widget.selectedLabelIndex(index),
-                      ),
                     ),
                   ),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    for (var index = 0; index < widget.dataTabs.length; index++)
+                      KeyedSubtree(
+                        key: _tabKeys[index],
+                        child: ConstrainedBox(
+                          constraints: BoxConstraints(
+                            minWidth: _minimumTabWidth(
+                              context,
+                              widget.dataTabs[index],
+                            ),
+                          ),
+                          child: _ButtonsTab(
+                            height: widget.height,
+                            title: widget.dataTabs[index].title,
+                            icons: widget.dataTabs[index].icon,
+                            iconSize: widget.iconSize,
+                            counterWidget: widget.dataTabs[index].counterWidget,
+                            selectedTextStyle: widget.selectedTextStyle,
+                            unSelectedTextStyle: widget.unSelectedTextStyle,
+                            isSelected: index == widget.selectedIndex,
+                            radius: widget.radius,
+                            padding: widget.padding,
+                            onPressed: () => widget.selectedLabelIndex(index),
+                          ),
+                        ),
+                      ),
+                  ],
+                ),
               ],
             ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }
