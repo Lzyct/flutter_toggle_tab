@@ -1,0 +1,14 @@
+appId: com.example.example
+---
+- launchApp:
+    clearState: true
+- scrollUntilVisible:
+    element:
+      text: "With Icon Only and Implement margin for selected item"
+    direction: DOWN
+    centerElement: true
+- waitForAnimationToEnd
+- tapOn:
+    point: "84%,53%"
+- waitForAnimationToEnd
+- assertVisible: "Selected sex index: 1"

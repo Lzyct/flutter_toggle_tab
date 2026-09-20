@@ -1,37 +1,29 @@
-// You have generated a new plugin project without
-// specifying the `--platforms` flag. A plugin project supports no platforms is generated.
-// To add platforms, run `flutter create -t plugin --platforms <platforms> .` under the same
-// directory. You can also find a detailed instruction on how to add platforms in the `pubspec.yaml` at https://flutter.dev/docs/development/packages-and-plugins/developing-packages#plugin-platforms.
+/// A library for building controlled, customizable toggle-tab interfaces.
+library;
 
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+import 'dart:math' as math;
+
+import 'package:material_ui/material_ui.dart';
 
 part 'button_tab.dart';
 part 'data_tab.dart';
 part 'helper.dart';
+part 'adaptive_tab_layout.dart';
+part 'non_adaptive_tab_layout.dart';
+part 'selected_tab_indicator.dart';
 
-/// A custom Flutter toggle tab widget.
-class FlutterToggleTab extends StatefulWidget {
-  /// Define attribute Widget and State
-  /// [dataTabs] is required to set the data of the widget.
-  /// [iconSize] is optional to set the size of the icon.
-  /// [selectedIndex] is required to set the selected index.
-  /// [width] is optional to set the width of the widget.
-  /// [height] is optional to set the height of the widget.
-  /// [isScroll] is optional to set the scrollable or not.
+/// A customizable, controlled toggle-tab widget.
+///
+/// Selection is derived from [selectedIndex]. Callers should update that value
+/// after [selectedLabelIndex] is invoked. Prefer a [ValueNotifier] with a
+/// [ValueListenableBuilder] around this widget so a selection change rebuilds
+/// only the toggle subtree.
+class FlutterToggleTab extends StatelessWidget {
+  /// Creates a controlled toggle tab.
   ///
-  /// [selectedTextStyle] is optional to set the text style of the selected label.
-  /// [unSelectedTextStyle] is optional to set the text style of the unselected label.
-  /// [selectedBackgroundColors] is optional to set the background color of the selected label.
-  /// [unSelectedBackgroundColors] is optional to set the background color of the unselected label.
-  /// [selectedLabelIndex] is required to set the selected label index.
-  /// [borderRadius] is optional to set the border radius of the widget.
-  /// [begin] is optional to set the begin alignment of the gradient.
-  /// [end] is optional to set the end alignment of the gradient.
-  ///
-  /// [marginSelected] is optional to set the margin of the selected label.
-  /// [isShadowEnable] is optional to set the shadow of the widget.
-  /// [isInnerShadowEnable] is optional to set the shadow of the selected tab.
+  /// At least two [dataTabs] are needed to render the control. When a tab is
+  /// pressed, [selectedLabelIndex] reports its index; update [selectedIndex]
+  /// in the parent to display the new selection.
   const FlutterToggleTab({
     super.key,
     required this.dataTabs,
@@ -51,215 +43,219 @@ class FlutterToggleTab extends StatefulWidget {
     this.marginSelected,
     this.isShadowEnable = true,
     this.isInnerShadowEnable = true,
-  });
+    this.animationDuration = const Duration(milliseconds: 250),
+    this.animationCurve = Curves.easeInOutCubic,
+    this.isAdaptiveWidth = false,
+    this.adaptiveTabPadding = const EdgeInsets.symmetric(horizontal: 16),
+    this.adaptiveTabAlignment = Alignment.center,
+  }) : assert(selectedIndex >= 0, 'selectedIndex must not be negative.');
 
+  /// Size of every icon in logical pixels.
+  ///
+  /// When omitted, the current icon theme determines the size.
   final double? iconSize;
+
+  /// The selected tab. An out-of-range value renders all tabs unselected.
   final int selectedIndex;
+
+  /// Width as a percentage of the screen width.
+  ///
+  /// Defaults to `100` and is constrained by the available parent width.
   final double? width;
+
+  /// Height of the toggle control in logical pixels.
+  ///
+  /// Defaults to `45`.
   final double? height;
+
+  /// Whether the horizontal tab list uses bouncing scroll physics.
+  ///
+  /// Defaults to `true`. When `false`, user scrolling is disabled.
   final bool isScroll;
+
+  /// Descriptors for the tabs in display order.
+  ///
+  /// A validation message is rendered when fewer than two items are supplied.
   final List<DataTab> dataTabs;
 
-//  final BoxDecoration selectedDecoration;
-//  final BoxDecoration unSelectedDecoration;
+  /// Gradient colors for the selected tab.
+  ///
+  /// An empty list uses the theme primary color. A single color is duplicated
+  /// to form a valid gradient.
   final List<Color>? selectedBackgroundColors;
+
+  /// Gradient colors for the background behind unselected tabs.
+  ///
+  /// An empty list uses the default light-grey background. A single color is
+  /// duplicated to form a valid gradient.
   final List<Color>? unSelectedBackgroundColors;
+
+  /// Text style used by the selected tab.
+  ///
+  /// Defaults to the current theme's `bodyMedium` style.
   final TextStyle? selectedTextStyle;
+
+  /// Text style used by unselected tabs.
+  ///
+  /// Defaults to a partially transparent `bodyMedium` style.
   final TextStyle? unSelectedTextStyle;
-  final Function(int) selectedLabelIndex;
+
+  /// Called with the zero-based index of a pressed tab.
+  ///
+  /// Assign the reported value to the selection source used by [selectedIndex].
+  /// A [ValueNotifier] is recommended for narrowly scoped rebuilds.
+  final ValueChanged<int> selectedLabelIndex;
+
+  /// Corner radius used by the control and selected tab.
+  ///
+  /// Defaults to `30`.
   final double? borderRadius;
+
+  /// Starting alignment for selected and unselected gradients.
+  ///
+  /// Defaults to [Alignment.topCenter].
   final Alignment? begin;
+
+  /// Ending alignment for selected and unselected gradients.
+  ///
+  /// Defaults to [Alignment.bottomCenter].
   final Alignment? end;
 
+  /// Insets applied only to the selected tab.
+  ///
+  /// Defaults to [EdgeInsets.zero].
   final EdgeInsets? marginSelected;
+
+  /// Whether the outer control shadow is visible.
+  ///
+  /// Defaults to `true`.
   final bool isShadowEnable;
+
+  /// Whether the selected tab shadow is visible.
+  ///
+  /// Defaults to `true`.
   final bool isInnerShadowEnable;
 
-  @override
-  _FlutterToggleTabState createState() => _FlutterToggleTabState();
-}
+  /// Duration of the sliding selected-tab indicator animation.
+  ///
+  /// Defaults to 250 milliseconds. Use [Duration.zero] to disable the motion.
+  final Duration animationDuration;
 
-class _FlutterToggleTabState extends State<FlutterToggleTab> {
-  final ValueNotifier<List<DataTab>> _labelsNotifier = ValueNotifier([]);
+  /// Curve used by the sliding selected-tab indicator animation.
+  ///
+  /// Defaults to [Curves.easeInOutCubic].
+  final Curve animationCurve;
 
-  @override
-  void initState() {
-    super.initState();
+  /// Whether every tab sizes itself to its content instead of sharing space.
+  ///
+  /// When enabled, tabs can have different widths and the control scrolls
+  /// horizontally when their combined width exceeds the available width.
+  /// Defaults to `false` to preserve equal-width tabs.
+  final bool isAdaptiveWidth;
 
-    _labelsNotifier.value.addAll(widget.dataTabs);
+  /// Padding around each tab when [isAdaptiveWidth] is enabled.
+  ///
+  /// Defaults to 16 logical pixels on the left and right.
+  final EdgeInsetsGeometry adaptiveTabPadding;
 
-    _updateSelected();
-
-    _labelsNotifier.addListener(() => _updateSelected());
-  }
-
-  /// Update selected when selectedItem changed
-  void _updateSelected() {
-    /// set all item to false
-    for (final item in _labelsNotifier.value) {
-      item.isSelected = false;
-    }
-
-    /// Update selectedIndex isSelected to True
-    _labelsNotifier.value[widget.selectedIndex].isSelected = true;
-  }
-
-  @override
-  void dispose() {
-    _labelsNotifier.dispose();
-    super.dispose();
-  }
+  /// Alignment of the complete tab surface in adaptive-width mode.
+  ///
+  /// This alignment is visible when the combined tab width is smaller than
+  /// the available control width. Use [AlignmentDirectional.centerStart] or
+  /// [AlignmentDirectional.centerEnd] for direction-aware positioning.
+  /// Defaults to [Alignment.center].
+  final AlignmentGeometry adaptiveTabAlignment;
 
   @override
   Widget build(BuildContext context) {
-    /// update selected when selectedIndex changed
-    _updateSelected();
+    if (dataTabs.length <= 1) {
+      return const Text(
+        'Error : Label should >1',
+        style: TextStyle(
+          color: Colors.redAccent,
+          fontWeight: FontWeight.bold,
+          fontSize: 20,
+        ),
+      );
+    }
 
-    /// set width to 100% if width is null
-    final width = _widthInPercent(widget.width ?? 100, context);
+    final desiredWidth = _widthInPercent(width ?? 100, context);
+    final selectedColors = _normalizeGradientColors(selectedBackgroundColors, [
+      Theme.of(context).primaryColor,
+      Theme.of(context).primaryColor,
+    ]);
+    final unselectedColors = _normalizeGradientColors(
+      unSelectedBackgroundColors,
+      const [Color(0xffe0e0e0), Color(0xffe0e0e0)],
+    );
+    final effectiveSelectedTextStyle =
+        selectedTextStyle ??
+        TextTheme.of(context).bodyMedium ??
+        const TextStyle();
+    final effectiveUnselectedTextStyle =
+        unSelectedTextStyle ??
+        (TextTheme.of(context).bodyMedium ?? const TextStyle()).copyWith(
+          color: TextTheme.of(context).bodyMedium?.color
+              ?.withValues(alpha: 0.7),
+        );
 
-    /// Show text error if length less 1
-    return widget.dataTabs.length <= 1
-        ? const Text(
-            "Error : Label should >1",
-            style: TextStyle(
-              color: Colors.redAccent,
-              fontWeight: FontWeight.bold,
-              fontSize: 20,
-            ),
-          )
-        : SizedBox(
-            width: width,
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final effectiveWidth = constraints.hasBoundedWidth
+            ? desiredWidth.clamp(0, constraints.maxWidth).toDouble()
+            : desiredWidth;
+        final effectiveHeight = height ?? 45;
+        final effectiveBorderRadius = borderRadius ?? 30;
 
-            /// Default height is 45
-            height: widget.height ?? 45,
-
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  // Where the linear gradient begins and ends
-                  begin: widget.begin ?? Alignment.topCenter,
-                  end: widget.end ?? Alignment.bottomCenter,
-
-                  /// If unSelectedBackground is not null
-                  /// We check again if it's length only 1
-                  /// Using same color for gradients
-                  colors: widget.unSelectedBackgroundColors != null
-                      ? (widget.unSelectedBackgroundColors!.length == 1
-                          ? [
-                              widget.unSelectedBackgroundColors![0],
-                              widget.unSelectedBackgroundColors![0],
-                            ]
-                          : widget.unSelectedBackgroundColors!)
-                      : [const Color(0xffe0e0e0), const Color(0xffe0e0e0)],
+        return SizedBox(
+          width: effectiveWidth,
+          height: effectiveHeight,
+          child: isAdaptiveWidth
+              ? _AdaptiveTabLayout(
+                  dataTabs: dataTabs,
+                  selectedIndex: selectedIndex,
+                  selectedLabelIndex: selectedLabelIndex,
+                  height: effectiveHeight,
+                  radius: effectiveBorderRadius,
+                  iconSize: iconSize,
+                  selectedTextStyle: effectiveSelectedTextStyle,
+                  unSelectedTextStyle: effectiveUnselectedTextStyle,
+                  selectedColors: selectedColors,
+                  unselectedColors: unselectedColors,
+                  begin: begin,
+                  end: end,
+                  marginSelected: marginSelected ?? EdgeInsets.zero,
+                  isShadowEnable: isShadowEnable,
+                  isInnerShadowEnable: isInnerShadowEnable,
+                  animationDuration: animationDuration,
+                  animationCurve: animationCurve,
+                  padding: adaptiveTabPadding,
+                  alignment: adaptiveTabAlignment,
+                  isScroll: isScroll,
+                )
+              : _NonAdaptiveTabLayout(
+                  width: effectiveWidth,
+                  height: effectiveHeight,
+                  radius: effectiveBorderRadius,
+                  dataTabs: dataTabs,
+                  selectedIndex: selectedIndex,
+                  selectedLabelIndex: selectedLabelIndex,
+                  iconSize: iconSize,
+                  selectedTextStyle: effectiveSelectedTextStyle,
+                  unSelectedTextStyle: effectiveUnselectedTextStyle,
+                  selectedColors: selectedColors,
+                  unselectedColors: unselectedColors,
+                  begin: begin,
+                  end: end,
+                  marginSelected: marginSelected ?? EdgeInsets.zero,
+                  isShadowEnable: isShadowEnable,
+                  isInnerShadowEnable: isInnerShadowEnable,
+                  animationDuration: animationDuration,
+                  animationCurve: animationCurve,
+                  isScroll: isScroll,
                 ),
-                borderRadius: BorderRadius.circular(widget.borderRadius ?? 30),
-
-                /// Handle if shadow is Enable or not
-                boxShadow: [if (widget.isShadowEnable) bsInner],
-              ),
-              child: ValueListenableBuilder(
-                valueListenable: _labelsNotifier,
-                builder: (context, labels, _) {
-                  return ListView.builder(
-                    itemCount: labels.length,
-
-                    /// Handle if isScroll or not
-                    physics: widget.isScroll
-                        ? const BouncingScrollPhysics()
-                        : const NeverScrollableScrollPhysics(),
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) {
-                      IconData? icon;
-
-                      // Using try catch to fix error Range array
-                      try {
-                        icon = widget.dataTabs[index].icon;
-                      } catch (_) {
-                        icon = null;
-                      }
-
-                      return ButtonsTab(
-                        marginSelected: widget.marginSelected,
-
-                        /// If unSelectedBackground is not null
-                        /// We check again if it's length only 1
-                        /// Using same color for gradients
-                        unSelectedColors: widget.unSelectedBackgroundColors !=
-                                null
-                            ? (widget.unSelectedBackgroundColors!.length == 1
-                                ? [
-                                    widget.unSelectedBackgroundColors![0],
-                                    widget.unSelectedBackgroundColors![0],
-                                  ]
-                                : widget.unSelectedBackgroundColors)
-                            : [
-                                const Color(0xffe0e0e0),
-                                const Color(0xffe0e0e0),
-                              ],
-                        width: width / widget.dataTabs.length,
-                        title: labels[index].title,
-                        icons: icon,
-                        iconSize: widget.iconSize,
-                        counterWidget: labels[index].counterWidget,
-                        isInnerShadowEnable: widget.isInnerShadowEnable,
-
-                        /// default selectedTextStyle is Theme.of(context).textTheme.bodyMedium
-                        selectedTextStyle: widget.selectedTextStyle ??
-                            Theme.of(context).textTheme.bodyMedium,
-
-                        /// default unSelectedTextStyle is Theme.of(context).textTheme.bodyMedium
-                        unSelectedTextStyle: widget.unSelectedTextStyle ??
-                            Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                  color: Theme.of(context)
-                                      .textTheme
-                                      .bodyMedium
-                                      ?.color
-                                      ?.withValues(alpha: 0.7),
-                                ),
-                        isSelected: labels[index].isSelected,
-
-                        /// default borderRadius is 30
-                        radius: widget.borderRadius ?? 30,
-
-                        /// If selectedBackgroundColors is not null
-                        /// We check again if it's length only 1
-                        /// Using same color for gradients
-                        selectedColors: widget.selectedBackgroundColors != null
-                            ? (widget.selectedBackgroundColors!.length == 1
-                                ? [
-                                    widget.selectedBackgroundColors![0],
-                                    widget.selectedBackgroundColors![0],
-                                  ]
-                                : widget.selectedBackgroundColors)
-                            : [
-                                Theme.of(context).primaryColor,
-                                Theme.of(context).primaryColor,
-                              ],
-                        onPressed: () {
-                          try {
-                            for (int x = 0; x < labels.length; x++) {
-                              if (labels[index] == labels[x]) {
-                                labels[x].isSelected = true;
-
-                                /// Send value to callback
-                                widget.selectedLabelIndex(index);
-                              } else {
-                                labels[x].isSelected = false;
-                              }
-                            }
-                          } catch (e) {
-                            if (kDebugMode) {
-                              print("err : $e");
-                            }
-                          }
-                        },
-                      );
-                    },
-                  );
-                },
-              ),
-            ),
-          );
+        );
+      },
+    );
   }
 }

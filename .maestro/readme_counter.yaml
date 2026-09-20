@@ -1,0 +1,14 @@
+appId: com.example.example
+---
+- launchApp:
+    clearState: true
+- scrollUntilVisible:
+    element:
+      text: "Basic Tab Toggle with Counter Widget"
+    direction: DOWN
+    centerElement: true
+- waitForAnimationToEnd
+- tapOn:
+    point: "25%,23%"
+- waitForAnimationToEnd
+- assertVisible: "Index selected : 0"
