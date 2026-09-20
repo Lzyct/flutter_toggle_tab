@@ -191,6 +191,13 @@ class FlutterToggleTab extends StatelessWidget {
         final effectiveBorderRadius = borderRadius ?? 30;
         final hasValidSelection = selectedIndex < dataTabs.length;
         final indicatorIndex = hasValidSelection ? selectedIndex : 0;
+
+        // Alignment uses a normalized horizontal axis: -1 is the left edge,
+        // 0 is the center, and 1 is the right edge. Map the inclusive tab-index
+        // range 0..(length - 1) onto that -1..1 axis so equally sized tabs are
+        // evenly spaced. For three tabs, indexes 0, 1, and 2 therefore produce
+        // x values -1, 0, and 1. The earlier dataTabs length guard guarantees
+        // that (length - 1) cannot be zero.
         final indicatorAlignment = Alignment(
           -1 + (2 * indicatorIndex / (dataTabs.length - 1)),
           0,

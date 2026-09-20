@@ -184,6 +184,34 @@ FlutterToggleTab(
 
 Use `Duration.zero` when the selection should change without motion.
 
+#### How equal-width indicator alignment works
+
+In the default equal-width mode, Flutter's horizontal `Alignment` coordinate
+runs from `-1` at the left edge, through `0` at the center, to `1` at the right
+edge. The selected tab index is mapped onto that range with:
+
+```dart
+final indicatorAlignment = Alignment(
+  -1 + (2 * indicatorIndex / (dataTabs.length - 1)),
+  0,
+);
+```
+
+The calculation first converts `indicatorIndex` to a value from `0` to `1`,
+then scales it to `0` through `2`, and finally subtracts `1` to produce the
+required `-1` through `1` alignment. For three tabs this gives:
+
+| Tab index | Calculation              | Horizontal alignment |
+|-----------|--------------------------|----------------------|
+| `0`       | `-1 + (2 * 0 / 2)`       | `-1` (left)          |
+| `1`       | `-1 + (2 * 1 / 2)`       | `0` (center)         |
+| `2`       | `-1 + (2 * 2 / 2)`       | `1` (right)          |
+
+At least two tabs are required, so `dataTabs.length - 1` cannot be zero. An
+out-of-range `selectedIndex` temporarily uses index `0` while the indicator is
+hidden. Adaptive-width mode does not use this formula because its indicator is
+positioned from the measured offset and width of each tab.
+
 ### Adaptive tab widths
 
 Enable `isAdaptiveWidth` when each tab should use the width required by its
