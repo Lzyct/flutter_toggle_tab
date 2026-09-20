@@ -6,7 +6,17 @@ A controlled, responsive toggle-tab widget for Flutter. It supports text,
 icons, counter widgets, equal or adaptive widths, gradients, custom text
 styles, margins, shadows, and animated selection.
 
-![Basic toggle tab](gifs/basic.gif)
+## Latest demos
+
+The demos below show the controlled selection API, animated indicator, and
+adaptive tab/background widths from the current implementation.
+
+| Animated equal widths | Animated adaptive widths |
+|-----------------------|--------------------------|
+| ![Animated equal-width tabs](gifs/basic.gif) | ![Animated adaptive-width tabs](gifs/adaptive_width.gif) |
+
+Both GIFs are captured from the reproducible Maestro flows
+`.maestro/readme_basic.yaml` and `.maestro/readme_adaptive.yaml`.
 
 ## Requirements
 
@@ -33,7 +43,9 @@ import 'package:flutter_toggle_tab/flutter_toggle_tab.dart';
 import 'package:material_ui/material_ui.dart';
 ```
 
-## Basic usage
+## Usage
+
+### Basic controlled tabs
 
 `FlutterToggleTab` is controlled by `selectedIndex`. A `ValueNotifier` keeps
 selection updates local to the toggle instead of rebuilding the complete page.
@@ -83,6 +95,8 @@ class _CategoryToggleState extends State<CategoryToggle> {
           fontWeight: FontWeight.w500,
         ),
         selectedLabelIndex: (index) => selectedIndex.value = index,
+        animationDuration: const Duration(milliseconds: 400),
+        animationCurve: Curves.easeInOutCubic,
         isScroll: false,
       ),
     );
@@ -90,9 +104,7 @@ class _CategoryToggleState extends State<CategoryToggle> {
 }
 ```
 
-## Usage examples
-
-The examples below assume `selectedIndex` is a `ValueNotifier<int>` owned and
+The remaining examples assume `selectedIndex` is a `ValueNotifier<int>` owned and
 disposed by the surrounding `State`, as demonstrated in the basic example.
 Only the matching `ValueListenableBuilder` subtree rebuilds when its value
 changes.
@@ -120,8 +132,6 @@ ValueListenableBuilder<int>(
 );
 ```
 
-![Toggle tab with counter](gifs/basic_with_counter.gif)
-
 ### Text and icon
 
 ```dart
@@ -141,8 +151,6 @@ ValueListenableBuilder<int>(
   ),
 );
 ```
-
-![Toggle tab with text and icons](gifs/with_icon.gif)
 
 ### Icon only
 
@@ -165,8 +173,6 @@ ValueListenableBuilder<int>(
   ),
 );
 ```
-
-![Icon-only toggle tab](gifs/with_icon_only.gif)
 
 ### Programmatic selection
 
@@ -285,6 +291,15 @@ The indicator animates both its position and width. The unselected background
 also follows the combined adaptive tab width instead of filling unused space.
 When that background is wider than the control, the complete tab surface and
 indicator scroll horizontally if `isScroll` is enabled.
+
+![Adaptive-width tabs changing selection](gifs/adaptive_width.gif)
+
+To replay the interactions used by the README demos on a running example app:
+
+```sh
+maestro test .maestro/readme_basic.yaml
+maestro test .maestro/readme_adaptive.yaml
+```
 
 The complete runnable examples are available in
 [`example/lib/main.dart`](https://github.com/Lzyct/flutter_toggle_tab/blob/master/example/lib/main.dart).
