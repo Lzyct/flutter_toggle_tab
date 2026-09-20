@@ -1,0 +1,13 @@
+appId: com.example.example
+---
+- launchApp:
+    clearState: true
+- scrollUntilVisible:
+    element:
+      text: "Text With Icon"
+    direction: DOWN
+    centerElement: true
+- waitForAnimationToEnd
+- tapOn: "Female"
+- waitForAnimationToEnd
+- assertVisible: ".*Selected sex : Female.*"

@@ -3,6 +3,7 @@ appId: com.example.example
 - launchApp:
     clearState: true
 - assertVisible: "Basic Tab Toggle"
+- waitForAnimationToEnd
 - tapOn: "Tab C (19)"
 - waitForAnimationToEnd
 - assertVisible: "Index selected : 2"

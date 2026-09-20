@@ -1,0 +1,13 @@
+appId: com.example.example
+---
+- launchApp:
+    clearState: true
+- scrollUntilVisible:
+    element:
+      text: "Update selected programmatically  "
+    direction: DOWN
+    centerElement: true
+- waitForAnimationToEnd
+- tapOn: "Select C"
+- waitForAnimationToEnd
+- assertVisible: "Selected sex index: 2 "
