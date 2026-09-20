@@ -36,6 +36,8 @@ class FlutterToggleTab extends StatelessWidget {
     this.marginSelected,
     this.isShadowEnable = true,
     this.isInnerShadowEnable = true,
+    this.animationDuration = const Duration(milliseconds: 250),
+    this.animationCurve = Curves.easeInOutCubic,
   }) : assert(selectedIndex >= 0, 'selectedIndex must not be negative.');
 
   /// Size of every icon in logical pixels.
@@ -121,6 +123,16 @@ class FlutterToggleTab extends StatelessWidget {
   /// Defaults to `true`.
   final bool isInnerShadowEnable;
 
+  /// Duration of the sliding selected-tab indicator animation.
+  ///
+  /// Defaults to 250 milliseconds. Use [Duration.zero] to disable the motion.
+  final Duration animationDuration;
+
+  /// Curve used by the sliding selected-tab indicator animation.
+  ///
+  /// Defaults to [Curves.easeInOutCubic].
+  final Curve animationCurve;
+
   @override
   Widget build(BuildContext context) {
     if (dataTabs.length <= 1) {
@@ -159,10 +171,18 @@ class FlutterToggleTab extends StatelessWidget {
         final effectiveWidth = constraints.hasBoundedWidth
             ? desiredWidth.clamp(0, constraints.maxWidth).toDouble()
             : desiredWidth;
+        final effectiveHeight = height ?? 45;
+        final effectiveBorderRadius = borderRadius ?? 30;
+        final hasValidSelection = selectedIndex < dataTabs.length;
+        final indicatorIndex = hasValidSelection ? selectedIndex : 0;
+        final indicatorAlignment = Alignment(
+          -1 + (2 * indicatorIndex / (dataTabs.length - 1)),
+          0,
+        );
 
         return SizedBox(
           width: effectiveWidth,
-          height: height ?? 45,
+          height: effectiveHeight,
           child: DecoratedBox(
             decoration: BoxDecoration(
               gradient: LinearGradient(
@@ -170,36 +190,73 @@ class FlutterToggleTab extends StatelessWidget {
                 end: end ?? Alignment.bottomCenter,
                 colors: unselectedColors,
               ),
-              borderRadius: BorderRadius.circular(borderRadius ?? 30),
+              borderRadius: BorderRadius.circular(effectiveBorderRadius),
               boxShadow: [if (isShadowEnable) _bsInner],
             ),
-            child: ListView.builder(
-              itemCount: dataTabs.length,
-              physics: isScroll
-                  ? const BouncingScrollPhysics()
-                  : const NeverScrollableScrollPhysics(),
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (context, index) {
-                final tab = dataTabs[index];
+            child: Stack(
+              fit: StackFit.expand,
+              children: [
+                IgnorePointer(
+                  child: AnimatedOpacity(
+                    opacity: hasValidSelection ? 1 : 0,
+                    duration: animationDuration,
+                    curve: animationCurve,
+                    child: AnimatedAlign(
+                      alignment: indicatorAlignment,
+                      duration: animationDuration,
+                      curve: animationCurve,
+                      child: SizedBox(
+                        key: const ValueKey('flutter-toggle-tab-indicator'),
+                        width: effectiveWidth / dataTabs.length,
+                        height: effectiveHeight,
+                        child: Padding(
+                          padding: marginSelected ?? EdgeInsets.zero,
+                          child: DecoratedBox(
+                            decoration:
+                                (isInnerShadowEnable
+                                        ? _bdHeader
+                                        : const BoxDecoration())
+                                    .copyWith(
+                                      borderRadius: BorderRadius.circular(
+                                        effectiveBorderRadius,
+                                      ),
+                                      gradient: LinearGradient(
+                                        begin: begin ?? Alignment.topCenter,
+                                        end: end ?? Alignment.bottomCenter,
+                                        colors: selectedColors,
+                                      ),
+                                    ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                ListView.builder(
+                  itemCount: dataTabs.length,
+                  physics: isScroll
+                      ? const BouncingScrollPhysics()
+                      : const NeverScrollableScrollPhysics(),
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) {
+                    final tab = dataTabs[index];
 
-                return _ButtonsTab(
-                  marginSelected: marginSelected ?? EdgeInsets.zero,
-                  width: effectiveWidth / dataTabs.length,
-                  title: tab.title,
-                  icons: tab.icon,
-                  iconSize: iconSize,
-                  counterWidget: tab.counterWidget,
-                  isInnerShadowEnable: isInnerShadowEnable,
-                  selectedTextStyle: effectiveSelectedTextStyle,
-                  unSelectedTextStyle: effectiveUnselectedTextStyle,
-                  isSelected: index == selectedIndex,
-                  radius: borderRadius ?? 30,
-                  selectedColors: selectedColors,
-                  begin: begin,
-                  end: end,
-                  onPressed: () => selectedLabelIndex(index),
-                );
-              },
+                    return _ButtonsTab(
+                      width: effectiveWidth / dataTabs.length,
+                      height: effectiveHeight,
+                      title: tab.title,
+                      icons: tab.icon,
+                      iconSize: iconSize,
+                      counterWidget: tab.counterWidget,
+                      selectedTextStyle: effectiveSelectedTextStyle,
+                      unSelectedTextStyle: effectiveUnselectedTextStyle,
+                      isSelected: index == selectedIndex,
+                      radius: effectiveBorderRadius,
+                      onPressed: () => selectedLabelIndex(index),
+                    );
+                  },
+                ),
+              ],
             ),
           ),
         );

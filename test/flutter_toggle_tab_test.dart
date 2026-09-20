@@ -46,6 +46,51 @@ void main() {
     expect(tabs.every((tab) => !tab.isSelected), isTrue);
   });
 
+  testWidgets('selected indicator slides toward the newly selected tab', (
+    tester,
+  ) async {
+    var selectedIndex = 0;
+
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Center(
+          child: SizedBox(
+            width: 300,
+            child: StatefulBuilder(
+              builder: (context, setState) => FlutterToggleTab(
+                dataTabs: [
+                  DataTab(title: 'First'),
+                  DataTab(title: 'Second'),
+                ],
+                selectedIndex: selectedIndex,
+                selectedLabelIndex: (index) {
+                  setState(() => selectedIndex = index);
+                },
+                animationDuration: const Duration(milliseconds: 300),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+
+    final indicator = find.byKey(
+      const ValueKey('flutter-toggle-tab-indicator'),
+    );
+    final initialX = tester.getCenter(indicator).dx;
+
+    await tester.tap(find.text('Second'));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 150));
+    final animatedX = tester.getCenter(indicator).dx;
+
+    await tester.pumpAndSettle();
+    final finalX = tester.getCenter(indicator).dx;
+
+    expect(animatedX, greaterThan(initialX));
+    expect(animatedX, lessThan(finalX));
+  });
+
   testWidgets('long labels and empty gradients fit narrow constraints', (
     tester,
   ) async {

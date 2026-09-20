@@ -166,6 +166,23 @@ Column(
 );
 ```
 
+### Selection animation
+
+The selected background slides to the new tab whenever `selectedIndex`
+changes. The animation is enabled by default and can be customized:
+
+```dart
+FlutterToggleTab(
+  dataTabs: tabs,
+  selectedIndex: selectedIndex,
+  selectedLabelIndex: (index) => setState(() => selectedIndex = index),
+  animationDuration: const Duration(milliseconds: 400),
+  animationCurve: Curves.easeOutBack,
+);
+```
+
+Use `Duration.zero` when the selection should change without motion.
+
 The complete runnable examples are available in
 [`example/lib/main.dart`](https://github.com/Lzyct/flutter_toggle_tab/blob/master/example/lib/main.dart).
 Every usage shown above has a corresponding widget test in
@@ -175,34 +192,36 @@ Every usage shown above has a corresponding widget test in
 
 ### `FlutterToggleTab`
 
-| Property | Type | Default | Description |
-| --- | --- | --- | --- |
-| `dataTabs` | `List<DataTab>` | required | Tabs in display order. At least two are required. |
-| `selectedIndex` | `int` | required | Zero-based selected index. An out-of-range value leaves every tab unselected. |
-| `selectedLabelIndex` | `ValueChanged<int>` | required | Called when a tab is pressed. |
-| `width` | `double?` | `100` | Percentage of screen width, constrained by the parent. |
-| `height` | `double?` | `45` | Control height in logical pixels. |
-| `iconSize` | `double?` | icon theme | Icon size in logical pixels. |
-| `borderRadius` | `double?` | `30` | Radius of the control and selected tab. |
-| `selectedBackgroundColors` | `List<Color>?` | theme primary | Selected-tab gradient colors. |
-| `unSelectedBackgroundColors` | `List<Color>?` | light grey | Control background gradient colors. |
-| `selectedTextStyle` | `TextStyle?` | `bodyMedium` | Selected-tab text style. |
-| `unSelectedTextStyle` | `TextStyle?` | faded `bodyMedium` | Unselected-tab text style. |
-| `begin` | `Alignment?` | `topCenter` | Gradient start alignment. |
-| `end` | `Alignment?` | `bottomCenter` | Gradient end alignment. |
-| `isScroll` | `bool` | `true` | Enables bouncing horizontal scroll physics. |
-| `marginSelected` | `EdgeInsets?` | `EdgeInsets.zero` | Insets applied to the selected tab. |
-| `isShadowEnable` | `bool` | `true` | Shows the outer control shadow. |
-| `isInnerShadowEnable` | `bool` | `true` | Shows the selected-tab shadow. |
+| Property                     | Type                | Default            | Description                                                                   |
+|------------------------------|---------------------|--------------------|-------------------------------------------------------------------------------|
+| `dataTabs`                   | `List<DataTab>`     | required           | Tabs in display order. At least two are required.                             |
+| `selectedIndex`              | `int`               | required           | Zero-based selected index. An out-of-range value leaves every tab unselected. |
+| `selectedLabelIndex`         | `ValueChanged<int>` | required           | Called when a tab is pressed.                                                 |
+| `width`                      | `double?`           | `100`              | Percentage of screen width, constrained by the parent.                        |
+| `height`                     | `double?`           | `45`               | Control height in logical pixels.                                             |
+| `iconSize`                   | `double?`           | icon theme         | Icon size in logical pixels.                                                  |
+| `borderRadius`               | `double?`           | `30`               | Radius of the control and selected tab.                                       |
+| `selectedBackgroundColors`   | `List<Color>?`      | theme primary      | Selected-tab gradient colors.                                                 |
+| `unSelectedBackgroundColors` | `List<Color>?`      | light grey         | Control background gradient colors.                                           |
+| `selectedTextStyle`          | `TextStyle?`        | `bodyMedium`       | Selected-tab text style.                                                      |
+| `unSelectedTextStyle`        | `TextStyle?`        | faded `bodyMedium` | Unselected-tab text style.                                                    |
+| `begin`                      | `Alignment?`        | `topCenter`        | Gradient start alignment.                                                     |
+| `end`                        | `Alignment?`        | `bottomCenter`     | Gradient end alignment.                                                       |
+| `isScroll`                   | `bool`              | `true`             | Enables bouncing horizontal scroll physics.                                   |
+| `marginSelected`             | `EdgeInsets?`       | `EdgeInsets.zero`  | Insets applied to the selected tab.                                           |
+| `isShadowEnable`             | `bool`              | `true`             | Shows the outer control shadow.                                               |
+| `isInnerShadowEnable`        | `bool`              | `true`             | Shows the selected-tab shadow.                                                |
+| `animationDuration`          | `Duration`          | `250ms`            | Duration of the sliding selected-tab indicator.                               |
+| `animationCurve`             | `Curve`             | `easeInOutCubic`   | Curve used by the selected-tab indicator.                                     |
 
 ### `DataTab`
 
-| Property | Type | Description |
-| --- | --- | --- |
-| `title` | `String?` | Text displayed in the tab. |
-| `icon` | `IconData?` | Icon displayed before the title. |
-| `counterWidget` | `Widget?` | Custom widget displayed after the title. |
-| `isSelected` | `bool` | Legacy compatibility value. Selection is controlled by `selectedIndex`. |
+| Property        | Type        | Description                                                             |
+|-----------------|-------------|-------------------------------------------------------------------------|
+| `title`         | `String?`   | Text displayed in the tab.                                              |
+| `icon`          | `IconData?` | Icon displayed before the title.                                        |
+| `counterWidget` | `Widget?`   | Custom widget displayed after the title.                                |
+| `isSelected`    | `bool`      | Legacy compatibility value. Selection is controlled by `selectedIndex`. |
 
 Gradient lists may be empty or contain one color. Empty lists use the default
 colors, while a single color is duplicated automatically.

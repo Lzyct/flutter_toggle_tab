@@ -9,6 +9,8 @@
 * Complete dartdoc coverage and remove unintended internal widgets and styles
   from the public API.
 * Rewrite the README for the controlled 2.0 API and Flutter 3.47 requirements.
+* Animate the selected-tab indicator and expose configurable duration and
+  curve options.
 
 # 0.0.1
 
