@@ -83,7 +83,7 @@ void main() {
 
     expect(
       _text(tester, ExampleKeys.textWithIconResult),
-      'Selected sex : Female ',
+      'Selected gender : Female ',
     );
   });
 
@@ -100,7 +100,10 @@ void main() {
     await tester.tap(icons.last);
     await tester.pump();
 
-    expect(_text(tester, ExampleKeys.iconOnlyResult), 'Selected sex index: 1');
+    expect(
+      _text(tester, ExampleKeys.iconOnlyResult),
+      'Selected gender index: 1',
+    );
   });
 
   testWidgets('programmatic usage changes selection from its control', (
@@ -115,7 +118,7 @@ void main() {
 
     expect(
       _text(tester, ExampleKeys.programmaticResult),
-      'Selected sex index: 2 ',
+      'Selected gender index: 2 ',
     );
   });
 }

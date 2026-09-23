@@ -312,10 +312,11 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       Padding(
         padding: const EdgeInsets.all(16),
-        child: Row(
+        child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          spacing: 16,
           children: [
-            const Text("Select your sex : ", style: TextStyle(fontSize: 20)),
+            const Text("Select your gender : ", style: TextStyle(fontSize: 20)),
             ValueListenableBuilder(
               valueListenable: _tabIndexTextWithIcon,
               builder: (context, currentIndex, _) => FlutterToggleTab(
@@ -347,7 +348,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ValueListenableBuilder(
         valueListenable: _tabIndexTextWithIcon,
         builder: (context, currentIndex, _) => Text(
-          "Selected sex : ${_listGenderText[currentIndex].title} ",
+          "Selected gender : ${_listGenderText[currentIndex].title} ",
           key: ExampleKeys.textWithIconResult,
           style: const TextStyle(fontSize: 20),
         ),
@@ -368,7 +369,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Text("Select your sex : ", style: TextStyle(fontSize: 20)),
+            const Text("Select your gender : ", style: TextStyle(fontSize: 20)),
             ValueListenableBuilder(
               valueListenable: _tabIndexIconButton,
               builder: (context, currentIndex, _) => FlutterToggleTab(
@@ -402,7 +403,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ValueListenableBuilder(
         valueListenable: _tabIndexIconButton,
         builder: (context, currentIndex, _) => Text(
-          "Selected sex index: $currentIndex",
+          "Selected gender index: $currentIndex",
           key: ExampleKeys.iconOnlyResult,
           style: const TextStyle(fontSize: 20),
         ),
@@ -421,7 +422,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Text("Select your sex : ", style: TextStyle(fontSize: 20)),
+            const Text("Select your gender : ", style: TextStyle(fontSize: 20)),
             SizedBox(height: heightInPercent(3, context)),
             ValueListenableBuilder(
               valueListenable: _tabIndexUpdateProgrammatically,
@@ -458,7 +459,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ValueListenableBuilder(
         valueListenable: _tabIndexUpdateProgrammatically,
         builder: (context, currentIndex, _) => Text(
-          "Selected sex index: $currentIndex ",
+          "Selected gender index: $currentIndex ",
           key: ExampleKeys.programmaticResult,
           style: const TextStyle(fontSize: 20),
         ),

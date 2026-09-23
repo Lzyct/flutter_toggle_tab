@@ -10,4 +10,4 @@ appId: com.example.example
 - waitForAnimationToEnd
 - tapOn: "Select C"
 - waitForAnimationToEnd
-- assertVisible: "Selected sex index: 2 "
+- assertVisible: "Selected gender index: 2 "

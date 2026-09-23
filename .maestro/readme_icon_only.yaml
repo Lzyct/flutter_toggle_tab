@@ -11,4 +11,4 @@ appId: com.example.example
 - tapOn:
     point: "84%,53%"
 - waitForAnimationToEnd
-- assertVisible: "Selected sex index: 1"
+- assertVisible: "Selected gender index: 1"
